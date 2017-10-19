@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import mtmsistemas.gestorm.R;
 
-public class Main2Activity extends AppCompatActivity {
+public class ACT_CheckList extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.act_check_list);
     }
 }
