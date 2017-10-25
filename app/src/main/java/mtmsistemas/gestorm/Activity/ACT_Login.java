@@ -18,6 +18,6 @@ public class ACT_Login extends AppCompatActivity {
     }
 
     public void onClick_Sair(View view){
-
+        System.exit(0);
     }
 }
