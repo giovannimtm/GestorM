@@ -1,11 +1,17 @@
 package mtmsistemas.gestorm.Util;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.text.format.DateUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,15 +19,19 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
+import mtmsistemas.gestorm.R;
+
 /**
  * Created by Giovanni on 19/10/2017.
  */
 
-public class ClsUtil {
+public class ClsUtil{
 
-    public static boolean FU_dataAnteriorAHoje(String data) {
+    public static boolean FU_dataAnteriorAHoje(String data)
+    {
         Boolean validou;
-        try {
+        try
+        {
             Calendar now = Calendar.getInstance();
             now.set(Calendar.HOUR, 0);
             now.set(Calendar.HOUR_OF_DAY, 0);
@@ -35,33 +45,76 @@ public class ClsUtil {
             Date hoje = now.getTime();
             validou = dataFormatada.before(hoje);
         }
-        catch(ParseException ex){
-            ex.printStackTrace();
+        catch(Exception ex){
+            System.err.println(ex.getMessage());
             validou = false;
         }
         return validou;
     }
 
-    public static boolean FU_validaPlaca(String placa){
+    public static boolean FU_validaPlaca(String placa)
+    {
         return Pattern.matches("[A-Z]{3}-[0-9]{4}",placa);
     }
 
-    public byte[] FU_leImagem(String file) {
-        ByteArrayOutputStream bos = null;
-        try {
-            File f = new File(file);
-            FileInputStream fis = new FileInputStream(f);
-            byte[] buffer = new byte[1024];
-            bos = new ByteArrayOutputStream();
-            for (int len; (len = fis.read(buffer)) != -1;) {
-                bos.write(buffer, 0, len);
-            }
-        } catch (FileNotFoundException e) {
+    public static byte[] FU_preparaImagemParaSalvar(String caminho)
+    {
+        byte[] imagem = null;
+        try
+        {
+            FileInputStream fis = new FileInputStream(caminho);
+            imagem = new byte[fis.available()];
+            fis.read(imagem);
+            fis.close();
+        } catch (Exception e)
+        {
             System.err.println(e.getMessage());
-        } catch (IOException e2) {
-            System.err.println(e2.getMessage());
         }
-        return bos != null ? bos.toByteArray() : null;
+        return imagem;
     }
+
+    public static Bitmap FU_retornaImagem(byte[] byteArray)
+    {
+        Bitmap imagem = null;
+        try
+        {
+             imagem = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        } catch (Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+        return imagem;
+    }
+
+    //Para a função abaixo funcionar é preciso extender a activity para a classe
+//    public String FU_retornaCaminhoImagem(Resources objeto, Integer idImagem)
+//    {
+//        Bitmap bitMap = BitmapFactory.decodeResource(objeto, idImagem);
+//
+//        String fileName ="img1.jpg";
+//        String mPath = "";
+//        try {
+//
+//            FileOutputStream out1 = openFileOutput(fileName, Context.MODE_PRIVATE);
+//
+//            bitMap.compress(Bitmap.CompressFormat.JPEG, 100, out1);
+//
+//            out1.flush();
+//
+//            out1.close();
+//
+//            File f = getFileStreamPath(fileName);
+//
+//            mPath = f.getAbsolutePath();
+//
+//        } catch (FileNotFoundException e1) {
+//            // TODO Auto-generated catch block
+//            e1.printStackTrace();
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        return mPath;
+//    }
 
 }
