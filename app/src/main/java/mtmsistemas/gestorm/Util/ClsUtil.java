@@ -57,7 +57,7 @@ public class ClsUtil{
         return Pattern.matches("[A-Z]{3}-[0-9]{4}",placa);
     }
 
-    public static byte[] FU_preparaImagemParaSalvar(String caminho)
+    public static byte[] FU_converteArquivoParaArrayBytes(String caminho)
     {
         byte[] imagem = null;
         try
@@ -73,7 +73,7 @@ public class ClsUtil{
         return imagem;
     }
 
-    public static Bitmap FU_retornaImagem(byte[] byteArray)
+    public static Bitmap FU_converteArrayBytesParaImagem(byte[] byteArray)
     {
         Bitmap imagem = null;
         try
