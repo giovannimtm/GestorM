@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by allanromanato on 11/4/15.
+ * Copied by Vinicius  on 11/4/15.
  */
 public class NetworkUtils {
 
