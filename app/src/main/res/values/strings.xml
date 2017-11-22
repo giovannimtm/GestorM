@@ -1,11 +1,23 @@
 <resources>
-    <string name="app_name">GestorM</string>
+    <string name="app_name">Gestor Mobile</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="TV_Ou">Ou</string>
+    <string name="TV_Senha">Senha</string>
+    <string name="TV_Usuario">Usuário</string>
+    <string name="BTN_Login">Login</string>
+    <string name="BTN_Sair">Sair</string>
+    <string name="BTN_Registrar">Registrar</string>
+    <string name="Usuario_Nome">Nome Usuário</string>
+    <string name="CheckList">CheckList</string>
+    <string name="Equipamento">Equipamento</string>
+    <string name="Configuracoes">Configurações</string>
+    <string name="Parametros">Parametros</string>
+    <string name="ListaChecklist">CheckList Pendente</string>
+    <string name="TV_Equipamento">ID Equipamento</string>
+    <string name="TV_BuscaEquipamento">Digite ID Equipamento</string>
 </resources>
