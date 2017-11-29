@@ -28,4 +28,6 @@
     <string name="BTN_TestarConexao">Testar</string>
     <string name="BTN_Limpar">Limpar</string>
     <string name="BTN_Cancelar">Cancelar</string>
+    <string name="title_activity_menu_principal">MenuPrincipal</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
