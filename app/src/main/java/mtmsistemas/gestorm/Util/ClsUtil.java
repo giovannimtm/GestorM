@@ -27,7 +27,9 @@ import mtmsistemas.gestorm.R;
 
 public class ClsUtil{
 
-    public static boolean FU_dataAnteriorAHoje(String data)
+    public static  String caminhoApp;
+
+    public boolean FU_dataAnteriorAHoje(String data)
     {
         Boolean validou;
         try
@@ -52,12 +54,12 @@ public class ClsUtil{
         return validou;
     }
 
-    public static boolean FU_validaPlaca(String placa)
+    public boolean FU_validaPlaca(String placa)
     {
         return Pattern.matches("[A-Z]{3}-[0-9]{4}",placa);
     }
 
-    public static byte[] FU_converteArquivoParaArrayBytes(String caminho)
+    public byte[] FU_converteArquivoParaArrayBytes(String caminho)
     {
         byte[] imagem = null;
         try
@@ -73,7 +75,7 @@ public class ClsUtil{
         return imagem;
     }
 
-    public static Bitmap FU_converteArrayBytesParaImagem(byte[] byteArray)
+    public Bitmap FU_converteArrayBytesParaImagem(byte[] byteArray)
     {
         Bitmap imagem = null;
         try
@@ -84,6 +86,49 @@ public class ClsUtil{
             System.err.println(e.getMessage());
         }
         return imagem;
+    }
+
+    public String FU_salvaByteArrayComoArquivoERetornaCaminho(byte[] arquivo, String nomeArquivo)
+    {
+        //exemplo do nome do arquivo com a pasta "teste\\logo.png"
+        String caminho = null;
+        try
+        {
+            FileOutputStream out;
+            File file;
+
+            try
+            {
+                out = new FileOutputStream(caminhoApp + "/" + nomeArquivo);
+                caminho = caminhoApp + "/" + nomeArquivo;
+                out.write(arquivo);
+                out.close();
+            }catch (IOException e)
+            {
+                if (FU_podeLerEEscreverMidiaExterna())
+                {
+                    file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), nomeArquivo);
+                    out = new FileOutputStream(file.getPath());
+                    caminho = file.getPath();
+                }
+                else
+                {
+                    out = new FileOutputStream(nomeArquivo);
+                    caminho = null;
+                }
+                out.write(arquivo);
+                out.close();
+            }
+        }catch (Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+        return caminho;
+    }
+
+    public boolean FU_podeLerEEscreverMidiaExterna() {
+        String state = Environment.getExternalStorageState();
+        return (Environment.MEDIA_MOUNTED.equals(state) && Environment.MEDIA_MOUNTED_READ_ONLY.equals(state) == false);
     }
 
     //Para a função abaixo funcionar é preciso extender a activity para a classe
