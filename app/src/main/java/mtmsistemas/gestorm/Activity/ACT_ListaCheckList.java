@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import mtmsistemas.gestorm.R;
 
-public class ACT_CheckList extends AppCompatActivity {
+public class ACT_ListaCheckList extends AppCompatActivity {
 
     String[] CheckListID = {"1", "2", "3", "4", "5"};
 
@@ -25,7 +24,7 @@ public class ACT_CheckList extends AppCompatActivity {
 
         try {
 
-            setContentView(R.layout.act_check_list);
+            setContentView(R.layout.act_lista_check_list);
 
             ListView listView=(ListView)findViewById(R.id.lLST_CheckList);
 
