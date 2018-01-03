@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:textSize="20sp"
+        android:id="@+id/CheckList_Numero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginStart="20dp"
+        android:layout_alignTop="@+id/Equipamento_IMG"
+        android:layout_toEndOf="@+id/Equipamento_IMG" />
+
+    <TextView
+        android:textSize="15sp"
+        android:id="@+id/CheckList_Descricao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginStart="20dp"
+        android:layout_below="@+id/CheckList_Numero"
+        android:layout_alignStart="@+id/CheckList_Numero" />
+
+    <TextView
+        android:id="@+id/CheckList_Contador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/CheckList_Descricao"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/Equipamento_IMG"
+        android:layout_marginRight="10dp"
+        android:text="TextView"
+        android:layout_marginStart="20dp"
+        android:textAlignment="textEnd" />
+</LinearLayout>

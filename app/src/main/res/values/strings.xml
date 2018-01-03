@@ -20,4 +20,14 @@
     <string name="ListaChecklist">CheckList Pendente</string>
     <string name="TV_Equipamento">ID Equipamento</string>
     <string name="TV_BuscaEquipamento">Digite ID Equipamento</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="BTN_WebService">WebService</string>
+    <string name="TV_WebService">Web Service</string>
+    <string name="BTN_TestarConexao">Testar</string>
+    <string name="BTN_Limpar">Limpar</string>
+    <string name="BTN_Cancelar">Cancelar</string>
+    <string name="title_activity_menu_principal">MenuPrincipal</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

@@ -11,13 +11,15 @@ import android.widget.TextView;
 
 import mtmsistemas.gestorm.R;
 
-public class ACT_CheckList extends AppCompatActivity {
+public class ACT_ListaEquipamento extends AppCompatActivity {
 
-    String[] CheckListID = {"1", "2", "3", "4", "5"};
+    int[] IMAGEM = {R.drawable.ic_menu_gallery, R.drawable.ic_menu_camera, R.drawable.ic_menu_send, R.drawable.ic_menu_share, R.drawable.ic_menu_slideshow};
 
-    String[] EQUIPAMENTO = {"Empilhadeira", "Caminhão", "Trem", "Avião", "Navio"};
+    String[] NOME = {"Empilhadeira", "Caminhão", "Trem", "Avião", "Navio"};
 
-    String[] CONTADOR = {"124", "129.023", "...", "1201", "..."};
+    String [] DESCRICAO = {"Empilhadeira Amarela", "Caminhão Preto", "Locomotiva", "747", "Titanic Azul"};
+
+    String [] CONTADOR = {"124", "129.023", "...", "1201", "..."};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,23 +27,24 @@ public class ACT_CheckList extends AppCompatActivity {
 
         try {
 
-            setContentView(R.layout.act_check_list);
+            setContentView(R.layout.act_lista_equipamento);
 
-            ListView listView=(ListView)findViewById(R.id.lLST_CheckList);
+            ListView listView=(ListView)findViewById(R.id.LST_Equipamento);
 
             CustomAdapter customAdapter=new CustomAdapter();
 
             listView.setAdapter(customAdapter);
 
         } catch (Exception e) {
-            e.getMessage();
+            e.printStackTrace();
         }
     }
 
     class CustomAdapter extends BaseAdapter{
+
         @Override
         public int getCount() {
-            return CheckListID.length;
+            return IMAGEM.length;
         }
 
         @Override
@@ -56,18 +59,19 @@ public class ACT_CheckList extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = getLayoutInflater().inflate(R.layout.checklistcustomlayout, null);
+            convertView = getLayoutInflater().inflate(R.layout.customlayout, null);
 
-            TextView LTV_Numero = (TextView)convertView.findViewById(R.id.CheckList_Numero);
+            ImageView imageView=(ImageView)convertView.findViewById(R.id.Equipamento_IMG);
+            TextView LTV_Nome = (TextView)convertView.findViewById(R.id.CheckList_Numero);
             TextView LTV_Descricao=(TextView)convertView.findViewById(R.id.CheckList_Descricao);
-            TextView LTV_Contador=(TextView)convertView.findViewById(R.id.CheckList_Contador);
+            TextView LTV_Contador=(TextView)convertView.findViewById(R.id.Equipamento_Contador);
 
-            LTV_Numero.setText(CheckListID[position]);
-            LTV_Descricao.setText(EQUIPAMENTO[position]);
+            imageView.setImageResource(IMAGEM[position]);
+            LTV_Nome.setText(NOME[position].toString());
+            LTV_Descricao.setText(DESCRICAO[position]);
             LTV_Contador.setText(CONTADOR[position]);
 
             return convertView;
         }
     }
-
 }
