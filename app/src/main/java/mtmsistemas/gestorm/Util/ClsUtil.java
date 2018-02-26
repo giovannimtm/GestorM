@@ -1,25 +1,19 @@
 package mtmsistemas.gestorm.Util;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.text.format.DateUtils;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.regex.Pattern;
-
-import mtmsistemas.gestorm.R;
 
 /**
  * Created by Giovanni on 19/10/2017.
@@ -105,7 +99,7 @@ public class ClsUtil{
                 out.close();
             }catch (IOException e)
             {
-                if (FU_podeLerEEscreverMidiaExterna())
+                if (FU_podeEscreverMidiaExterna())
                 {
                     file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), nomeArquivo);
                     out = new FileOutputStream(file.getPath());
@@ -126,9 +120,37 @@ public class ClsUtil{
         return caminho;
     }
 
-    public boolean FU_podeLerEEscreverMidiaExterna() {
+    public boolean FU_podeEscreverMidiaExterna() {
         String state = Environment.getExternalStorageState();
-        return (Environment.MEDIA_MOUNTED.equals(state) && Environment.MEDIA_MOUNTED_READ_ONLY.equals(state) == false);
+        if (Environment.MEDIA_MOUNTED.equals(state) && !Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
+            return true;
+        else
+            return false;
+
+    }
+
+    public void FU_redimensionaImagemEColocaNaView(String caminho, ImageView view){
+        // Get the dimensions of the View
+        int targetW = view.getWidth();
+        int targetH = view.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(caminho, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(caminho, bmOptions);
+        view.setImageBitmap(bitmap);
     }
 
     //Para a função abaixo funcionar é preciso extender a activity para a classe

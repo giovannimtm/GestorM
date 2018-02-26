@@ -14,27 +14,34 @@ import java.lang.reflect.Array;
 
 import mtmsistemas.gestorm.Fragment.FGM_AlteraEquipamento;
 import mtmsistemas.gestorm.Fragment.FGM_CheckList_Detalhes;
+import mtmsistemas.gestorm.Fragment.FGM_ItensEntrada;
 import mtmsistemas.gestorm.R;
+import mtmsistemas.gestorm.Util.ClsItensEntrada;
 
 public class ACT_CheckList extends AppCompatActivity {
+    public ClsItensEntrada getClsItensEntrada() {
+        return clsItensEntrada;
+    }
+
+    static ClsItensEntrada clsItensEntrada = new ClsItensEntrada();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_check_list);
 
-        FGM_CheckList_Detalhes fgmCheckListDetalhes;
-
-        fgmCheckListDetalhes = new FGM_CheckList_Detalhes();
+        FGM_CheckList_Detalhes fgmCheckListDetalhes = new FGM_CheckList_Detalhes();
+        FGM_ItensEntrada fgmItensEntrada = new FGM_ItensEntrada();
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(fgmCheckListDetalhes, "fgmCheckListDetalhes");
+        ft.add(fgmItensEntrada, "fgmItensEntrada");
         ft.commit();
 
         FragmentTabHost mTabHost = (FragmentTabHost)findViewById(R.id.tabHostCheckList);
         mTabHost.setup(ACT_CheckList.this, getSupportFragmentManager(), android.R.id.tabcontent);
         mTabHost.addTab(mTabHost.newTabSpec("TabDetalhesCheckList").setIndicator("Detalhes"), fgmCheckListDetalhes.getClass(), null);
-        mTabHost.addTab(mTabHost.newTabSpec("Second Tab").setIndicator("Second Tab"), new FGM_AlteraEquipamento().getClass(), null);
+        mTabHost.addTab(mTabHost.newTabSpec("TabItensEntrada").setIndicator("Itens Entrada"), fgmItensEntrada.getClass(), null);
         mTabHost.addTab(mTabHost.newTabSpec("Third Tab").setIndicator("Third Tab"), fgmCheckListDetalhes.getClass(), null);
 
 
