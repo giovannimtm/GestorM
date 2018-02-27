@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
@@ -134,7 +136,7 @@ public class ClsUtil{
 
     }
 
-    public void FU_redimensionaImagemEColocaNaView(String caminho, ImageView view, int altura, int largura){
+    public void FU_redimensionaImagemEColocaNaView(String caminho, ImageView view, int altura, int largura) throws IOException {
         // Get the dimensions of the View
         int targetW = view.getWidth();
         if (targetW == 0)
@@ -159,7 +161,36 @@ public class ClsUtil{
         bmOptions.inPurgeable = true;
 
         Bitmap bitmap = BitmapFactory.decodeFile(caminho, bmOptions);
+
+        bitmap = FU_correctOrientation(bitmap, caminho);
+
         view.setImageBitmap(bitmap);
+    }
+
+    public static Bitmap FU_correctOrientation(Bitmap bitmap, String caminho) throws IOException {
+        ExifInterface exif = new ExifInterface(caminho);
+        int orientation = ExifInterface.ORIENTATION_NORMAL;
+        orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                bitmap = rotateBitmap(bitmap, 90);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                bitmap = rotateBitmap(bitmap, 180);
+                break;
+
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                bitmap = rotateBitmap(bitmap, 270);
+                break;
+        }
+        return bitmap;
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int degrees) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degrees);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
     public void FU_permissoes(Context context, Activity activity){

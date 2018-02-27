@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import mtmsistemas.gestorm.Activity.ACT_CheckList;
@@ -89,11 +90,15 @@ public class FGM_ItensEntrada extends Fragment {
             //se vier foto do banco preenche com informação padrão para não abrir a camera ao clicar
             if(((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(position) != null){
                 imageButton.setTag("Foto");
-                clsUtil.FU_redimensionaImagemEColocaNaView(
-                        ((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(position),
-                        imageButton,
-                        ((ACT_CheckList)getActivity()).getClsItensEntrada().getAlturaItem(position),
-                        ((ACT_CheckList)getActivity()).getClsItensEntrada().getLarguraItem(position));
+                try {
+                    clsUtil.FU_redimensionaImagemEColocaNaView(
+                            ((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(position),
+                            imageButton,
+                            ((ACT_CheckList)getActivity()).getClsItensEntrada().getAlturaItem(position),
+                            ((ACT_CheckList)getActivity()).getClsItensEntrada().getLarguraItem(position));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             final View finalConvertView = convertView;
@@ -172,11 +177,15 @@ public class FGM_ItensEntrada extends Fragment {
 
                     if(botaoClicado != null) {
                         botaoClicado.setTag("Foto");
-                        clsUtil.FU_redimensionaImagemEColocaNaView(
-                                file_path,
-                                botaoClicado,
-                                botaoClicado.getHeight(),
-                                botaoClicado.getWidth() );
+                        try {
+                            clsUtil.FU_redimensionaImagemEColocaNaView(
+                                    file_path,
+                                    botaoClicado,
+                                    botaoClicado.getHeight(),
+                                    botaoClicado.getWidth() );
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     loop = false;
