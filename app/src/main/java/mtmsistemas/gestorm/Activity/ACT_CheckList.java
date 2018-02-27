@@ -17,6 +17,7 @@ import mtmsistemas.gestorm.Fragment.FGM_CheckList_Detalhes;
 import mtmsistemas.gestorm.Fragment.FGM_ItensEntrada;
 import mtmsistemas.gestorm.R;
 import mtmsistemas.gestorm.Util.ClsItensEntrada;
+import mtmsistemas.gestorm.Util.ClsUtil;
 
 public class ACT_CheckList extends AppCompatActivity {
     public ClsItensEntrada getClsItensEntrada() {
@@ -24,10 +25,14 @@ public class ACT_CheckList extends AppCompatActivity {
     }
 
     static ClsItensEntrada clsItensEntrada = new ClsItensEntrada();
+    static ClsUtil clsUtil = new ClsUtil();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        clsUtil.FU_permissoes(this.getApplicationContext(), this);
+
         setContentView(R.layout.act_check_list);
 
         FGM_CheckList_Detalhes fgmCheckListDetalhes = new FGM_CheckList_Detalhes();
