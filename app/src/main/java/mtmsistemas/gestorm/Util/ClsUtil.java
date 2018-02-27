@@ -173,6 +173,11 @@ public class ClsUtil{
                     != PackageManager.PERMISSION_GRANTED) {
                 activity.requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }
+
+            if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                activity.requestPermissions(new String[]{android.Manifest.permission.CAMERA}, 1);
+            }
         }
     }
 
