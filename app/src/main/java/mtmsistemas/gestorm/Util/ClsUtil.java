@@ -2,6 +2,7 @@ package mtmsistemas.gestorm.Util;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,6 +12,9 @@ import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -21,6 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.regex.Pattern;
+
+import mtmsistemas.gestorm.Activity.ACT_CheckList;
+import mtmsistemas.gestorm.R;
 
 /**
  * Created by Giovanni on 19/10/2017.
@@ -210,6 +217,31 @@ public class ClsUtil{
                 activity.requestPermissions(new String[]{android.Manifest.permission.CAMERA}, 1);
             }
         }
+    }
+
+    public static Dialog FU_imageDialog(Context context, String caminho){
+        final Dialog nagDialog = new Dialog(context,android.R.style.Theme_NoTitleBar_OverlayActionModes);
+        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        nagDialog.setCancelable(false);
+        nagDialog.setContentView(R.layout.dialog_visualizar_foto);
+        Button btnClose = (Button)nagDialog.findViewById(R.id.btnIvClose);
+        ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.iv_preview_image);
+        Bitmap bitmap = BitmapFactory.decodeFile(caminho);
+        try {
+            bitmap = FU_correctOrientation(bitmap, caminho);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ivPreview.setImageBitmap(bitmap);
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                nagDialog.dismiss();
+            }
+        });
+        return nagDialog;
     }
 
     //Para a função abaixo funcionar é preciso extender a activity para a classe

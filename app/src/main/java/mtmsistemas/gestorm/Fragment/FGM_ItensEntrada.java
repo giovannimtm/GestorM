@@ -1,6 +1,7 @@
 package mtmsistemas.gestorm.Fragment;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -16,9 +17,12 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,7 +42,6 @@ public class FGM_ItensEntrada extends Fragment {
 
     private static final int CAMERA_PIC_REQUEST = 1337;
     static ImageButton botaoClicado;
-    static Uri foto;
     static ClsUtil clsUtil = new ClsUtil();
     static int posicaoAlterada;
 
@@ -89,16 +92,21 @@ public class FGM_ItensEntrada extends Fragment {
 
             //se vier foto do banco preenche com informação padrão para não abrir a camera ao clicar
             if(((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(position) != null){
-                imageButton.setTag("Foto");
-                try {
-                    clsUtil.FU_redimensionaImagemEColocaNaView(
-                            ((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(position),
-                            imageButton,
-                            ((ACT_CheckList)getActivity()).getClsItensEntrada().getAlturaItem(position),
-                            ((ACT_CheckList)getActivity()).getClsItensEntrada().getLarguraItem(position));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                File teste = new File(((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(position));
+                if (teste.exists()) {
+                    imageButton.setTag("Foto");
+                    try {
+                        clsUtil.FU_redimensionaImagemEColocaNaView(
+                                ((ACT_CheckList) getActivity()).getClsItensEntrada().getCaminhoFotoItem(position),
+                                imageButton,
+                                ((ACT_CheckList) getActivity()).getClsItensEntrada().getAlturaItem(position),
+                                ((ACT_CheckList) getActivity()).getClsItensEntrada().getLarguraItem(position));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+                else
+                    imageButton.setTag(null);
             }
 
             final View finalConvertView = convertView;
@@ -111,6 +119,14 @@ public class FGM_ItensEntrada extends Fragment {
                     if(botaoClicado.getTag()== null) {
                         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+                    }
+                    else{
+//                        Dialog nagDialog = clsUtil.FU_imageDialog(getContext(), ((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(posicaoAlterada));
+//                        nagDialog.show();
+                        Intent gallery = new Intent(Intent.ACTION_VIEW);
+                        File foto = new File(((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(posicaoAlterada));
+                        gallery.setDataAndType(Uri.fromFile(foto), "image/*");
+                        startActivity(gallery);
                     }
                 }
             });
