@@ -134,10 +134,14 @@ public class ClsUtil{
 
     }
 
-    public void FU_redimensionaImagemEColocaNaView(String caminho, ImageView view){
+    public void FU_redimensionaImagemEColocaNaView(String caminho, ImageView view, int altura, int largura){
         // Get the dimensions of the View
         int targetW = view.getWidth();
+        if (targetW == 0)
+            targetW = largura;
         int targetH = view.getHeight();
+        if (targetH == 0)
+            targetH = altura;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();

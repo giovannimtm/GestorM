@@ -89,7 +89,11 @@ public class FGM_ItensEntrada extends Fragment {
             //se vier foto do banco preenche com informação padrão para não abrir a camera ao clicar
             if(((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(position) != null){
                 imageButton.setTag("Foto");
-                imageButton.setImageBitmap(BitmapFactory.decodeFile(((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(position)));
+                clsUtil.FU_redimensionaImagemEColocaNaView(
+                        ((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(position),
+                        imageButton,
+                        ((ACT_CheckList)getActivity()).getClsItensEntrada().getAlturaItem(position),
+                        ((ACT_CheckList)getActivity()).getClsItensEntrada().getLarguraItem(position));
             }
 
             final View finalConvertView = convertView;
@@ -162,9 +166,17 @@ public class FGM_ItensEntrada extends Fragment {
 
                     ((ACT_CheckList)getActivity()).getClsItensEntrada().setCaminhoFotoItem(file_path, posicaoAlterada);
 
+                    ((ACT_CheckList)getActivity()).getClsItensEntrada().setAlturaItem(botaoClicado.getHeight(), posicaoAlterada);
+
+                    ((ACT_CheckList)getActivity()).getClsItensEntrada().setLarguraItem(botaoClicado.getWidth(), posicaoAlterada);
+
                     if(botaoClicado != null) {
                         botaoClicado.setTag("Foto");
-                        clsUtil.FU_redimensionaImagemEColocaNaView(file_path, botaoClicado);
+                        clsUtil.FU_redimensionaImagemEColocaNaView(
+                                file_path,
+                                botaoClicado,
+                                botaoClicado.getHeight(),
+                                botaoClicado.getWidth() );
                     }
 
                     loop = false;
