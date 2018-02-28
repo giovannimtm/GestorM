@@ -4,13 +4,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.Window;
@@ -242,6 +246,28 @@ public class ClsUtil{
             }
         });
         return nagDialog;
+    }
+
+    public static Intent FU_visualizarFotosDaPasta(Context context, String pasta){
+        String bucketId = "";
+
+        final String[] projection = new String[] {"DISTINCT " + MediaStore.Images.Media.BUCKET_DISPLAY_NAME + ", " + MediaStore.Images.Media.BUCKET_ID};
+        final Cursor cur = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
+
+        while (cur != null && cur.moveToNext()) {
+            final String bucketName = cur.getString((cur.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME)));
+            if (bucketName.equals(pasta)) {
+                bucketId = cur.getString((cur.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_ID)));
+                break;
+            }
+        }
+        Uri mediaUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        mediaUri = mediaUri.buildUpon()
+                .authority("media")
+                .appendQueryParameter("bucketId", bucketId)
+                .build();
+        Intent intent = new Intent(Intent.ACTION_VIEW, mediaUri);
+        return intent;
     }
 
     //Para a função abaixo funcionar é preciso extender a activity para a classe

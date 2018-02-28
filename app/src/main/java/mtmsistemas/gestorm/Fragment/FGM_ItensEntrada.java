@@ -1,35 +1,26 @@
 package mtmsistemas.gestorm.Fragment;
 
-import android.Manifest;
-import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import mtmsistemas.gestorm.Activity.ACT_CheckList;
 import mtmsistemas.gestorm.R;
@@ -44,6 +35,7 @@ public class FGM_ItensEntrada extends Fragment {
     static ImageButton botaoClicado;
     static ClsUtil clsUtil = new ClsUtil();
     static int posicaoAlterada;
+    static String caminhoFoto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,18 +107,32 @@ public class FGM_ItensEntrada extends Fragment {
 
                     botaoClicado = (ImageButton) v.findViewById(R.id.IMGBTN_ItemFoto);
                     posicaoAlterada = FU_retornaPosicao(finalConvertView);
+                    TextView textView = (TextView)finalConvertView.findViewById(R.id.TV_Item);
 
                     if(botaoClicado.getTag()== null) {
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+                        String caminhoPasta = Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + textView.getText();
+                        File pasta = new File(caminhoPasta);
+                        if (!pasta.exists()) {
+                            pasta.mkdirs();
+                        }
+                        SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
+                        String nome = s.format(new Date()) + ".jpg";
+                        //create a new file
+                        File newFile = new File(caminhoPasta, nome);
+                        caminhoFoto = newFile.getAbsolutePath();
+
+                        // save image here
+                        Uri relativePath = Uri.fromFile(newFile);
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
+                        startActivityForResult(intent, CAMERA_PIC_REQUEST);
                     }
                     else{
 //                        Dialog nagDialog = clsUtil.FU_imageDialog(getContext(), ((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(posicaoAlterada));
 //                        nagDialog.show();
-                        Intent gallery = new Intent(Intent.ACTION_VIEW);
-                        File foto = new File(((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(posicaoAlterada));
-                        gallery.setDataAndType(Uri.fromFile(foto), "image/*");
-                        startActivity(gallery);
+
+                        Intent intent = clsUtil.FU_visualizarFotosDaPasta(getContext(), "Item");
+                        startActivity(intent);
                     }
                 }
             });
@@ -176,14 +182,16 @@ public class FGM_ItensEntrada extends Fragment {
                 Thread.sleep(500);
                 if (requestCode == CAMERA_PIC_REQUEST && resultCode == RESULT_OK) {
 
-                    Uri selectedImageUri = data.getData();
-                    String[] proj = {MediaStore.Images.Media.DATA};
-                    Cursor cursor = getContext().getContentResolver().query(selectedImageUri, proj, null, null, null);
-                    if (cursor.moveToFirst()) {
-                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                        file_path = cursor.getString(column_index);
-                    }
-                    cursor.close();
+//                    Uri selectedImageUri = data.getData();
+//                    String[] proj = {MediaStore.Images.Media.DATA};
+//                    Cursor cursor = getContext().getContentResolver().query(selectedImageUri, proj, null, null, null);
+//                    if (cursor.moveToFirst()) {
+//                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//                        file_path = cursor.getString(column_index);
+//                    }
+//                    cursor.close();
+
+                    file_path = caminhoFoto;
 
                     ((ACT_CheckList)getActivity()).getClsItensEntrada().setCaminhoFotoItem(file_path, posicaoAlterada);
 
