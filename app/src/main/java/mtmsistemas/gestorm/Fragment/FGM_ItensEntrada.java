@@ -1,6 +1,7 @@
 package mtmsistemas.gestorm.Fragment;
 
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -74,7 +75,7 @@ public class FGM_ItensEntrada extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             convertView = getLayoutInflater(null).inflate(R.layout.itens_checkllist_custom_layout, null);
 
-            ImageButton imageButton =(ImageButton)convertView.findViewById(R.id.IMGBTN_ItemFoto);
+            final ImageButton imageButton =(ImageButton)convertView.findViewById(R.id.IMGBTN_ItemFoto);
 
             TextView tv_nomeItem = (TextView)convertView.findViewById(R.id.TV_Item);
             Spinner sp_SituacaoItem;
@@ -110,7 +111,7 @@ public class FGM_ItensEntrada extends Fragment {
                     TextView textView = (TextView)finalConvertView.findViewById(R.id.TV_Item);
 
                     if(botaoClicado.getTag()== null) {
-                        String caminhoPasta = Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + textView.getText();
+                        String caminhoPasta = Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + textView.getText().toString();
                         File pasta = new File(caminhoPasta);
                         if (!pasta.exists()) {
                             pasta.mkdirs();
@@ -131,9 +132,32 @@ public class FGM_ItensEntrada extends Fragment {
 //                        Dialog nagDialog = clsUtil.FU_imageDialog(getContext(), ((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(posicaoAlterada));
 //                        nagDialog.show();
 
-                        Intent intent = clsUtil.FU_visualizarFotosDaPasta(getContext(), "Item");
+                        Intent intent = clsUtil.FU_visualizarFotosDaPasta(getContext(), textView.getText().toString());
                         startActivity(intent);
                     }
+                }
+            });
+
+            ImageButton adicionarFoto = (ImageButton) convertView.findViewById(R.id.IMGBTN_ItemAdicionarFoto);
+            adicionarFoto.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View v) {
+                    posicaoAlterada = FU_retornaPosicao(finalConvertView);
+                    botaoClicado = (ImageButton) finalConvertView.findViewById(R.id.IMGBTN_ItemFoto);
+                    TextView textView = (TextView)finalConvertView.findViewById(R.id.TV_Item);
+                    String caminhoPasta = Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + textView.getText().toString();
+                    File pasta = new File(caminhoPasta);
+                    if (!pasta.exists()) {
+                        pasta.mkdirs();
+                    }
+                    SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
+                    String nome = s.format(new Date()) + ".jpg";
+                    //create a new file
+                    File newFile = new File(caminhoPasta, nome);
+                    caminhoFoto = newFile.getAbsolutePath();
+                    Uri relativePath = Uri.fromFile(newFile);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
+                    startActivityForResult(intent, CAMERA_PIC_REQUEST);
                 }
             });
 
@@ -193,13 +217,19 @@ public class FGM_ItensEntrada extends Fragment {
 
                     file_path = caminhoFoto;
 
-                    ((ACT_CheckList)getActivity()).getClsItensEntrada().setCaminhoFotoItem(file_path, posicaoAlterada);
-
-                    ((ACT_CheckList)getActivity()).getClsItensEntrada().setAlturaItem(botaoClicado.getHeight(), posicaoAlterada);
-
-                    ((ACT_CheckList)getActivity()).getClsItensEntrada().setLarguraItem(botaoClicado.getWidth(), posicaoAlterada);
+                    Intent mediaScannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    File f = new File(file_path);
+                    Uri fileContentUri = Uri.fromFile(f);
+                    mediaScannerIntent.setData(fileContentUri);
+                    getActivity().sendBroadcast(mediaScannerIntent);
 
                     if(botaoClicado != null) {
+                        ((ACT_CheckList)getActivity()).getClsItensEntrada().setCaminhoFotoItem(file_path, posicaoAlterada);
+
+                        ((ACT_CheckList)getActivity()).getClsItensEntrada().setAlturaItem(botaoClicado.getHeight(), posicaoAlterada);
+
+                        ((ACT_CheckList)getActivity()).getClsItensEntrada().setLarguraItem(botaoClicado.getWidth(), posicaoAlterada);
+
                         botaoClicado.setTag("Foto");
                         try {
                             clsUtil.FU_redimensionaImagemEColocaNaView(
@@ -215,9 +245,10 @@ public class FGM_ItensEntrada extends Fragment {
                     loop = false;
                 }
                 tries++;
-                if(tries == 21)
+                if(tries == 21 || resultCode != RESULT_OK)
                     loop = false;
             }
+            botaoClicado = null;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -13,6 +13,16 @@
         android:layout_alignParentTop="true"
         app:srcCompat="@drawable/ic_menu_camera" />
 
+    <ImageButton
+        android:id="@+id/IMGBTN_ItemAdicionarFoto"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="17dp"
+        android:layout_alignBottom="@+id/IMGBTN_ItemFoto"
+        android:layout_toEndOf="@+id/IMGBTN_ItemFoto"
+        app:srcCompat="@drawable/ic_add_a_photo_black_24dp" />
+
     <TextView
         android:id="@+id/TV_Item"
         android:layout_width="wrap_content"
@@ -20,8 +30,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        android:layout_alignBottom="@+id/IMGBTN_ItemFoto"
-        android:layout_toEndOf="@+id/IMGBTN_ItemFoto"
+        android:layout_alignBottom="@+id/IMGBTN_ItemAdicionarFoto"
+        android:layout_toEndOf="@+id/IMGBTN_ItemAdicionarFoto"
         android:layout_marginStart="11dp"
         android:layout_marginBottom="21dp" />
 
