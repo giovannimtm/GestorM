@@ -53,23 +53,9 @@ public class ClsItensEntrada {
         this.statusEquip[posicao] = status;
     }
 
-    public int getAlturaItem(int posicao) {return altura[posicao];}
-
-    public void setAlturaItem(int alturaItem, int posicao){
-        this.altura[posicao] = alturaItem;
-    }
-
-    public int getLarguraItem(int posicao) {return largura[posicao];}
-
-    public void setLarguraItem(int larguraItem, int posicao){
-        this.largura[posicao] = larguraItem;
-    }
-
     String[] itens = new String[] { "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread",
             "Honeycomb", "Ice Cream Sandwich", "Jelly Bean",
             "KitKat", "Lollipop", "Marshmallow", "Nougat" };
     String[] caminhoFoto = new String[itens.length];
     String[] statusEquip = new String[itens.length];
-    int[] altura = new int[itens.length];
-    int[] largura = new int[itens.length];
 }

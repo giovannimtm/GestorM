@@ -1,7 +1,6 @@
 package mtmsistemas.gestorm.Fragment;
 
 import android.content.Intent;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -83,24 +82,45 @@ public class FGM_ItensEntrada extends Fragment {
             tv_nomeItem.setText(((ACT_CheckList)getActivity()).getClsItensEntrada().getItem(position));
             tv_nomeItem.setTag(position);
 
-            //se vier foto do banco preenche com informação padrão para não abrir a camera ao clicar
-            if(((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(position) != null){
-                File teste = new File(((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(position));
-                if (teste.exists()) {
-                    imageButton.setTag("Foto");
-                    try {
-                        clsUtil.FU_redimensionaImagemEColocaNaView(
-                                ((ACT_CheckList) getActivity()).getClsItensEntrada().getCaminhoFotoItem(position),
-                                imageButton,
-                                ((ACT_CheckList) getActivity()).getClsItensEntrada().getAlturaItem(position),
-                                ((ACT_CheckList) getActivity()).getClsItensEntrada().getLarguraItem(position));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            File pastaItem = new File(
+                    Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + tv_nomeItem.getText().toString()
+            );
+            if (pastaItem.exists() && pastaItem.listFiles().length > 0) {
+
+
+                if (((ACT_CheckList) getActivity()).getClsItensEntrada().getCaminhoFotoItem(position) != null) {
+                    File teste = new File(((ACT_CheckList) getActivity()).getClsItensEntrada().getCaminhoFotoItem(position));
+                    if (teste.exists()) {
+                        imageButton.setTag("Foto");
+                        try {
+                            clsUtil.FU_redimensionaImagemEColocaNaView(
+                                    teste.getAbsolutePath(),
+                                    imageButton,
+                                    imageButton.getLayoutParams().height,
+                                    imageButton.getLayoutParams().width);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 else
-                    imageButton.setTag(null);
+                {
+                    File[] fotos = pastaItem.listFiles();
+                    ((ACT_CheckList) getActivity()).getClsItensEntrada().setCaminhoFotoItem(fotos[0].getAbsolutePath(),position);
+                    imageButton.setTag("Foto");
+                    try {
+                        clsUtil.FU_redimensionaImagemEColocaNaView(
+                                fotos[0].getAbsolutePath(),
+                                imageButton,
+                                imageButton.getLayoutParams().height,
+                                imageButton.getLayoutParams().width);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
+            else
+                imageButton.setTag(null);
 
             final View finalConvertView = convertView;
             imageButton.setOnClickListener(new View.OnClickListener() {
@@ -173,9 +193,7 @@ public class FGM_ItensEntrada extends Fragment {
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
+                public void onNothingSelected(AdapterView<?> parent) {}
             });
 
             sp_SituacaoItem.setAdapter(adapterSituacaoItem);
@@ -186,13 +204,6 @@ public class FGM_ItensEntrada extends Fragment {
 
             return convertView;
         }
-
-        private File getTempFile()
-        {
-            //it will return /sdcard/image.tmp
-            return new File(Environment.getExternalStorageDirectory(),  "image.tmp");
-        }
-
     }
 
     @Override
@@ -226,10 +237,6 @@ public class FGM_ItensEntrada extends Fragment {
                     if(botaoClicado != null) {
                         ((ACT_CheckList)getActivity()).getClsItensEntrada().setCaminhoFotoItem(file_path, posicaoAlterada);
 
-                        ((ACT_CheckList)getActivity()).getClsItensEntrada().setAlturaItem(botaoClicado.getHeight(), posicaoAlterada);
-
-                        ((ACT_CheckList)getActivity()).getClsItensEntrada().setLarguraItem(botaoClicado.getWidth(), posicaoAlterada);
-
                         botaoClicado.setTag("Foto");
                         try {
                             clsUtil.FU_redimensionaImagemEColocaNaView(
@@ -241,7 +248,6 @@ public class FGM_ItensEntrada extends Fragment {
                             e.printStackTrace();
                         }
                     }
-
                     loop = false;
                 }
                 tries++;
