@@ -270,6 +270,25 @@ public class ClsUtil{
         return intent;
     }
 
+    public static File FU_criaArquivoImagemNaPAsta(String nomePasta){
+        String caminhoPasta = Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + nomePasta;
+        File pasta = new File(caminhoPasta);
+        if (!pasta.exists()) {
+            pasta.mkdirs();
+        }
+        SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
+        String nome = s.format(new Date()) + ".jpg";
+        File arquivo = new File(caminhoPasta, nome);
+        return arquivo;
+    }
+
+    public static Intent FU_salvaFotoPastaEspecifica(File foto){
+        Uri relativePath = Uri.fromFile(foto);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
+        return intent;
+    }
+
     //Para a função abaixo funcionar é preciso extender a activity para a classe
 //    public String FU_retornaCaminhoImagem(Resources objeto, Integer idImagem)
 //    {

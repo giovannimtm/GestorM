@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +17,7 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 import mtmsistemas.gestorm.Activity.ACT_CheckList;
 import mtmsistemas.gestorm.R;
@@ -126,21 +123,11 @@ public class FGM_ItensEntrada extends Fragment {
                     TextView textView = (TextView)finalConvertView.findViewById(R.id.TV_Item);
 
                     if(botaoClicado.getTag()== null) {
-                        String caminhoPasta = Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + textView.getText().toString();
-                        File pasta = new File(caminhoPasta);
-                        if (!pasta.exists()) {
-                            pasta.mkdirs();
-                        }
-                        SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
-                        String nome = s.format(new Date()) + ".jpg";
-                        //create a new file
-                        File newFile = new File(caminhoPasta, nome);
-                        caminhoFoto = newFile.getAbsolutePath();
+                        File foto = clsUtil.FU_criaArquivoImagemNaPAsta(textView.getText().toString());
+                        caminhoFoto = foto.getAbsolutePath();
 
                         // save image here
-                        Uri relativePath = Uri.fromFile(newFile);
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
+                        Intent intent = clsUtil.FU_salvaFotoPastaEspecifica(foto);
                         startActivityForResult(intent, CAMERA_PIC_REQUEST);
                     }
                     else{
@@ -159,19 +146,11 @@ public class FGM_ItensEntrada extends Fragment {
                     posicaoAlterada = FU_retornaPosicao(finalConvertView);
                     botaoClicado = (ImageButton) finalConvertView.findViewById(R.id.IMGBTN_ItemFoto);
                     TextView textView = (TextView)finalConvertView.findViewById(R.id.TV_Item);
-                    String caminhoPasta = Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + textView.getText().toString();
-                    File pasta = new File(caminhoPasta);
-                    if (!pasta.exists()) {
-                        pasta.mkdirs();
-                    }
-                    SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
-                    String nome = s.format(new Date()) + ".jpg";
-                    //create a new file
-                    File newFile = new File(caminhoPasta, nome);
-                    caminhoFoto = newFile.getAbsolutePath();
-                    Uri relativePath = Uri.fromFile(newFile);
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
+
+                    File foto = clsUtil.FU_criaArquivoImagemNaPAsta(textView.getText().toString());
+                    caminhoFoto = foto.getAbsolutePath();
+
+                    Intent intent = clsUtil.FU_salvaFotoPastaEspecifica(foto);
                     startActivityForResult(intent, CAMERA_PIC_REQUEST);
                 }
             });
