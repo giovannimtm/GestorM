@@ -86,21 +86,16 @@ public class FGM_ItensEntrada extends Fragment {
                     Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + tv_nomeItem.getText().toString()
             );
             if (pastaItem.exists() && pastaItem.listFiles().length > 0) {
-
-
-                if (((ACT_CheckList) getActivity()).getClsItensEntrada().getCaminhoFotoItem(position) != null) {
-                    File teste = new File(((ACT_CheckList) getActivity()).getClsItensEntrada().getCaminhoFotoItem(position));
-                    if (teste.exists()) {
-                        imageButton.setTag("Foto");
-                        try {
-                            clsUtil.FU_redimensionaImagemEColocaNaView(
-                                    teste.getAbsolutePath(),
-                                    imageButton,
-                                    imageButton.getLayoutParams().height,
-                                    imageButton.getLayoutParams().width);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                if (((ACT_CheckList) getActivity()).getClsItensEntrada().getCaminhoFotoItem(position) != null && new File(((ACT_CheckList) getActivity()).getClsItensEntrada().getCaminhoFotoItem(position)).exists()) {
+                    imageButton.setTag("Foto");
+                    try {
+                        clsUtil.FU_redimensionaImagemEColocaNaView(
+                                ((ACT_CheckList) getActivity()).getClsItensEntrada().getCaminhoFotoItem(position),
+                                imageButton,
+                                imageButton.getLayoutParams().height,
+                                imageButton.getLayoutParams().width);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
                 else
