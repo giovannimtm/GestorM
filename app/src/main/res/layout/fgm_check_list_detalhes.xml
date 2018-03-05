@@ -1,0 +1,288 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mtmsistemas.gestorm.View.Fragment.FGM_CheckList_Detalhes">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/TV_IdCheckList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Id. CheckList"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"/>
+
+            <EditText
+                android:id="@+id/ET_IdCheckList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_IdCheckList"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/edit_text_border"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_OrdemServico"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ET_IdCheckList"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Ordem de Serviço"/>
+
+            <EditText
+                android:id="@+id/ET_OrdemServico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_OrdemServico"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/edit_text_border"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_IdEquipamento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ET_OrdemServico"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Id. Equipamento"/>
+
+            <EditText
+                android:id="@+id/ET_IdEquipamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_IdEquipamento"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/edit_text_border"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_Equipamento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ET_IdEquipamento"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Descrição"/>
+
+            <EditText
+                android:id="@+id/ET_Equipamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_Equipamento"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/edit_text_border"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_TipoCheckList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ET_Equipamento"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Tipo Checklist"/>
+
+            <Spinner
+                android:id="@+id/Sp_TipoCheckList"
+                android:background="@drawable/spinner_background"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_TipoCheckList"
+                android:spinnerMode="dialog"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_IdResponsavel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Sp_TipoCheckList"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Id Responsável"/>
+
+            <EditText
+                android:id="@+id/ET_IdResponsavel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_IdResponsavel"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/edit_text_border"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_Responsavel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ET_IdResponsavel"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Nome Responsável"/>
+
+            <EditText
+                android:id="@+id/ET_Responsavel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_Responsavel"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/edit_text_border"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_IdCentroResultado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ET_Responsavel"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Centro de resultado"/>
+
+            <EditText
+                android:id="@+id/ET_IdCentroResultado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_IdCentroResultado"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/edit_text_border"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_CentroResultado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ET_IdCentroResultado"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Descrição Centro de resultado"/>
+
+            <EditText
+                android:id="@+id/ET_CentroResultado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_CentroResultado"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/edit_text_border"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_ContadorUso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ET_CentroResultado"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Contador de Uso"/>
+
+            <EditText
+                android:id="@+id/ET_ContadorUso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_ContadorUso"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/edit_text_border"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_DataEntrada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ET_ContadorUso"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Data Entrada"/>
+
+            <EditText
+                android:id="@+id/ET_DataEntrada"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="date"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_DataEntrada"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/edit_text_border"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_SituacaoBem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/TV_DataEntrada"
+                android:layout_toEndOf="@id/ET_DataEntrada"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:text="Situaçao do bem"/>
+
+            <Spinner
+                android:id="@+id/Sp_SituacaoBem"
+                android:background="@drawable/spinner_background"
+                android:layout_width="150dp"
+                android:layout_height="25dp"
+                android:layout_toEndOf="@id/ET_DataEntrada"
+                android:layout_alignBottom="@+id/ET_DataEntrada"
+                android:layout_marginStart="25dp"
+                android:spinnerMode="dialog"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_SituacaoCheckList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ET_DataEntrada"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Situação Checklist"/>
+
+            <Spinner
+                android:id="@+id/Sp_SituacaoCheckList"
+                android:background="@drawable/spinner_background"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_SituacaoCheckList"
+                android:spinnerMode="dialog"
+                android:gravity="left"/>
+
+        </RelativeLayout>
+    </ScrollView>
+</FrameLayout>
