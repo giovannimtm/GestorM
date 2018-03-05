@@ -17,7 +17,7 @@ public class CHECKLISTITEM extends SQLiteOpenHelper {
     private Object SGUSER = null;
     private Context context;
     private String IMAGEMCOMPONENTE = null;
-    public static final String TABLE = "CHECKLISTITEM";
+    public static final String TABLE = "CHECKLISTITEMController";
 
     public CHECKLISTITEM(Context context) {
         super(context, DATABASE.NOME_BANCO, null, DATABASE.VERSAO);
