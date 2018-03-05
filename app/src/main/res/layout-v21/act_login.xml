@@ -5,7 +5,7 @@
     android:id="@+id/CTL_Principal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ACT_Login">
+    tools:context="mtmsistemas.gestorm.View.Activity.ACT_Login">
 
     <ImageView
         android:id="@+id/imageView4"

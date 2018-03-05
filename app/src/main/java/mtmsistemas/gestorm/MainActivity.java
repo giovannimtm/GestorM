@@ -1,10 +1,11 @@
 package mtmsistemas.gestorm;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,15 +13,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import mtmsistemas.gestorm.Util.ClsUtil;
+import mtmsistemas.gestorm.Controller.EquipamentoRestClient;
+import mtmsistemas.gestorm.Model.EQUIPAMENTO;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private ProgressDialog load;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ClsUtil.caminhoApp = getApplicationInfo().dataDir;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -43,6 +45,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        GetJson download = new GetJson();
+
+        download.execute();
     }
 
     @Override
@@ -106,6 +112,43 @@ public class MainActivity extends AppCompatActivity
 
     public void onClick_Parametro(View View){
 
+    }
+
+    public class GetJson extends AsyncTask<Void, Void, EQUIPAMENTO> {
+
+        @Override
+        protected void onPreExecute(){
+            load = ProgressDialog.show(MainActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
+        }
+
+        @Override
+        protected EQUIPAMENTO doInBackground(Void... params) {
+            EquipamentoRestClient util = new EquipamentoRestClient();
+
+            //return util.getInformacao("https://randomuser.me/api/0.7");
+            return util.getInformacao("http://192.168.10.124:8021/GiclPLibWebAPI/api/equipamento");
+        }
+
+        @Override
+        protected void onPostExecute(EQUIPAMENTO pessoa){
+//            ET_IDEQUIP.setText(pessoa.get_IDEQUIPAMENTO().substring(0,1).toUpperCase()+pessoa.getNome().substring(1));
+//            ET_DSEQUIP.setText(pessoa.get_DSEQUIPAMENTO().substring(0,1).toUpperCase()+pessoa.getSobrenome().substring(1));
+//
+//            ET_IDEQUIP.setText(pessoa.get_IDEQUIPAMENTO().toString());
+//            ET_DSEQUIP.setText(pessoa.get_DSEQUIPAMENTO().toString());
+
+//            email.setT
+// ext(pessoa.getEmail());
+//            endereco.setText(pessoa.getEndereco());
+//            cidade.setText(pessoa.getCidade().substring(0,1).toUpperCase()+pessoa.getCidade().substring(1));
+//            estado.setText(pessoa.getEstado());
+//            username.setText(pessoa.getUsername());
+//            senha.setText(pessoa.getSenha());
+//            nascimento.setText(pessoa.getNascimento());
+//            telefone.setText(pessoa.getTelefone());
+//            foto.setImageBitmap(pessoa.getFoto());
+            load.dismiss();
+        }
     }
 
 }

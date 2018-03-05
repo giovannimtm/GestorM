@@ -2,9 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mtmsistemas.gestorm">
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -15,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activity.ACT_Login"
+            android:name=".View.Activity.ACT_Configuracao"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -33,14 +32,9 @@
         <!-- </intent-filter> -->
         <!-- </activity> -->
         <!-- <activity android:name=".Activity.ACT_ListaEquipamento" /> -->
-        <activity android:name=".Activity.ACT_ConfigWebService" />
-        <activity android:name=".Activity.ACT_CheckList">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
+        <!-- <activity android:name=".Activity.ACT_ListaEquipamento"></activity> -->
+        <!-- <activity android:name=".Activity.ACT_ConfigWebService"></activity> -->
+        <!--<activity android:name=".View.Activity.ACT_Configuracao"></activity>-->
     </application>
 
 </manifest>

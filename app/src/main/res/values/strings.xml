@@ -30,4 +30,9 @@
     <string name="BTN_Cancelar">Cancelar</string>
     <string name="title_activity_menu_principal">MenuPrincipal</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_act__configuracao">ACT_Configuracao</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="endere_o_webservice">Endereço Webservice</string>
 </resources>
