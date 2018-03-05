@@ -1,17 +1,28 @@
 package mtmsistemas.gestorm.Controller;
 
-import android.app.ProgressDialog;
+import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
-import android.util.Base64;
-import android.util.Log;
+import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -19,17 +30,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
+import mtmsistemas.gestorm.R;
+
 /**
  * Created by Giovanni on 19/10/2017.
  */
 
-public class ClsUtil {
+public class ClsUtil{
 
-    public static String caminhoApp;
+    public static  String caminhoApp;
 
-    public boolean FU_dataAnteriorAHoje(String data) {
+    public boolean FU_dataAnteriorAHoje(String data)
+    {
         Boolean validou;
-        try {
+        try
+        {
             Calendar now = Calendar.getInstance();
             now.set(Calendar.HOUR, 0);
             now.set(Calendar.HOUR_OF_DAY, 0);
@@ -42,154 +57,235 @@ public class ClsUtil {
 
             Date hoje = now.getTime();
             validou = dataFormatada.before(hoje);
-        } catch (Exception ex) {
+        }
+        catch(Exception ex){
             System.err.println(ex.getMessage());
             validou = false;
         }
         return validou;
     }
 
-    public boolean FU_validaPlaca(String placa) {
-        return Pattern.matches("[A-Z]{3}-[0-9]{4}", placa);
+    public boolean FU_validaPlaca(String placa)
+    {
+        return Pattern.matches("[A-Z]{3}-[0-9]{4}",placa);
     }
 
-    public String FU_converteArquivoParaArrayBytes(String caminho) {
+    public byte[] FU_converteArquivoParaArrayBytes(String caminho)
+    {
         byte[] imagem = null;
-        String base64 = "";
-        Bitmap image;
-        BitmapFactory.Options options;
-        ByteArrayOutputStream baos;
-        try {
-//            FileInputStream fis = new FileInputStream(caminho);
-//            imagem = new byte[fis.available()];
-//            fis.read(imagem);
-//            fis.close();
-
-            baos = new ByteArrayOutputStream();
-            options = new BitmapFactory.Options();
-            image = BitmapFactory.decodeFile(caminho, options);
-            image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] byteArray = baos.toByteArray();
-            base64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            FileInputStream fis = new FileInputStream(new File(caminho));
-//            GZIPOutputStream gzos = null;
-//            byte[] buf = new byte[1024];
-//            int n;
-//            gzos = new GZIPOutputStream(baos);
-//
-//            while (-1 != (n = fis.read(buf)))
-//                gzos.write(buf, 0, n);
-//
-//            byte[] videoBytes = baos.toByteArray();
-
-            imagem = null;
-            base64 = "";
-            image = null;
-            options = null;
-            baos = null;
-
-            //base64 = Base64.encodeToString(videoBytes, Base64.DEFAULT);
-        } catch (OutOfMemoryError oomer) {
-            Log.e("ERRO", "Não foi possível converter o arquivo de vídeo para a transmissão. OutOfMemoryError. ", oomer);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-        //return imagem;
-        return base64;
-    }
-
-    public String FU_converteFotoParaArrayBytes(String caminho) {
-        byte[] imagem = null;
-        String base64 = "";
-        Bitmap image;
-        BitmapFactory.Options options;
-        ByteArrayOutputStream baos;
-        try {
-//            FileInputStream fis = new FileInputStream(caminho);
-//            imagem = new byte[fis.available()];
-//            fis.read(imagem);
-//            fis.close();
-
-            baos = new ByteArrayOutputStream();
-            options = new BitmapFactory.Options();
-            image = BitmapFactory.decodeFile(caminho, options);
-            image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] byteArray = baos.toByteArray();
-            base64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            FileInputStream fis = new FileInputStream(new File(caminho));
-//            GZIPOutputStream gzos = null;
-//            byte[] buf = new byte[1024];
-//            int n;
-//            gzos = new GZIPOutputStream(baos);
-//
-//            while (-1 != (n = fis.read(buf)))
-//                gzos.write(buf, 0, n);
-//
-//            byte[] videoBytes = baos.toByteArray();
-
-            imagem = null;
-            base64 = "";
-            image = null;
-            options = null;
-            baos = null;
-
-            //base64 = Base64.encodeToString(videoBytes, Base64.DEFAULT);
-        } catch (OutOfMemoryError oomer) {
-            Log.e("ERRO", "Não foi possível converter o arquivo de vídeo para a transmissão. OutOfMemoryError. ", oomer);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-        //return imagem;
-        return base64;
-    }
-
-    public Bitmap FU_converteArrayBytesParaImagem(byte[] byteArray) {
-        Bitmap imagem = null;
-        try {
-            imagem = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        } catch (Exception e) {
+        try
+        {
+            FileInputStream fis = new FileInputStream(caminho);
+            imagem = new byte[fis.available()];
+            fis.read(imagem);
+            fis.close();
+        } catch (Exception e)
+        {
             System.err.println(e.getMessage());
         }
         return imagem;
     }
 
-    public String FU_salvaByteArrayComoArquivoERetornaCaminho(byte[] arquivo, String nomeArquivo) {
+    public Bitmap FU_converteArrayBytesParaImagem(byte[] byteArray)
+    {
+        Bitmap imagem = null;
+        try
+        {
+            imagem = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        } catch (Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+        return imagem;
+    }
+
+    public String FU_salvaByteArrayComoArquivoERetornaCaminho(byte[] arquivo, String nomeArquivo)
+    {
         //exemplo do nome do arquivo com a pasta "teste\\logo.png"
         String caminho = null;
-        try {
+        try
+        {
             FileOutputStream out;
             File file;
 
-            try {
+            try
+            {
                 out = new FileOutputStream(caminhoApp + "/" + nomeArquivo);
                 caminho = caminhoApp + "/" + nomeArquivo;
                 out.write(arquivo);
                 out.close();
-            } catch (IOException e) {
-                if (FU_podeLerEEscreverMidiaExterna()) {
+            }catch (IOException e)
+            {
+                if (FU_podeEscreverMidiaExterna())
+                {
                     file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), nomeArquivo);
                     out = new FileOutputStream(file.getPath());
                     caminho = file.getPath();
-                } else {
+                }
+                else
+                {
                     out = new FileOutputStream(nomeArquivo);
                     caminho = null;
                 }
                 out.write(arquivo);
                 out.close();
             }
-        } catch (Exception e) {
+        }catch (Exception e)
+        {
             System.err.println(e.getMessage());
         }
         return caminho;
     }
 
-    public boolean FU_podeLerEEscreverMidiaExterna() {
+    public boolean FU_podeEscreverMidiaExterna() {
         String state = Environment.getExternalStorageState();
-        return (Environment.MEDIA_MOUNTED.equals(state) && Environment.MEDIA_MOUNTED_READ_ONLY.equals(state) == false);
+        if (Environment.MEDIA_MOUNTED.equals(state) && !Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
+            return true;
+        else
+            return false;
+
+    }
+
+    public void FU_redimensionaImagemEColocaNaView(String caminho, ImageView view, int altura, int largura) throws IOException {
+        // Get the dimensions of the View
+        int targetW = view.getWidth();
+        if (targetW == 0)
+            targetW = largura;
+        int targetH = view.getHeight();
+        if (targetH == 0)
+            targetH = altura;
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(caminho, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(caminho, bmOptions);
+
+        bitmap = FU_correctOrientation(bitmap, caminho);
+
+        view.setImageBitmap(bitmap);
+    }
+
+    public static Bitmap FU_correctOrientation(Bitmap bitmap, String caminho) throws IOException {
+        ExifInterface exif = new ExifInterface(caminho);
+        int orientation = ExifInterface.ORIENTATION_NORMAL;
+        orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                bitmap = rotateBitmap(bitmap, 90);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                bitmap = rotateBitmap(bitmap, 180);
+                break;
+
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                bitmap = rotateBitmap(bitmap, 270);
+                break;
+        }
+        return bitmap;
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int degrees) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degrees);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+    }
+
+    public void FU_permissoes(Context context, Activity activity){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                activity.requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+
+            if(ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                activity.requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            }
+
+            if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                activity.requestPermissions(new String[]{android.Manifest.permission.CAMERA}, 1);
+            }
+        }
+    }
+
+    public static Dialog FU_imageDialog(Context context, String caminho){
+        final Dialog nagDialog = new Dialog(context,android.R.style.Theme_NoTitleBar_OverlayActionModes);
+        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        nagDialog.setCancelable(false);
+        nagDialog.setContentView(R.layout.dialog_visualizar_foto);
+        Button btnClose = (Button)nagDialog.findViewById(R.id.btnIvClose);
+        ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.iv_preview_image);
+        Bitmap bitmap = BitmapFactory.decodeFile(caminho);
+        try {
+            bitmap = FU_correctOrientation(bitmap, caminho);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ivPreview.setImageBitmap(bitmap);
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                nagDialog.dismiss();
+            }
+        });
+        return nagDialog;
+    }
+
+    public static Intent FU_visualizarFotosDaPasta(Context context, String pasta){
+        String bucketId = "";
+
+        final String[] projection = new String[] {"DISTINCT " + MediaStore.Images.Media.BUCKET_DISPLAY_NAME + ", " + MediaStore.Images.Media.BUCKET_ID};
+        final Cursor cur = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
+
+        while (cur != null && cur.moveToNext()) {
+            final String bucketName = cur.getString((cur.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME)));
+            if (bucketName.equals(pasta)) {
+                bucketId = cur.getString((cur.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_ID)));
+                break;
+            }
+        }
+        Uri mediaUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        mediaUri = mediaUri.buildUpon()
+                .authority("media")
+                .appendQueryParameter("bucketId", bucketId)
+                .build();
+        Intent intent = new Intent(Intent.ACTION_VIEW, mediaUri);
+        return intent;
+    }
+
+    public static File FU_criaArquivoImagemNaPAsta(String nomePasta){
+        String caminhoPasta = Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + nomePasta;
+        File pasta = new File(caminhoPasta);
+        if (!pasta.exists()) {
+            pasta.mkdirs();
+        }
+        SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
+        String nome = s.format(new Date()) + ".jpg";
+        File arquivo = new File(caminhoPasta, nome);
+        return arquivo;
+    }
+
+    public static Intent FU_salvaFotoPastaEspecifica(File foto){
+        Uri relativePath = Uri.fromFile(foto);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
+        return intent;
     }
 
     //Para a função abaixo funcionar é preciso extender a activity para a classe
@@ -221,138 +317,6 @@ public class ClsUtil {
 //            e.printStackTrace();
 //        }
 //        return mPath;
-//    }
-
-    //Função para enviar aquivo de fotos ou video para p webservice, nao testado! - giovanni 09/01/2018
-//    public void Enviar()
-//    {
-//        string fileName = Server.MapPath("~") + "/Files/arq.txt";
-//
-//        using (HttpClient client = new HttpClient())
-//        using (MultipartFormDataContent content = new MultipartFormDataContent())
-//        using (FileStream fileStream = System.IO.File.OpenRead(fileName))
-//        using (StreamContent fileContent = new StreamContent(fileStream))
-//        {
-//
-//            fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("text/plain");
-//            fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-//            {
-//                FileName = "arq.txt",
-//            };
-//            fileContent.Headers.Add("name", "arq.txt");
-//            content.Add(fileContent);
-//            var result = client.PostAsync("http://localhost:62951/api/arquivo", content).Result;
-//            result.EnsureSuccessStatusCode();
-//        }
-//    }
-
-    int LINT_PERMISSION = 21;
-    ProgressBar progressBar;
-    private ProgressDialog load;
-    String LSTR_STATUS;
-    Button BTN_TestarConexao;
-
-    EditText ET_IDEQUIP;
-    EditText ET_DSEQUIP;
-
-//    private class GetJson extends AsyncTask<Void, Void, String> {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            load = ProgressDialog.show(ACT_ConfigWebService.class, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
-//        }
-//
-//        @Override
-//        protected String doInBackground(Void... params) {
-//            //EquipamentoRestClient util = new EquipamentoRestClient();
-//
-//            //return util.getInformacao("https://randomuser.me/api/0.7");
-//            //return util.getInformacao("http://localhost:8021/GiclPLibWebAPI/api/equipamento");
-//
-//            String resposta = NetworkUtils.get("http://192.168.10.124:8021/GiclPLibWebAPI/api/gestoricl/status/8021");
-//
-//            LSTR_STATUS = resposta;
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            return LSTR_STATUS;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String STR_STATUS) {
-////            ET_IDEQUIP.setText(pessoa.get_IDEQUIPAMENTO().substring(0,1).toUpperCase()+pessoa.getNome().substring(1));
-////            ET_DSEQUIP.setText(pessoa.get_DSEQUIPAMENTO().substring(0,1).toUpperCase()+pessoa.getSobrenome().substring(1));
-//
-//            ET_IDEQUIP.setText(STR_STATUS);
-//
-//
-////            email.setT
-//// ext(pessoa.getEmail());
-////            endereco.setText(pessoa.getEndereco());
-////            cidade.setText(pessoa.getCidade().substring(0,1).toUpperCase()+pessoa.getCidade().substring(1));
-////            estado.setText(pessoa.getEstado());
-////            username.setText(pessoa.getUsername());
-////            senha.setText(pessoa.getSenha());
-////            nascimento.setText(pessoa.getNascimento());
-////            telefone.setText(pessoa.getTelefone());
-////            foto.setImageBitmap(pessoa.getFoto());
-//            load.dismiss();
-//            if (LSTR_STATUS.equals("true"))
-//                Toast.makeText(ACT_ConfigWebService.this, "Conexão Satisfatória",
-//                        Toast.LENGTH_LONG).show();
-//        }
-//    }
-//
-//    private class Task extends AsyncTask<Void, Void, String> {
-//
-//        private ProgressDialog dialog;
-//        private Context context;
-//
-//        public Task(Context context) {
-//            this.context = context;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            dialog = new ProgressDialog(context);
-//            dialog.setTitle("Realizando o carregamento dos dados");
-//            dialog.setMessage("Aguarde o fim da requisição...");
-//            dialog.show();
-//        }
-//
-//        @Override
-//        protected String doInBackground(Void... params) {
-//
-//            String urlServico = "http://echo.jsontest.com/key/value/one/two";
-//
-//            try {
-//                URL url = new URL(urlServico);
-//                HttpURLConnection http = (HttpURLConnection) url.openConnection();
-//                InputStream stream = http.getInputStream();
-//
-//                Reader reader = new InputStreamReader(stream, "UTF-8");
-//                char[] buffer = new char[1024];
-//                reader.read(buffer);
-//                return new String(buffer);
-//
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            return "";
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String retorno) {
-//            Activity activity = (Activity) context;
-//            TextView dados = (TextView) activity.findViewById(R.id.dados);
-//            dados.setText("Dados: " + retorno);
-//            dialog.dismiss();
-//        }
 //    }
 
 }
