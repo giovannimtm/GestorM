@@ -1,5 +1,6 @@
 package mtmsistemas.gestorm.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -67,6 +68,7 @@ public class FGM_ItensEntrada extends Fragment {
             return 0;
         }
 
+        @SuppressLint("RestrictedApi")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             convertView = getLayoutInflater(null).inflate(R.layout.itens_checkllist_custom_layout, null);
