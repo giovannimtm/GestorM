@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class CADASTROGERAL extends SQLiteOpenHelper {
 
-    public static String TABLE = "EQUIPAMENTO";
+    public static String TABLE = "CADASTROGERAL";
 
     private Object CDCADASTRO = null;
     private Object CGCCPF = null;
