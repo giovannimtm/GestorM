@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class DATABASE extends SQLiteOpenHelper {
 
     public static final String NOME_BANCO = "GESTORICL.db";
-    public static final String TABELA = "livros";
+    public static final String TABLE = "livros";
     public static final int VERSAO = 1;
 
     private static final String DATABASE_NAME = "gestoricl";    // Database Name

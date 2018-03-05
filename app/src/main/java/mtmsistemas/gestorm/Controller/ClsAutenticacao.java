@@ -1,7 +1,5 @@
 package mtmsistemas.gestorm.Controller;
 
-import android.os.Environment;
-
 import mtmsistemas.gestorm.Model.EMFSESSION;
 import mtmsistemas.gestorm.Model.TIPOCOMPONENTE;
 
@@ -63,10 +61,10 @@ public class ClsAutenticacao {
 //                                LCLS_UTIL.FU_converteArquivoParaArrayBytes(
 //                                        Environment.getExternalStorageDirectory()+"/foto.jpg")
 //                                , Base64.DEFAULT).getBytes());
-                LCLS_TPCOMPONENTE.setIMAGEMCOMPONENTE(
-                        LCLS_UTIL.FU_converteArquivoParaArrayBytes(
-                                Environment.getExternalStorageDirectory()+"/MOV_0002.mp4")
-                       );
+//                LCLS_TPCOMPONENTE.setIMAGEMCOMPONENTE(
+//                        LCLS_UTIL.FU_converteArquivoParaArrayBytes(
+//                                Environment.getExternalStorageDirectory()+"/MOV_0002.mp4")
+//                       );
                 LCLS_UTIL = null;
                 LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA(LCLS_TPCOMPONENTE, "tipocomponente/insere", "POST");
 

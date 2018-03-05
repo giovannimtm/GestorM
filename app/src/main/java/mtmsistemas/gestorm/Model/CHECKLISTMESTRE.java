@@ -23,7 +23,7 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
     private Object CDCENTRORESULTADO = null;
     private String IMAGEMCOMPONENTE = null;
     private Context context;
-    private static final String TABLE = "CHECKLISTMESTRE";
+    public static final String TABLE = "CHECKLISTMESTRE";
 
     public CHECKLISTMESTRE(Context context) {
         super(context, DATABASE.NOME_BANCO, null, DATABASE.VERSAO);
@@ -128,11 +128,25 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        String sql = "CREATE TABLE" + TABLE + "("
+                + "IDCHECKLIST" + " integer primary key autoincrement,"
+                + "IDEQUIPAMENTO" + " text,"
+                + "CDTIPOCHECKLIST" + " text,"
+                + "CDCADASTRORESP" + " text,"
+                + "CONTAGEMUSO" + " text,"
+                + "DTREALIZADO" + " text,"
+                + "LOCALREALIZADO" + " text,"
+                + "FGSITUACAO" + " text,"
+                + "OBSERVACAO" + " text,"
+                + "IDORDEMSERVICO" + " text,"
+                + "CDCENTRORESULTADO" + " text,"
+                + "IMAGEMCOMPONENTE" + " text"
+                + ")";
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+        onCreate(db);
     }
 }

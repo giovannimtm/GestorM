@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class TIPOCOMPONENTE extends SQLiteOpenHelper {
+    public static final String TABLE = "TIPOCOMPONENTE";
 
     private Object CDTIPOCOMPONENTE = null;
     private Object DSTIPOCOMPONENTE = null;
@@ -18,7 +19,7 @@ public class TIPOCOMPONENTE extends SQLiteOpenHelper {
     private Object CDGRUPOCOMPONENTE = null;
     public String IMAGEMCOMPONENTE = null;
 
-    public static final String TABLE = "TIPOCOMPONENTE";
+
 
     private Context context;
 

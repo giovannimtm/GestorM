@@ -10,6 +10,34 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class EQUIPAMENTO extends SQLiteOpenHelper {
 
+    public String IDEQUIPAMENTO = null;
+    public String REFEQUIPAMENTO = null;
+    public String CDEMPRESARAST = null;
+    public String NRMCT = null;
+    public String DSEQUIPAMENTO = null;
+    public String CDCENTRORESULTADO = null;
+    public String CDRESPONSAVEL = null;
+    public String CDPROPRIETARIO = null;
+    public String CDCIDADE = null;
+    public String CDGRUPOEQUIPAMENTO = null;
+    public String CDTIPOEQUIPAMENTO = null;
+    public String CDMODELOEQUIPAMENTO = null;
+    public String CDGRUPOCOMB = null;
+    public String FGTIPOMEDIDOR = null;
+    public String CDCOR = null;
+    public String NRPATRIMONIO = null;
+    public String OBSERVACAO = null;
+    public String ANOFABRICA = null;
+    public String ANOMODELO = null;
+    public String DTAQUISICAO = null;
+    public String FGACTIVE = null;
+    public String SGUSER = null;
+    public String OBJECTVERSION = null;
+    public String SERVERORIG = null;
+    public String DHCTRLREPLIC = null;
+    //    private String MENSAGEM;
+    public static String TABLE = "EQUIPAMENTO";
+
     public String getIDEQUIPAMENTO() {
         return IDEQUIPAMENTO;
     }
@@ -210,33 +238,6 @@ public class EQUIPAMENTO extends SQLiteOpenHelper {
         this.DHCTRLREPLIC = DHCTRLREPLIC;
     }
 
-    public String IDEQUIPAMENTO = null;
-    public String REFEQUIPAMENTO = null;
-    public String CDEMPRESARAST = null;
-    public String NRMCT = null;
-    public String DSEQUIPAMENTO = null;
-    public String CDCENTRORESULTADO = null;
-    public String CDRESPONSAVEL = null;
-    public String CDPROPRIETARIO = null;
-    public String CDCIDADE = null;
-    public String CDGRUPOEQUIPAMENTO = null;
-    public String CDTIPOEQUIPAMENTO = null;
-    public String CDMODELOEQUIPAMENTO = null;
-    public String CDGRUPOCOMB = null;
-    public String FGTIPOMEDIDOR = null;
-    public String CDCOR = null;
-    public String NRPATRIMONIO = null;
-    public String OBSERVACAO = null;
-    public String ANOFABRICA = null;
-    public String ANOMODELO = null;
-    public String DTAQUISICAO = null;
-    public String FGACTIVE = null;
-    public String SGUSER = null;
-    public String OBJECTVERSION = null;
-    public String SERVERORIG = null;
-    public String DHCTRLREPLIC = null;
-    //    private String MENSAGEM;
-    public static String TABELA = "EMFSESSION";
 
 //    public String get_Mensagem() {return MENSAGEM;}
 //
@@ -312,7 +313,7 @@ public class EQUIPAMENTO extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE" + TABELA + "("
+        String sql = "CREATE TABLE" + TABLE + "("
                 + IDEQUIPAMENTO + " integer primary key autoincrement,"
                 + REFEQUIPAMENTO + " text,"
                 + CDEMPRESARAST + " text,"
@@ -344,7 +345,7 @@ public class EQUIPAMENTO extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABELA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
         onCreate(db);
     }
 }
