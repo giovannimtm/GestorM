@@ -29,11 +29,11 @@ public class EQUIPAMENTOController {
     public String Insert(EQUIPAMENTO CLS_EQUIPAMENTO) {
         ContentValues LCVA_VALUES;
         long LINT_RETURN;
-        try {
 
+        try {
             db = EQUIPAMENTONModel.getWritableDatabase();
             LCVA_VALUES = new ContentValues();
-//            LCVA_VALUES.put(EQUIPAMENTONModel.IDEQUIPAMENTO      ,CLS_EQUIPAMENTO.getIDEQUIPAMENTO());
+          //LCVA_VALUES.put(EQUIPAMENTONModel.IDEQUIPAMENTO      ,CLS_EQUIPAMENTO.getIDEQUIPAMENTO());
             LCVA_VALUES.put(EQUIPAMENTONModel.REFEQUIPAMENTO     ,CLS_EQUIPAMENTO.getREFEQUIPAMENTO()     );
             LCVA_VALUES.put(EQUIPAMENTONModel.CDEMPRESARAST      ,CLS_EQUIPAMENTO.getCDEMPRESARAST()      );
             LCVA_VALUES.put(EQUIPAMENTONModel.NRMCT              ,CLS_EQUIPAMENTO.getNRMCT()              );
@@ -58,7 +58,6 @@ public class EQUIPAMENTOController {
             LCVA_VALUES.put(EQUIPAMENTONModel.OBJECTVERSION      ,CLS_EQUIPAMENTO.getOBJECTVERSION()      );
             LCVA_VALUES.put(EQUIPAMENTONModel.SERVERORIG         ,CLS_EQUIPAMENTO.getSERVERORIG()         );
             LCVA_VALUES.put(EQUIPAMENTONModel.DHCTRLREPLIC       ,CLS_EQUIPAMENTO.getDHCTRLREPLIC()       );
-
 
             LINT_RETURN = db.insert(EQUIPAMENTO.TABELA, null, LCVA_VALUES);
             db.close();
@@ -172,7 +171,6 @@ public class EQUIPAMENTOController {
 
         }
     }
-
 
     public static List<EQUIPAMENTO> FU_LIST_EQUIPAMENTO() throws Exception {
         Gson LGS_JSON = null;
