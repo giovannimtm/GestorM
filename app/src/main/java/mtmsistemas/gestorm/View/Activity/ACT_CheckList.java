@@ -25,18 +25,17 @@ public class ACT_CheckList extends AppCompatActivity {
         setContentView(R.layout.act_check_list);
 
         FGM_CheckList_Detalhes fgmCheckListDetalhes = new FGM_CheckList_Detalhes();
-        FGM_Itens fgmItensEntrada = new FGM_Itens();
+        FGM_Itens fgmItens = new FGM_Itens();
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(fgmCheckListDetalhes, "fgmCheckListDetalhes");
-        ft.add(fgmItensEntrada, "fgmItensEntrada");
+        ft.add(fgmItens, "fgmItens");
         ft.commit();
 
         FragmentTabHost mTabHost = (FragmentTabHost)findViewById(R.id.tabHostCheckList);
         mTabHost.setup(ACT_CheckList.this, getSupportFragmentManager(), android.R.id.tabcontent);
         mTabHost.addTab(mTabHost.newTabSpec("TabDetalhesCheckList").setIndicator("Detalhes"), fgmCheckListDetalhes.getClass(), null);
-        mTabHost.addTab(mTabHost.newTabSpec("TabItensEntrada").setIndicator("Itens Entrada"), fgmItensEntrada.getClass(), null);
-        mTabHost.addTab(mTabHost.newTabSpec("Third Tab").setIndicator("Third Tab"), fgmCheckListDetalhes.getClass(), null);
+        mTabHost.addTab(mTabHost.newTabSpec("TabItensEntrada").setIndicator("Itens"), fgmItens.getClass(), null);
 
     }
 }
