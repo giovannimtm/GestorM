@@ -221,6 +221,30 @@ public class FGM_Itens extends Fragment {
             if(itemSelecionado.getOBSERVACAO() != null)
                 observacoesItem.setText(itemSelecionado.getOBSERVACAO().toString());
 
+            avaliacaoItem.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                    percentualAvaliacao.setText(progress + "%");
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    percentualAvaliacao.setText(seekBar.getProgress() + "%");
+                    itemSelecionado.setPCTAVALIACAO(seekBar.getProgress());
+                }
+            });
+
+            if(itemSelecionado.getPCTAVALIACAO() != null){
+                avaliacaoItem.setProgress((Integer) itemSelecionado.getPCTAVALIACAO());
+                percentualAvaliacao.setText(avaliacaoItem.getProgress() + "%");
+            }
+
             if(escondeViews){
                 labelObservacoesItem.setVisibility(View.GONE);
                 observacoesItem.setVisibility(View.GONE);
