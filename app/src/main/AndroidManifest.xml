@@ -25,7 +25,8 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".View.Activity.ACT_CheckList">
+        <activity android:name=".View.Activity.ACT_CheckList"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 

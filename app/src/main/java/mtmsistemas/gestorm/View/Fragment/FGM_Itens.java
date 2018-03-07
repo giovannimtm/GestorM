@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -35,6 +36,7 @@ public class FGM_Itens extends Fragment {
     static ClsUtil clsUtil = new ClsUtil();
     static int posicaoAlterada;
     static String caminhoFoto;
+    static Boolean escondeViews = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +46,8 @@ public class FGM_Itens extends Fragment {
         View v = inflater.inflate(R.layout.fgm_itens, container, false);
 
         ListView listView = (ListView) v.findViewById(R.id.LST_Itens);
+
+        escondeViews = true;
 
         CustomAdapter customAdapter = new CustomAdapter();
 
@@ -78,11 +82,22 @@ public class FGM_Itens extends Fragment {
 
             final ImageButton imageButton =(ImageButton)convertView.findViewById(R.id.IMGBTN_ItemFoto);
 
+            final TextView labelObservacoesItem = (TextView)convertView.findViewById(R.id.TV_ObservacaoItem);
+            final EditText observacoesItem = (EditText)convertView.findViewById(R.id.ET_ObservacaoItem);
+
             TextView tv_nomeItem = (TextView)convertView.findViewById(R.id.TV_Item);
             Spinner sp_SituacaoItem;
 
             tv_nomeItem.setText("itemSelecionado.getDescricaoComponente");
             tv_nomeItem.setTag(position);
+            tv_nomeItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    escondeViews = false;
+                    labelObservacoesItem.setVisibility(labelObservacoesItem.isShown()? View.GONE : View.VISIBLE);
+                    observacoesItem.setVisibility(observacoesItem.isShown()? View.GONE : View.VISIBLE);
+                }
+            });
 
             File pastaItem = new File(
                     Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + tv_nomeItem.getText().toString()
@@ -181,6 +196,31 @@ public class FGM_Itens extends Fragment {
                 sp_SituacaoItem.setSelection(Arrays.asList(arraySituacoesBem).indexOf(itemSelecionado.getFGSITUACAO()));
             }
 
+            observacoesItem.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        itemSelecionado.setOBSERVACAO(observacoesItem.getText());
+                    }
+                }
+            });
+
+            if(itemSelecionado.getOBSERVACAO() != null)
+                observacoesItem.setText(itemSelecionado.getOBSERVACAO().toString());
+
+            if(escondeViews){
+                labelObservacoesItem.setVisibility(View.GONE);
+                observacoesItem.setVisibility(View.GONE);
+            }
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    escondeViews = false;
+                    labelObservacoesItem.setVisibility(labelObservacoesItem.isShown()? View.GONE : View.VISIBLE);
+                    observacoesItem.setVisibility(observacoesItem.isShown()? View.GONE : View.VISIBLE);
+                }
+            });
             return convertView;
         }
     }
@@ -251,6 +291,8 @@ public class FGM_Itens extends Fragment {
         super.onResume();
         View view = getView();
         ListView listView = (ListView) view.findViewById(R.id.LST_Itens);
+
+        escondeViews = true;
 
         CustomAdapter customAdapter = new CustomAdapter();
 
