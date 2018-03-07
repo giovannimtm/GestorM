@@ -7,7 +7,9 @@ import mtmsistemas.gestorm.Model.CHECKLISTITEM;
  */
 
 public class CHECKLISTITEMController {
-    CHECKLISTITEM[] itens;
+    CHECKLISTITEM teste = new CHECKLISTITEM(null);
+
+    CHECKLISTITEM[] itens = new CHECKLISTITEM[]{teste};
 
     public CHECKLISTITEM[] getItens(){return itens;}
 
