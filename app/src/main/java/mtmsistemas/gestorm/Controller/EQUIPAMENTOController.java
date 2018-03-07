@@ -59,7 +59,7 @@ public class EQUIPAMENTOController {
             LCVA_VALUES.put(EQUIPAMENTONModel.SERVERORIG         ,CLS_EQUIPAMENTO.getSERVERORIG()         );
             LCVA_VALUES.put(EQUIPAMENTONModel.DHCTRLREPLIC       ,CLS_EQUIPAMENTO.getDHCTRLREPLIC()       );
 
-            LINT_RETURN = db.insert(EQUIPAMENTO.TABELA, null, LCVA_VALUES);
+            LINT_RETURN = db.insert(EQUIPAMENTO.TABLE, null, LCVA_VALUES);
             db.close();
 
             if (LINT_RETURN == -1)
@@ -81,7 +81,7 @@ public class EQUIPAMENTOController {
 
         try {
             db = EQUIPAMENTONModel.getReadableDatabase();
-            LCUR_CURSOR = db.query(EQUIPAMENTO.TABELA, campos, null, null, null, null, null, null);
+            LCUR_CURSOR = db.query(EQUIPAMENTO.TABLE, campos, null, null, null, null, null, null);
 
             if (LCUR_CURSOR != null) {
                 LCUR_CURSOR.moveToFirst();
@@ -101,7 +101,7 @@ public class EQUIPAMENTOController {
             String[] campos = {"*"};
             String where = "IDEQUIPAMENTO = " + id;
             db = EQUIPAMENTONModel.getReadableDatabase();
-            LCUR_CURSOR = db.query(DATABASE.TABELA, campos, where, null, null, null, null, null);
+            LCUR_CURSOR = db.query(DATABASE.TABLE, campos, where, null, null, null, null, null);
 
             if (LCUR_CURSOR != null) {
                 LCUR_CURSOR.moveToFirst();
@@ -150,7 +150,7 @@ public class EQUIPAMENTOController {
             LCVA_VALUES.put(EQUIPAMENTONModel.DHCTRLREPLIC       ,CLS_EQUIPAMENTO.getDHCTRLREPLIC()       );
 
 
-            db.update(EQUIPAMENTO.TABELA, LCVA_VALUES, where, null);
+            db.update(EQUIPAMENTO.TABLE, LCVA_VALUES, where, null);
             db.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,7 +163,7 @@ public class EQUIPAMENTOController {
         try {
             String where = "IDEQUIPAMENTO = " + id;
             db = EQUIPAMENTONModel.getReadableDatabase();
-            db.delete(EQUIPAMENTO.TABELA, where, null);
+            db.delete(EQUIPAMENTO.TABLE, where, null);
             db.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,7 +182,7 @@ public class EQUIPAMENTOController {
             LOBJ_Retorno = ConexaoWebAPI.FU_WB_AOBJECT(
                     null,
                     "equipamento",
-                    "GET").toString();
+                    "GET",0).toString();
             LGS_JSON = new Gson();
             LCLS_EQUIPAMENTO = LGS_JSON.fromJson(LOBJ_Retorno.toString()
                     , EQUIPAMENTO[].class);

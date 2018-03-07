@@ -18,10 +18,8 @@ public class TIPOCOMPONENTE extends SQLiteOpenHelper {
     private Object FGEXIGEMATERIAL = null;
     private Object CDGRUPOCOMPONENTE = null;
     public String IMAGEMCOMPONENTE = null;
-
-
-
     private Context context;
+
 
     public TIPOCOMPONENTE(Context context) {
         super(context, DATABASE.NOME_BANCO, null, DATABASE.VERSAO);

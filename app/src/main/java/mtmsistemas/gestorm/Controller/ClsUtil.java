@@ -11,16 +11,22 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -36,15 +42,13 @@ import mtmsistemas.gestorm.R;
  * Created by Giovanni on 19/10/2017.
  */
 
-public class ClsUtil{
+public class ClsUtil {
 
-    public static  String caminhoApp;
+    public static String caminhoApp;
 
-    public boolean FU_dataAnteriorAHoje(String data)
-    {
+    public boolean FU_dataAnteriorAHoje(String data) {
         Boolean validou;
-        try
-        {
+        try {
             Calendar now = Calendar.getInstance();
             now.set(Calendar.HOUR, 0);
             now.set(Calendar.HOUR_OF_DAY, 0);
@@ -57,81 +61,65 @@ public class ClsUtil{
 
             Date hoje = now.getTime();
             validou = dataFormatada.before(hoje);
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             System.err.println(ex.getMessage());
             validou = false;
         }
         return validou;
     }
 
-    public boolean FU_validaPlaca(String placa)
-    {
-        return Pattern.matches("[A-Z]{3}-[0-9]{4}",placa);
+    public boolean FU_validaPlaca(String placa) {
+        return Pattern.matches("[A-Z]{3}-[0-9]{4}", placa);
     }
 
-    public byte[] FU_converteArquivoParaArrayBytes(String caminho)
-    {
+    public byte[] FU_converteArquivoParaArrayBytes(String caminho) {
         byte[] imagem = null;
-        try
-        {
+        try {
             FileInputStream fis = new FileInputStream(caminho);
             imagem = new byte[fis.available()];
             fis.read(imagem);
             fis.close();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         return imagem;
     }
 
-    public Bitmap FU_converteArrayBytesParaImagem(byte[] byteArray)
-    {
+    public Bitmap FU_converteArrayBytesParaImagem(byte[] byteArray) {
         Bitmap imagem = null;
-        try
-        {
+        try {
             imagem = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         return imagem;
     }
 
-    public String FU_salvaByteArrayComoArquivoERetornaCaminho(byte[] arquivo, String nomeArquivo)
-    {
+    public String FU_salvaByteArrayComoArquivoERetornaCaminho(byte[] arquivo, String nomeArquivo) {
         //exemplo do nome do arquivo com a pasta "teste\\logo.png"
         String caminho = null;
-        try
-        {
+        try {
             FileOutputStream out;
             File file;
 
-            try
-            {
+            try {
                 out = new FileOutputStream(caminhoApp + "/" + nomeArquivo);
                 caminho = caminhoApp + "/" + nomeArquivo;
                 out.write(arquivo);
                 out.close();
-            }catch (IOException e)
-            {
-                if (FU_podeEscreverMidiaExterna())
-                {
+            } catch (IOException e) {
+                if (FU_podeEscreverMidiaExterna()) {
                     file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), nomeArquivo);
                     out = new FileOutputStream(file.getPath());
                     caminho = file.getPath();
-                }
-                else
-                {
+                } else {
                     out = new FileOutputStream(nomeArquivo);
                     caminho = null;
                 }
                 out.write(arquivo);
                 out.close();
             }
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         return caminho;
@@ -139,10 +127,7 @@ public class ClsUtil{
 
     public boolean FU_podeEscreverMidiaExterna() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) && !Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
-            return true;
-        else
-            return false;
+        return Environment.MEDIA_MOUNTED.equals(state) && !Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
 
     }
 
@@ -163,7 +148,7 @@ public class ClsUtil{
         int photoH = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
@@ -203,32 +188,32 @@ public class ClsUtil{
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
-    public void FU_permissoes(Context context, Activity activity){
+    public void FU_permissoes(Context context, Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 activity.requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
 
-            if(ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 activity.requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }
 
-            if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED) {
                 activity.requestPermissions(new String[]{android.Manifest.permission.CAMERA}, 1);
             }
         }
     }
 
-    public static Dialog FU_imageDialog(Context context, String caminho){
-        final Dialog nagDialog = new Dialog(context,android.R.style.Theme_NoTitleBar_OverlayActionModes);
+    public static Dialog FU_imageDialog(Context context, String caminho) {
+        final Dialog nagDialog = new Dialog(context, android.R.style.Theme_NoTitleBar_OverlayActionModes);
         nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         nagDialog.setCancelable(false);
         nagDialog.setContentView(R.layout.dialog_visualizar_foto);
-        Button btnClose = (Button)nagDialog.findViewById(R.id.btnIvClose);
-        ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.iv_preview_image);
+        Button btnClose = (Button) nagDialog.findViewById(R.id.btnIvClose);
+        ImageView ivPreview = (ImageView) nagDialog.findViewById(R.id.iv_preview_image);
         Bitmap bitmap = BitmapFactory.decodeFile(caminho);
         try {
             bitmap = FU_correctOrientation(bitmap, caminho);
@@ -247,10 +232,10 @@ public class ClsUtil{
         return nagDialog;
     }
 
-    public static Intent FU_visualizarFotosDaPasta(Context context, String pasta){
+    public static Intent FU_visualizarFotosDaPasta(Context context, String pasta) {
         String bucketId = "";
 
-        final String[] projection = new String[] {"DISTINCT " + MediaStore.Images.Media.BUCKET_DISPLAY_NAME + ", " + MediaStore.Images.Media.BUCKET_ID};
+        final String[] projection = new String[]{"DISTINCT " + MediaStore.Images.Media.BUCKET_DISPLAY_NAME + ", " + MediaStore.Images.Media.BUCKET_ID};
         final Cursor cur = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
 
         while (cur != null && cur.moveToNext()) {
@@ -269,7 +254,7 @@ public class ClsUtil{
         return intent;
     }
 
-    public static File FU_criaArquivoImagemNaPAsta(String nomePasta){
+    public static File FU_criaArquivoImagemNaPAsta(String nomePasta) {
         String caminhoPasta = Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + nomePasta;
         File pasta = new File(caminhoPasta);
         if (!pasta.exists()) {
@@ -281,13 +266,112 @@ public class ClsUtil{
         return arquivo;
     }
 
-    public static Intent FU_salvaFotoPastaEspecifica(File foto){
+    public static Intent FU_salvaFotoPastaEspecifica(File foto) {
         Uri relativePath = Uri.fromFile(foto);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
         return intent;
     }
 
+    public String FU_converteFotoParaArrayBytes(String caminho) {
+        byte[] imagem = null;
+        String base64 = "";
+        Bitmap image;
+        BitmapFactory.Options options;
+        ByteArrayOutputStream baos;
+        try {
+
+            baos = new ByteArrayOutputStream();
+            options = new BitmapFactory.Options();
+            image = BitmapFactory.decodeFile(caminho, options);
+            image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] byteArray = baos.toByteArray();
+            //base64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+            imagem = null;
+            base64 = "";
+            image = null;
+            options = null;
+            baos = null;
+
+            base64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        } catch (OutOfMemoryError oomer) {
+            Log.e("ERRO", "Não foi possível converter o arquivo de vídeo para a transmissão. OutOfMemoryError. ", oomer);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        //return imagem;
+        return base64;
+    }
+
+    /*Verifica a disponibilidade da rede  de dados<br>
+    *Tanto WIFI quanto 3G
+    *@return  true ou false
+           *@see android.net.ConnectivityManager
+    */
+    public boolean verificaConexao(Context context) {
+        boolean conectado = false;
+        ConnectivityManager conmag;
+        conmag = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        conmag.getActiveNetworkInfo();
+
+        //Verifica o WIFI
+        if (conmag.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected()) {
+            conectado = true;
+        }
+        //Verifica o 3G
+        else conectado = conmag.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnected();
+        return conectado;
+    }
+
+    /*Verifica qual tipo de rede movil conectada
+*/
+    public String FU_verificaTipoConexao(Context context) {
+        ConnectivityManager LCON_ConnectivityManager = null;
+        NetworkInfo LINF_NetInfo = null;
+        int LINT_NETTYPE = 0;
+        String LSTR_RETURN = "";
+
+        try {
+
+            LCON_ConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            LCON_ConnectivityManager.getActiveNetworkInfo();
+            LINF_NetInfo = LCON_ConnectivityManager.getActiveNetworkInfo();
+            LINT_NETTYPE = LINF_NetInfo.getSubtype();
+
+            switch (LINT_NETTYPE) {
+                case TelephonyManager.NETWORK_TYPE_GPRS:
+                case TelephonyManager.NETWORK_TYPE_EDGE:
+                case TelephonyManager.NETWORK_TYPE_CDMA:
+                case TelephonyManager.NETWORK_TYPE_1xRTT:
+                case TelephonyManager.NETWORK_TYPE_IDEN: //api<8 : troque por 11
+                    return LSTR_RETURN = "2G";
+                case TelephonyManager.NETWORK_TYPE_UMTS:
+                case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                case TelephonyManager.NETWORK_TYPE_HSDPA:
+                case TelephonyManager.NETWORK_TYPE_HSUPA:
+                case TelephonyManager.NETWORK_TYPE_HSPA:
+                case TelephonyManager.NETWORK_TYPE_EVDO_B: //api<9 : troque por 14
+                case TelephonyManager.NETWORK_TYPE_EHRPD:  //api<11 : troque por 12
+                case TelephonyManager.NETWORK_TYPE_HSPAP:  //api<13 : troque por 15
+                    return LSTR_RETURN = "3G";
+                case TelephonyManager.NETWORK_TYPE_LTE:    //api<11 : troque por 13
+                    return LSTR_RETURN = "4G";
+                default:
+                    return LSTR_RETURN = "?";
+            }
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        } finally {
+            LCON_ConnectivityManager = null;
+            LINF_NetInfo = null;
+            LINT_NETTYPE = 0;
+        }
+        return LSTR_RETURN;
+
+    }
     //Para a função abaixo funcionar é preciso extender a activity para a classe
 //    public String FU_retornaCaminhoImagem(Resources objeto, Integer idImagem)
 //    {
@@ -318,5 +402,6 @@ public class ClsUtil{
 //        }
 //        return mPath;
 //    }
+
 
 }

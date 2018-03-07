@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 
 import mtmsistemas.gestorm.Model.TIPOCOMPONENTE;
 
@@ -20,7 +21,64 @@ public class TIPOCOMPONENTEController {
 
     public TIPOCOMPONENTEController(Context context) {
         TIPOCOMPONENTEModel = new TIPOCOMPONENTE(contexts);
-//        myhelper = new DATABASE(context);
+    }
+
+    public TIPOCOMPONENTE FU_WB_BuscaDescricao(Object CDTIPOCOMPONENTE) {
+        TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
+        Object LOBJ_Retorno = null;
+        try {
+            LCLS_TPCOMPONENTE = new TIPOCOMPONENTE(null);
+            if (CDTIPOCOMPONENTE != null) {
+
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA(LCLS_TPCOMPONENTE, "tipocomponente", "GET",1);
+                LCLS_TPCOMPONENTE =(TIPOCOMPONENTE) LOBJ_Retorno;
+
+            } else {
+                return null;
+            }
+            return LCLS_TPCOMPONENTE;
+
+        } catch (Exception ex) {
+            //return new String("Exception: " + ex.getMessage());
+            //Log.e("TAG", Log.getStackTraceString(ex));
+        } finally {
+            LCLS_TPCOMPONENTE = null;
+            LOBJ_Retorno = null;
+        }
+        return LCLS_TPCOMPONENTE;
+    }
+
+    public String FU_Insert_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE) {
+        TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
+        ClsUtil LCLS_UTIL = null;
+        Object LOBJ_Retorno = null;
+        try {
+            LCLS_TPCOMPONENTE = new TIPOCOMPONENTE(null);
+            LCLS_UTIL = new ClsUtil();
+
+            if (CLS_TIPOCOMPONENTE != null) {
+                LCLS_TPCOMPONENTE.setIMAGEMCOMPONENTE(LCLS_UTIL.FU_converteFotoParaArrayBytes(
+                        Environment.getExternalStorageDirectory() + "/foto.jpg"));
+                //LCLS_TPCOMPONENTE.setIMAGEMCOMPONENTE(
+                //LCLS_UTIL.FU_converteArquivoParaArrayBytes(
+                //Environment.getExternalStorageDirectory()+"/MOV_0002.mp4")
+                //);
+
+                LCLS_UTIL = null;
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA(LCLS_TPCOMPONENTE, "tipocomponente/insere", "POST",0);
+            } else {
+                return new String("Não pode enviar classe Null");
+            }
+            return LOBJ_Retorno.toString();
+
+        } catch (Exception ex) {
+            return new String("Exception: " + ex.getMessage());
+            //Log.e("TAG", Log.getStackTraceString(ex));
+        } finally {
+            LCLS_TPCOMPONENTE = null;
+            LCLS_UTIL = null;
+            LOBJ_Retorno = null;
+        }
     }
 
     public String Insert(TIPOCOMPONENTE CLS_TIPOCOMPONENTE) {
