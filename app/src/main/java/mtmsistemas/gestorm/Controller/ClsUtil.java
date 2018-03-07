@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import mtmsistemas.gestorm.R;
@@ -286,6 +287,12 @@ public class ClsUtil{
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
         return intent;
+    }
+
+    public void SU_ExpandeOuRetraiViews(List<View> views){
+        for (View view: views) {
+            view.setVisibility(view.isShown()? View.GONE : View.VISIBLE);
+        }
     }
 
     //Para a função abaixo funcionar é preciso extender a activity para a classe

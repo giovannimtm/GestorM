@@ -14,12 +14,15 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import mtmsistemas.gestorm.Controller.ClsCustomListAdapter;
 import mtmsistemas.gestorm.Controller.ClsUtil;
@@ -58,6 +61,8 @@ public class FGM_Itens extends Fragment {
 
     class CustomAdapter extends BaseAdapter {
 
+        List<View> viewsExpansiveis = new ArrayList<View>();
+
         @Override
         public int getCount() {
             return ((ACT_CheckList)getActivity()).clsItens.getItens().length;
@@ -84,6 +89,9 @@ public class FGM_Itens extends Fragment {
 
             final TextView labelObservacoesItem = (TextView)convertView.findViewById(R.id.TV_ObservacaoItem);
             final EditText observacoesItem = (EditText)convertView.findViewById(R.id.ET_ObservacaoItem);
+            final TextView labelAvaliacaoItem = (TextView)convertView.findViewById(R.id.TV_AvaliacaoItem);
+            final TextView percentualAvaliacao = (TextView)convertView.findViewById(R.id.TV_PercentualAvaliacaoItem);
+            final SeekBar avaliacaoItem = (SeekBar)convertView.findViewById(R.id.SB_AvaliacaoItem);
 
             TextView tv_nomeItem = (TextView)convertView.findViewById(R.id.TV_Item);
             Spinner sp_SituacaoItem;
@@ -94,8 +102,13 @@ public class FGM_Itens extends Fragment {
                 @Override
                 public void onClick(View v) {
                     escondeViews = false;
-                    labelObservacoesItem.setVisibility(labelObservacoesItem.isShown()? View.GONE : View.VISIBLE);
-                    observacoesItem.setVisibility(observacoesItem.isShown()? View.GONE : View.VISIBLE);
+                    viewsExpansiveis.add(labelObservacoesItem);
+                    viewsExpansiveis.add(observacoesItem);
+                    viewsExpansiveis.add(labelAvaliacaoItem);
+                    viewsExpansiveis.add(percentualAvaliacao);
+                    viewsExpansiveis.add(avaliacaoItem);
+                    clsUtil.SU_ExpandeOuRetraiViews(viewsExpansiveis);
+                    viewsExpansiveis.clear();
                 }
             });
 
@@ -211,14 +224,22 @@ public class FGM_Itens extends Fragment {
             if(escondeViews){
                 labelObservacoesItem.setVisibility(View.GONE);
                 observacoesItem.setVisibility(View.GONE);
+                labelAvaliacaoItem.setVisibility(View.GONE);
+                percentualAvaliacao.setVisibility(View.GONE);
+                avaliacaoItem.setVisibility(View.GONE);
             }
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     escondeViews = false;
-                    labelObservacoesItem.setVisibility(labelObservacoesItem.isShown()? View.GONE : View.VISIBLE);
-                    observacoesItem.setVisibility(observacoesItem.isShown()? View.GONE : View.VISIBLE);
+                    viewsExpansiveis.add(labelObservacoesItem);
+                    viewsExpansiveis.add(observacoesItem);
+                    viewsExpansiveis.add(labelAvaliacaoItem);
+                    viewsExpansiveis.add(percentualAvaliacao);
+                    viewsExpansiveis.add(avaliacaoItem);
+                    clsUtil.SU_ExpandeOuRetraiViews(viewsExpansiveis);
+                    viewsExpansiveis.clear();
                 }
             });
             return convertView;
@@ -298,5 +319,4 @@ public class FGM_Itens extends Fragment {
 
         listView.setAdapter(customAdapter);
     }
-
 }

@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/IMGBTN_ItemFoto"
         android:layout_below="@+id/IMGBTN_ItemFoto"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="5dp"
         android:text="Observações"/>
 
     <EditText
@@ -60,10 +60,36 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/TV_ObservacaoItem"
         android:layout_below="@+id/TV_ObservacaoItem"
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/edit_text_border"
         android:gravity="left"/>
 
+    <TextView
+        android:id="@+id/TV_AvaliacaoItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/ET_ObservacaoItem"
+        android:layout_below="@+id/ET_ObservacaoItem"
+        android:layout_marginTop="5dp"
+        android:text="Avalicação: "/>
+
+    <TextView
+        android:id="@+id/TV_PercentualAvaliacaoItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/TV_AvaliacaoItem"
+        android:layout_alignBottom="@+id/TV_AvaliacaoItem"
+        android:layout_marginTop="5dp"
+        android:text="0%"/>
+
+    <SeekBar
+        android:id="@+id/SB_AvaliacaoItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/TV_AvaliacaoItem"
+        android:layout_below="@+id/TV_AvaliacaoItem"
+        android:layout_marginTop="5dp"
+        android:max="100"/>
 
 </RelativeLayout>
