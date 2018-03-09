@@ -76,6 +76,23 @@ public class FGM_CheckList_Detalhes extends Fragment {
             }
         });
 
+        final EditText dataSaida = (EditText)v.findViewById(R.id.ET_DataSaida);
+        dataSaida.setInputType(InputType.TYPE_NULL);
+        dataSaida.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),new DatePickerDialog.OnDateSetListener(){
+                    @Override
+                    public void onDateSet(DatePicker view, int ano, int mes, int dia){
+                        Calendar data = Calendar.getInstance();
+                        data.set(ano, mes, dia);
+                        dataSaida.setText(DateFormat.format("dd/MM/yyyy", data));
+                    }
+                }, mDataAtual.get(Calendar.YEAR), mDataAtual.get(Calendar.MONTH), mDataAtual.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+
         return v;
     }
 }

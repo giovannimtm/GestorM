@@ -1,72 +1,41 @@
 package mtmsistemas.gestorm.View.Activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
+import mtmsistemas.gestorm.Controller.CHECKLISTITEMController;
+import mtmsistemas.gestorm.Controller.ClsUtil;
 import mtmsistemas.gestorm.R;
+import mtmsistemas.gestorm.View.Fragment.FGM_CheckList_Detalhes;
+import mtmsistemas.gestorm.View.Fragment.FGM_Itens;
 
 public class ACT_CheckList extends AppCompatActivity {
 
-    String[] CheckListID = {"1", "2", "3", "4", "5"};
-
-    String[] EQUIPAMENTO = {"Empilhadeira", "Caminhão", "Trem", "Avião", "Navio"};
-
-    String[] CONTADOR = {"124", "129.023", "...", "1201", "..."};
+    public static CHECKLISTITEMController clsItens = new CHECKLISTITEMController();
+    static ClsUtil clsUtil = new ClsUtil();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
+        clsUtil.FU_permissoes(this.getApplicationContext(), this);
 
-//            setContentView(R.layout.act_check_list);
+        setContentView(R.layout.act_check_list);
 
-            ListView listView=(ListView)findViewById(R.id.lLST_CheckList);
+        FGM_CheckList_Detalhes fgmCheckListDetalhes = new FGM_CheckList_Detalhes();
+        FGM_Itens fgmItens = new FGM_Itens();
 
-            CustomAdapter customAdapter=new CustomAdapter();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(fgmCheckListDetalhes, "fgmCheckListDetalhes");
+        ft.add(fgmItens, "fgmItens");
+        ft.commit();
 
-            listView.setAdapter(customAdapter);
+        FragmentTabHost mTabHost = (FragmentTabHost)findViewById(R.id.tabHostCheckList);
+        mTabHost.setup(ACT_CheckList.this, getSupportFragmentManager(), android.R.id.tabcontent);
+        mTabHost.addTab(mTabHost.newTabSpec("TabDetalhesCheckList").setIndicator("Detalhes"), fgmCheckListDetalhes.getClass(), null);
+        mTabHost.addTab(mTabHost.newTabSpec("TabItensEntrada").setIndicator("Itens"), fgmItens.getClass(), null);
 
-        } catch (Exception e) {
-            e.getMessage();
-        }
     }
-
-    class CustomAdapter extends BaseAdapter{
-        @Override
-        public int getCount() {
-            return CheckListID.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = getLayoutInflater().inflate(R.layout.checklistcustomlayout, null);
-
-            TextView LTV_Numero = (TextView)convertView.findViewById(R.id.CheckList_Numero);
-            TextView LTV_Descricao=(TextView)convertView.findViewById(R.id.CheckList_Descricao);
-            TextView LTV_Contador=(TextView)convertView.findViewById(R.id.CheckList_Contador);
-
-            LTV_Numero.setText(CheckListID[position]);
-            LTV_Descricao.setText(EQUIPAMENTO[position]);
-            LTV_Contador.setText(CONTADOR[position]);
-
-            return convertView;
-        }
-    }
-
 }

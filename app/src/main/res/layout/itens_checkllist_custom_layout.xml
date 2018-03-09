@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/IMGBTN_ItemFoto"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="17dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/ic_menu_camera" />
+
+    <ImageButton
+        android:id="@+id/IMGBTN_ItemAdicionarFoto"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="17dp"
+        android:layout_alignBottom="@+id/IMGBTN_ItemFoto"
+        android:layout_toEndOf="@+id/IMGBTN_ItemFoto"
+        app:srcCompat="@drawable/ic_add_a_photo_black_24dp" />
+
+    <TextView
+        android:id="@+id/TV_Item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:layout_alignBottom="@+id/IMGBTN_ItemAdicionarFoto"
+        android:layout_toEndOf="@+id/IMGBTN_ItemAdicionarFoto"
+        android:layout_marginStart="11dp"
+        android:layout_marginBottom="21dp" />
+
+    <Spinner
+        android:id="@+id/Sp_SituacaoItem"
+        android:background="@drawable/spinner_background"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:spinnerMode="dialog"
+        android:gravity="left"
+        android:layout_alignBottom="@+id/TV_Item"
+        android:layout_toEndOf="@+id/TV_Item" />
+
+    <TextView
+        android:id="@+id/TV_ObservacaoItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/IMGBTN_ItemFoto"
+        android:layout_below="@+id/IMGBTN_ItemFoto"
+        android:layout_marginTop="5dp"
+        android:text="Observações"/>
+
+    <EditText
+        android:id="@+id/ET_ObservacaoItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/TV_ObservacaoItem"
+        android:layout_below="@+id/TV_ObservacaoItem"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/edit_text_border"
+        android:gravity="left"/>
+
+    <TextView
+        android:id="@+id/TV_AvaliacaoItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/ET_ObservacaoItem"
+        android:layout_below="@+id/ET_ObservacaoItem"
+        android:layout_marginTop="5dp"
+        android:text="Avalicação: "/>
+
+    <TextView
+        android:id="@+id/TV_PercentualAvaliacaoItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/TV_AvaliacaoItem"
+        android:layout_alignBottom="@+id/TV_AvaliacaoItem"
+        android:layout_marginTop="5dp"
+        android:text="0%"/>
+
+    <SeekBar
+        android:id="@+id/SB_AvaliacaoItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/TV_AvaliacaoItem"
+        android:layout_below="@+id/TV_AvaliacaoItem"
+        android:layout_marginTop="5dp"
+        android:max="100"/>
+
+</RelativeLayout>

@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import mtmsistemas.gestorm.R;
@@ -42,9 +43,9 @@ import mtmsistemas.gestorm.R;
  * Created by Giovanni on 19/10/2017.
  */
 
-public class ClsUtil {
+public class ClsUtil{
 
-    public static String caminhoApp;
+    public static  String caminhoApp;
 
     public String FU_DataAtual() throws Exception {
         SimpleDateFormat LSDA_DataFormat =  null;
@@ -285,6 +286,12 @@ public class ClsUtil {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
         return intent;
+    }
+
+    public void SU_ExpandeOuRetraiViews(List<View> views){
+        for (View view: views) {
+            view.setVisibility(view.isShown()? View.GONE : View.VISIBLE);
+        }
     }
 
     public String FU_converteFotoParaArrayBytes(String caminho) {
