@@ -1,6 +1,7 @@
 package mtmsistemas.gestorm;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,13 +15,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import mtmsistemas.gestorm.Controller.EquipamentoRestClient;
+import mtmsistemas.gestorm.Model.EMFSESSION;
 import mtmsistemas.gestorm.Model.EQUIPAMENTO;
+import mtmsistemas.gestorm.View.Activity.ACT_Login;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ProgressDialog load;
+    TextView TV_NMUsuario;
+    public String STR_Usuario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +50,25 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        // Obtém a referência do layout de navegação
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        GetJson download = new GetJson();
+        // Obtém a referência da view de cabeçalho
+        View headerView = navigationView.getHeaderView(0);
 
-        download.execute();
+        // Obtém a referência do nome do usuário e altera seu nome
+        TV_NMUsuario = (TextView) headerView.findViewById(R.id.TV_Usuario_Nome);
+
+        if (EMFSESSION.LOCAL_IDSESSION == 0) {
+            Intent intent = new Intent(getApplicationContext(), ACT_Login.class);
+            startActivity(intent);
+            //runOnUiThread(ExecutaLogin);
+        } else {
+            TV_NMUsuario.setText(EMFSESSION.LOCAL_NMUSUARIO);
+        }
+
+
     }
 
     @Override
@@ -102,22 +122,22 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void onClick_CheckList(View View){
+    public void onClick_CheckList(View View) {
 
     }
 
-    public void onClick_Equipamento(View View){
+    public void onClick_Equipamento(View View) {
 
     }
 
-    public void onClick_Parametro(View View){
+    public void onClick_Parametro(View View) {
 
     }
 
     public class GetJson extends AsyncTask<Void, Void, EQUIPAMENTO> {
 
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             load = ProgressDialog.show(MainActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
         }
 
@@ -130,7 +150,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        protected void onPostExecute(EQUIPAMENTO pessoa){
+        protected void onPostExecute(EQUIPAMENTO pessoa) {
 //            ET_IDEQUIP.setText(pessoa.get_IDEQUIPAMENTO().substring(0,1).toUpperCase()+pessoa.getNome().substring(1));
 //            ET_DSEQUIP.setText(pessoa.get_DSEQUIPAMENTO().substring(0,1).toUpperCase()+pessoa.getSobrenome().substring(1));
 //
@@ -151,4 +171,30 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    //    private Runnable ExecutaLogin = new Runnable() {
+//        @Override
+//        public void run() {
+//            Intent intent = new Intent(getApplicationContext(), ACT_Login.class);
+//            startActivity(intent);
+//        }
+//    };
+    @Override
+    public void onResume() {
+        super.onResume();
+        // put your code here...
+
+//        if (EMFSESSION.LOCAL_IDSESSION == 0) {
+//            System.exit(0);
+//        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // put your code here...
+//
+//        if (EMFSESSION.LOCAL_IDSESSION == 0) {
+//            System.exit(0);
+//        }
+    }
 }

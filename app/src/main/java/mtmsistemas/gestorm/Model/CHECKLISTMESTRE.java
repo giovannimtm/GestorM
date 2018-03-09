@@ -9,6 +9,12 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class CHECKLISTMESTRE extends SQLiteOpenHelper {
+    public static final String TABLE = "CHECKLISTMESTRE";
+
+    public static final String INSERT_WB = TABLE + "/insert";
+    public static final String READ_WB = TABLE + "/read";
+    public static final String UPDATE_WB = TABLE + "/update";
+    public static final String DELETE_WB = TABLE + "/delete";
 
     private Object IDCHECKLIST = null;
     private Object IDEQUIPAMENTO = null;
@@ -23,7 +29,7 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
     private Object CDCENTRORESULTADO = null;
     private String IMAGEMCOMPONENTE = null;
     private Context context;
-    public static final String TABLE = "CHECKLISTMESTRE";
+
 
     public CHECKLISTMESTRE(Context context) {
         super(context, DATABASE.NOME_BANCO, null, DATABASE.VERSAO);
@@ -128,7 +134,8 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE" + TABLE + "("
+        try{
+        String CREATE_TABLE = "CREATE TABLE" + TABLE + "("
                 + "IDCHECKLIST" + " integer primary key autoincrement,"
                 + "IDEQUIPAMENTO" + " text,"
                 + "CDTIPOCHECKLIST" + " text,"
@@ -142,11 +149,21 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
                 + "CDCENTRORESULTADO" + " text,"
                 + "IMAGEMCOMPONENTE" + " text"
                 + ")";
+        db.execSQL(CREATE_TABLE);
+    } catch (Exception e) {
+        e.printStackTrace();
+        //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+    }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
-        onCreate(db);
+        try {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+            onCreate(db);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+        }
     }
 }

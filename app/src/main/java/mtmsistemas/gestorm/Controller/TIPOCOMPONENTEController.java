@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
 
 import mtmsistemas.gestorm.Model.TIPOCOMPONENTE;
 
@@ -23,7 +22,7 @@ public class TIPOCOMPONENTEController {
         TIPOCOMPONENTEModel = new TIPOCOMPONENTE(contexts);
     }
 
-    public TIPOCOMPONENTE FU_WB_BuscaDescricao(Object CDTIPOCOMPONENTE) {
+    public TIPOCOMPONENTE FU_BuscaDescricao_WB(Object CDTIPOCOMPONENTE) {
         TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
         Object LOBJ_Retorno = null;
         try {
@@ -48,27 +47,15 @@ public class TIPOCOMPONENTEController {
         return LCLS_TPCOMPONENTE;
     }
 
+    //CRUD WB
     public String FU_Insert_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE) {
         TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
         ClsUtil LCLS_UTIL = null;
         Object LOBJ_Retorno = null;
         try {
-            LCLS_TPCOMPONENTE = new TIPOCOMPONENTE(null);
-            LCLS_UTIL = new ClsUtil();
-
             if (CLS_TIPOCOMPONENTE != null) {
-                LCLS_TPCOMPONENTE.setIMAGEMCOMPONENTE(LCLS_UTIL.FU_converteFotoParaArrayBytes(
-                        Environment.getExternalStorageDirectory() + "/foto.jpg"));
-                //LCLS_TPCOMPONENTE.setIMAGEMCOMPONENTE(
-                //LCLS_UTIL.FU_converteArquivoParaArrayBytes(
-                //Environment.getExternalStorageDirectory()+"/MOV_0002.mp4")
-                //);
-
-                LCLS_UTIL = null;
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA(LCLS_TPCOMPONENTE, "tipocomponente/insere", "POST",0);
-            } else {
-                return new String("Não pode enviar classe Null");
-            }
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE , TIPOCOMPONENTE.INSERT_WB, 0);
+            } else {return new String("Não pode enviar classe Null");}
             return LOBJ_Retorno.toString();
 
         } catch (Exception ex) {
@@ -81,7 +68,71 @@ public class TIPOCOMPONENTEController {
         }
     }
 
-    public String Insert(TIPOCOMPONENTE CLS_TIPOCOMPONENTE) {
+    public String FU_Read_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE , int INT_IDTIPOCOMPNENTE) {
+        TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
+        ClsUtil LCLS_UTIL = null;
+        Object LOBJ_Retorno = null;
+
+        try {
+            if (CLS_TIPOCOMPONENTE != null || INT_IDTIPOCOMPNENTE > 0) {
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE , TIPOCOMPONENTE.READ_WB,INT_IDTIPOCOMPNENTE );
+            } else {return new String("Não pode enviar classe Null");}
+            return LOBJ_Retorno.toString();
+
+        } catch (Exception ex) {
+            return new String("Exception: " + ex.getMessage());
+            //Log.e("TAG", Log.getStackTraceString(ex));
+        } finally {
+            LCLS_TPCOMPONENTE = null;
+            LCLS_UTIL = null;
+            LOBJ_Retorno = null;
+        }
+    }
+
+    public String FU_Update_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE , int INT_IDTIPOCOMPNENTE) {
+        TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
+        ClsUtil LCLS_UTIL = null;
+        Object LOBJ_Retorno = null;
+
+        try {
+            if (CLS_TIPOCOMPONENTE != null || INT_IDTIPOCOMPNENTE > 0) {
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE , TIPOCOMPONENTE.UPDATE_WB,INT_IDTIPOCOMPNENTE );
+            } else {return new String("Não pode enviar classe Null");}
+            return LOBJ_Retorno.toString();
+
+        } catch (Exception ex) {
+            return new String("Exception: " + ex.getMessage());
+            //Log.e("TAG", Log.getStackTraceString(ex));
+        } finally {
+            LCLS_TPCOMPONENTE = null;
+            LCLS_UTIL = null;
+            LOBJ_Retorno = null;
+        }
+    }
+
+    public String FU_Delete_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE , int INT_IDTIPOCOMPNENTE) {
+        TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
+        ClsUtil LCLS_UTIL = null;
+        Object LOBJ_Retorno = null;
+
+        try {
+            if (CLS_TIPOCOMPONENTE != null || INT_IDTIPOCOMPNENTE > 0) {
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE , TIPOCOMPONENTE.DELETE_WB,INT_IDTIPOCOMPNENTE );
+            } else {return new String("Não pode enviar classe Null");}
+            return LOBJ_Retorno.toString();
+
+        } catch (Exception ex) {
+            return new String("Exception: " + ex.getMessage());
+            //Log.e("TAG", Log.getStackTraceString(ex));
+        } finally {
+            LCLS_TPCOMPONENTE = null;
+            LCLS_UTIL = null;
+            LOBJ_Retorno = null;
+        }
+    }
+
+    //CRUD BD
+    public String FU_Insert_BD(TIPOCOMPONENTE CLS_TIPOCOMPONENTE) {
         ContentValues LCVA_VALUES;
         long LINT_RETURN = 0;
         try {
@@ -114,7 +165,7 @@ public class TIPOCOMPONENTEController {
         return "";
     }
 
-    public Cursor ReturnData() {
+    public Cursor FU_Read_BD() {
         Cursor LCUR_CURSOR = null;
 //        String[] campos = {String.valueOf(EMFSESSION.LOCAL_IDSESSION)};
         String[] campos = {"*"};
@@ -134,7 +185,7 @@ public class TIPOCOMPONENTEController {
         return LCUR_CURSOR;
     }
 
-    public Cursor ReturnDataById(int id) {
+    public Cursor FU_Read_ID_BD(int id) {
         Cursor LCUR_CURSOR = null;
         try {
             String[] campos = {"*"};
@@ -154,7 +205,7 @@ public class TIPOCOMPONENTEController {
         return LCUR_CURSOR;
     }
 
-    public void Update(int id, TIPOCOMPONENTE CLS_TIPOCOMPONENTE) {
+    public void FU_Update_BD(int id, TIPOCOMPONENTE CLS_TIPOCOMPONENTE) {
         ContentValues LCVA_VALUES;
         String where = "";
         try {
@@ -179,7 +230,7 @@ public class TIPOCOMPONENTEController {
         }
     }
 
-    public void Delete(int id) {
+    public void FU_Delete_BD(int id) {
         try {
             String where = "IDSESSION" + "=" + id;
             db = TIPOCOMPONENTEModel.getReadableDatabase();

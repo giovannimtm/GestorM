@@ -15,10 +15,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import mtmsistemas.gestorm.Controller.ClsAutenticacao;
+import java.io.IOException;
+
+import mtmsistemas.gestorm.Controller.ConexaoWebAPI;
 import mtmsistemas.gestorm.Controller.EMFSESSIONConroller;
 import mtmsistemas.gestorm.Controller.EquipamentoRestClient;
-import mtmsistemas.gestorm.Controller.NetworkUtils;
+import mtmsistemas.gestorm.Controller.PARAMETROSController;
 import mtmsistemas.gestorm.R;
 import mtmsistemas.gestorm.View.Fragment.FGM_Webservice;
 
@@ -61,7 +63,7 @@ public class ACT_Configuracao extends AppCompatActivity {
 //        mTabHost.addTab(mTabHost.newTabSpec("WebserviceLis").setIndicator("Tab2"),
 //                FGM_WebserviceList.class, null);
         FragmentManager fm = getFragmentManager();
-
+        PARAMETROSController.contexts = getBaseContext();
         // Abre uma transação e adiciona
         FragmentTransaction ft = fm.beginTransaction();
         //ft.add(R.id.FGM_ContentList, new FGM_Webservice());
@@ -76,14 +78,14 @@ public class ACT_Configuracao extends AppCompatActivity {
     }
 
     public String FU_chamarWebservice() {
-        GetJson download = new GetJson();
+        ConectaWebApi download = new ConectaWebApi();
         //Chama Async Task
         download.execute();
         return LSTR_STATUS;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-    private class GetJson extends AsyncTask<Void, Void, String> {
+    private class ConectaWebApi extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -92,7 +94,12 @@ public class ACT_Configuracao extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            String resposta = NetworkUtils.get("http://192.168.0.104:8021/GiclPLibWebAPI/api/gestoricl/status/8021");
+            String resposta = null;
+            try {
+                resposta = ConexaoWebAPI.FU_WB_TestaConexao().toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             LSTR_STATUS = resposta;
 
@@ -109,16 +116,6 @@ public class ACT_Configuracao extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-    public String FU_chamarAutenticacao() {
-
-        Autenticacao download = new Autenticacao();
-        //Chama Async Task
-        download.execute();
-
-        return LSTR_STATUS;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     private class Autenticacao extends AsyncTask<Void, Void, String> {
 
         @Override
@@ -128,8 +125,6 @@ public class ACT_Configuracao extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            LSTR_STATUS = ClsAutenticacao.FU_AutenticaUsuario();
-            LSTR_MENSAGEM = "Processo encerrado";
             LSTR_MENSAGEM = "Procurando equipamentos";
             try {
                 EquipamentoRestClient.FU_LIST_EQUIPAMENTO();

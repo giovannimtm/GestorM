@@ -16,7 +16,8 @@ public class EMFSESSION extends SQLiteOpenHelper {
     public static final String TABLE = "EMFSESSION";
 
     //Variaveis para nomes de colunas no SQLLITE
-    public static long LOCAL_IDSESSION;
+    public static long LOCAL_IDSESSION = 0;
+    public static String LOCAL_NMUSUARIO = "";
     public static final String _SGUSER = "";
     public static final String _PASSWORD = "";
     public static final String _SGENVIRONMENT = "";

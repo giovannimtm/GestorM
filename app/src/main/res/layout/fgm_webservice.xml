@@ -44,7 +44,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/BTN_cancelar"
+                    android:id="@+id/BTN_Cancelar"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

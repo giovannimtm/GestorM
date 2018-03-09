@@ -9,21 +9,11 @@ import mtmsistemas.gestorm.Model.EMFSESSION;
 
 public class ClsAutenticacao {
 
-    public static String FU_AutenticaUsuario() {
-        EMFSESSION LCLS_SESSION = null;
+    public static String FU_AutenticaUsuario(EMFSESSION LCLS_SESSION) {
         Object LOBJ_Retorno = null;
         String LSTR_RETURN = "false";
 
         try {
-
-            ConexaoWebAPI.FU_WB_Arquivo();
-
-            ClsUtil util = new ClsUtil();
-            util.FU_verificaTipoConexao(EMFSESSIONConroller.contexts);
-            util.verificaConexao(EMFSESSIONConroller.contexts);
-
-            ConexaoWebAPI.FU_WB_TestaConexao();
-
             LCLS_SESSION = new EMFSESSION(null);
 
             if (BuildConfig.DEBUG) {
@@ -36,17 +26,11 @@ public class ClsAutenticacao {
             }
             //para teste , sem teste deixar a o if de cima
             // e pegar os dados da tela
-            if (EMFSESSION.LOCAL_IDSESSION == 0) {
-                LCLS_SESSION.setDHSESSION("0");
-                LCLS_SESSION.setEQUIPMENT("2");
-                LCLS_SESSION.setPASSWORD("MTM");
-                LCLS_SESSION.setSGENVIRONMENT("GESTOR");
-                LCLS_SESSION.setSGLANGUAGE("PT-BR");
-                LCLS_SESSION.setSGUSER("MASTER");
-            } else
+            if (EMFSESSION.LOCAL_IDSESSION > 0) {
                 LCLS_SESSION.setIDSESSION(EMFSESSION.LOCAL_IDSESSION);
+            }
 
-            LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA(LCLS_SESSION, "gestoricl/autentica", "POST",0);
+            LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA(LCLS_SESSION, "gestoricl/autentica", "POST", 0);
             if (LOBJ_Retorno != null) {
                 if (LOBJ_Retorno.toString().toUpperCase().contains("EXCEPTION:")) {
                     return LOBJ_Retorno.toString();
@@ -67,7 +51,7 @@ public class ClsAutenticacao {
                 //TOCOMPONENTEController controller = new TIPOCOMPONENTEController(null);
                 //controller.FU_WB_BuscaDescricao(2);
 
-        ConexaoWebAPI.FU_WB_EXECUTA(null,"TIPOCOMPONENTE/UPLOAD","POST",0);
+                //ConexaoWebAPI.FU_WB_EXECUTA(null, "TIPOCOMPONENTE/UPLOAD", "POST", 0);
                 LSTR_RETURN = "true";
             }
 

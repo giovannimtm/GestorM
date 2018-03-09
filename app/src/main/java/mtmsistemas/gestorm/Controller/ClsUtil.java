@@ -46,6 +46,20 @@ public class ClsUtil {
 
     public static String caminhoApp;
 
+    public String FU_DataAtual() throws Exception {
+        SimpleDateFormat LSDA_DataFormat =  null;
+        Date LDAT_Data = null;
+        try{
+            LSDA_DataFormat = new SimpleDateFormat("dd-MM-yyyy");
+            LDAT_Data = new Date();
+
+        }catch (Exception EX){
+            throw new Exception(EX.getMessage());
+        }
+
+        return LSDA_DataFormat.format(LDAT_Data);
+    }
+
     public boolean FU_dataAnteriorAHoje(String data) {
         Boolean validou;
         try {

@@ -9,6 +9,12 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class CHECKLISTITEM extends SQLiteOpenHelper {
+    public static final String TABLE = "CHECKLISTITEM";
+    public static final String INSERT_WB = TABLE + "/insert";
+    public static final String READ_WB = TABLE + "/read";
+    public static final String UPDATE_WB = TABLE + "/update";
+    public static final String DELETE_WB = TABLE + "/delete";
+
     private Object IDCHECKLIST = null;
     private Object CDTIPOCOMPONENTE = null;
     private Object FGSITUACAO = null;
@@ -17,7 +23,7 @@ public class CHECKLISTITEM extends SQLiteOpenHelper {
     private Object SGUSER = null;
     private Context context;
     private String IMAGEMCOMPONENTE = null;
-    public static final String TABLE = "CHECKLISTITEMController";
+
 
     public CHECKLISTITEM(Context context) {
         super(context, DATABASE.NOME_BANCO, null, DATABASE.VERSAO);
@@ -82,11 +88,33 @@ public class CHECKLISTITEM extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        try{
+            String CREATE_TABLE = "CREATE TABLE" + TABLE + "("
+                    + "CHECKLISTITEM" + " integer primary key autoincrement,"
+                    + "IDCHECKLIST" + " text,"
+                    + "CDTIPOCOMPONENTE" + " text,"
+                    + "FGSITUACAO" + " text,"
+                    + "PCTAVALIACAO" + " text,"
+                    + "OBSERVACAO" + " text,"
+                    + "SGUSER" + " text,"
+                    + "OBSERVACAO" + " text,"
+                    + "IMAGEMCOMPONENTE" + " text"
+                    + ")";
+            db.execSQL(CREATE_TABLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        try {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+            onCreate(db);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+        }
     }
 }

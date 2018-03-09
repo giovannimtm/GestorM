@@ -1,5 +1,6 @@
 package mtmsistemas.gestorm.Controller;
 
+import android.database.Cursor;
 import android.os.Environment;
 import android.util.Log;
 
@@ -93,28 +94,20 @@ public class ConexaoWebAPI {
         try {
             if (EMFSESSION.LOCAL_IDSESSION == 0 && STR_METODO.toUpperCase().contains("AUTENTICA")) {
                 LUR_URL = new URL(PARAMETROS.PSTR_ENDERECOWEBAPI
-                        + ":" + PARAMETROS.PSTR_PORTA
-                        + "/" + PARAMETROS.PSTR_API
                         + "/" + STR_METODO); // here is your URL path
             } else if (IDOBJETO > 0) {
                 LUR_URL = new URL(PARAMETROS.PSTR_ENDERECOWEBAPI
-                        + ":" + PARAMETROS.PSTR_PORTA
-                        + "/" + PARAMETROS.PSTR_API
                         + "/" + STR_METODO
                         + "/" + EMFSESSION.LOCAL_IDSESSION
                         + "/" + IDOBJETO
                 ); // here is your URL path
             } else {
                 LUR_URL = new URL(PARAMETROS.PSTR_ENDERECOWEBAPI
-                        + ":" + PARAMETROS.PSTR_PORTA
-                        + "/" + PARAMETROS.PSTR_API
                         + "/" + STR_METODO
                         + "/" + EMFSESSION.LOCAL_IDSESSION
                         + "/"); // here is your URL path
             }
             conn = (HttpURLConnection) LUR_URL.openConnection();
-//            conn.setReadTimeout(105000 /* milliseconds */);
-//            conn.setConnectTimeout(105000 /* milliseconds */);
             conn.setConnectTimeout(5 * 1000 * 3600); //set time out
             conn.setReadTimeout(5 * 1000 * 3600);   // set socket time out
             conn.setRequestMethod(STR_REQUETMETHOD);
@@ -182,6 +175,31 @@ public class ConexaoWebAPI {
         return LSTB_BUFFER;
     }
 
+    public static Object FU_WB_EXECUTA_CRUD(Object CLS_CLASSE, String STR_METODO, int IDOBJETO) {
+        Gson LGS_JSON = null;
+        Object LOBJ_RETORNO = null;
+        String LSTR_REQUETMETHOD = "";
+
+        try {
+
+            if (STR_METODO.toUpperCase().contains("INSERT") ||
+                    STR_METODO.toUpperCase().contains("UPDATE")) {
+                LSTR_REQUETMETHOD = "POST";
+            }
+            LGS_JSON = new Gson();
+            LOBJ_RETORNO = LGS_JSON.fromJson(FU_WB_CONECTA(CLS_CLASSE
+                    , STR_METODO
+                    , LSTR_REQUETMETHOD, IDOBJETO).toString()
+                    , CLS_CLASSE.getClass());
+
+            return LOBJ_RETORNO;
+        } catch (Exception e) {
+            return new String("Exception: " + e.getMessage());
+        } finally {
+            LGS_JSON = null;
+        }
+    }
+
     public static Object FU_WB_EXECUTA(Object CLS_CLASSE, String STR_METODO, String STR_REQUETMETHOD, int IDOBJETO) {
         Gson LGS_JSON = null;
         Object LOBJ_RETORNO = null;
@@ -217,24 +235,47 @@ public class ConexaoWebAPI {
         return LOBJ_RETORNO;
     }
 
-
     public static Boolean FU_WB_TestaConexao() throws IOException {
-        URL url = new URL(PARAMETROS.PSTR_ENDERECOWEBAPI
-                + ":" + PARAMETROS.PSTR_PORTA
-                + "/" + PARAMETROS.PSTR_API
-                + "/" + "gestoricl/status/"
-                + "/" + "8021"
-                + ""); // here is your URL path
+        URL url = null;
+        HttpURLConnection conn = null;
+        PARAMETROSController LCLS_PARAMETROSCONTROLLER = null;
+        try {
 
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestProperty("User-Agent", "yourAgent");
-        connection.setRequestProperty("Connection", "close");
-        connection.setConnectTimeout(1000);
-        connection.connect();
+            LCLS_PARAMETROSCONTROLLER = new PARAMETROSController(null);
+            Cursor cursor = LCLS_PARAMETROSCONTROLLER .FU_Read_BD();
 
-        return connection.getResponseCode() == 200;
+            if(cursor.getCount() > 0 ){
+                url = new URL( cursor.getString(cursor.getColumnIndex("ENDERECOWEBAPI")).trim() + "/");
+            }else if(PARAMETROS.PSTR_ENDERECOWEBAPI != "")
+            {url = new URL( PARAMETROS.PSTR_ENDERECOWEBAPI + "/");}
+            else
+            {return false;}
 
+            conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(4000); //set time out
+            conn.setReadTimeout(4000);   // set socket time out
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            conn.connect();
+            PARAMETROS.PBOL_Conectado = conn.getResponseCode() == 200;
+            return conn.getResponseCode() == 200;
+        } catch (OutOfMemoryError oomer) {
+            Log.e("ERRO", "Não foi possível converter o arquivo de vídeo para a transmissão. OutOfMemoryError. ", oomer);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            try {
+                throw new Exception(ex.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return conn.getResponseCode() == 200;
     }
+
     public static void FU_WB_Arquivo() {
         String fileName = Environment.getExternalStorageDirectory() + "/video.mp4";
 
@@ -246,7 +287,7 @@ public class ConexaoWebAPI {
         int bytesRead, bytesAvailable, bufferSize;
         byte[] buffer;
 //        int maxBufferSize = 1 * 1024 * 1024 * bufferSize;//10MB
-        int maxBufferSize = 1 * 1024 * 1024 *2 ;//10MB
+        int maxBufferSize = 1 * 1024 * 1024 * 2;//10MB
         File sourceFile = new File(fileName);
         try {
             FileInputStream fileInputStream = new FileInputStream(sourceFile);
@@ -320,6 +361,136 @@ public class ConexaoWebAPI {
         }
 
     }
+//
+//    public HttpFileUploader(Map<String, String> params, String photoParamName,
+//                            String fileName, String urlString) {
+//        try {
+//            System.out.println(urlString);
+//            connectURL = new URL(urlString);
+//
+//
+//        } catch (Exception ex) {
+//            Log.i(TAG, "MALFORMATED URL");
+//        }
+//        this.params = params;
+//        this.fileName = fileName;
+//        this.photoParamName = photoParamName;
+//    }
+//
+//    /**
+//     * Starts uploading.
+//     *
+//     * @throws FileNotFoundException
+//     */
+//    public String doStart() throws FileNotFoundException {
+//        fileInputStream = new FileInputStream(new File(fileName));
+//        thirdTry();
+//
+//        return responce;
+//    }
+//
+//    private void thirdTry() {
+//        String lineEnd = "\r\n";
+//        String twoHyphens = "--";
+//        String boundary = "**lx90l39slks02klsdfaksd2***";
+//        try {
+//            // ------------------ CLIENT REQUEST
+//
+//            // Open a HTTP connection to the URL
+//
+//            HttpURLConnection conn = (HttpURLConnection) connectURL
+//                    .openConnection();
+//
+//            // Allow Inputs
+//            conn.setDoInput(true);
+//            // Allow Outputs
+//            conn.setDoOutput(true);
+//            // Don't use a cached copy.
+//            conn.setUseCaches(false);
+//            // Use a post method.
+//            conn.setRequestMethod("POST");
+//            // conn.setRequestProperty("Connection", "Keep-Alive");
+//
+//            conn.setRequestProperty("Content-Type",
+//                    "multipart/form-data;boundary=" + boundary);
+//
+//            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+//
+//            // add the params to the form data
+//            if (params != null) {
+//                for (Entry<String, String> entry : params.entrySet()) {
+//                    // Log.d(TAG, "submitting param "
+//                    // + entry.getKey() + " : " + entry.getValue());
+//                    dos.writeBytes(twoHyphens + boundary + lineEnd);
+//                    dos.writeBytes("Content-Disposition: form-data; name=\""
+//                            + entry.getKey() + "\"" + lineEnd);
+//                    dos.writeBytes(lineEnd);
+//                    dos.writeBytes(entry.getValue());
+//                    dos.writeBytes(lineEnd);
+//                }
+//            }
+//
+//            // Log.d(TAG, "submitting image " + photoParamName
+//            // + " : " + fileName);
+//            // add image to the form data
+//            dos.writeBytes(twoHyphens + boundary + lineEnd);
+//            if (photoParamName == null)
+//                photoParamName = "photo";
+//            dos.writeBytes("Content-Disposition: form-data;name=\""
+//                    + photoParamName + "\";filename=\"" + photoParamName + "\""
+//                    + lineEnd);
+//            dos.writeBytes("Content-Type: image/jpeg" + lineEnd);
+//            dos.writeBytes(lineEnd);
+//
+//            // upload image
+//
+//            // create a buffer of maximum size
+//
+//            int bytesAvailable = fileInputStream.available();
+//            int maxBufferSize = 1024;
+//            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+//            byte[] buffer = new byte[bufferSize];
+//
+//            // read file and write it into form...
+//
+//            int bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+//
+//            while (bytesRead > 0) {
+//                dos.write(buffer, 0, bufferSize);
+//                bytesAvailable = fileInputStream.available();
+//                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+//                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+//            }
+//
+//            // send multipart form data necesssary after file data...
+//
+//            dos.writeBytes(lineEnd);
+//            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+//
+//            // close streams
+//            Log.d(TAG, "File (" + fileName + ") is written");
+//            fileInputStream.close();
+//            dos.flush();
+//
+//            InputStream is = conn.getInputStream();
+//            // retrieve the response from server
+//            int ch;
+//
+//            StringBuffer b = new StringBuffer();
+//            while ((ch = is.read()) != -1) {
+//                b.append((char) ch);
+//            }
+//            String s = b.toString();
+//            responce = s;
+//            Log.i(TAG, "Response =" + s);
+//            dos.close();
+//
+//        } catch (MalformedURLException ex) {
+//            Log.e(TAG, "error URL: " + ex.getMessage(), ex);
+//        } catch (IOException ioe) {
+//            Log.e(TAG, "error IO: " + ioe.getMessage(), ioe);
+//        }
+//    }
 
 //    public static void FU_WB_Arquivo() {
 //        String fileName = Environment.getExternalStorageState() + "/foto.jpg";

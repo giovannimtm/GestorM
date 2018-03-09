@@ -5,31 +5,30 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import mtmsistemas.gestorm.Model.CHECKLISTITEM;
+import mtmsistemas.gestorm.Model.TIPOCHECKLIST;
 
 /**
- * Created by Giovanni on 05/03/2018.
+ * Created by Giovanni on 08/03/2018.
  */
 
-public class CHECKLISTITEMController {
-
+public class TIPOCHECKLISTController {
 
     private SQLiteDatabase db;
-    private CHECKLISTITEM CHECKLISTITEMController;
+    private TIPOCHECKLIST TIPOCHECKLISTModel;
 
     public static Context contexts;
 
-    public CHECKLISTITEMController(Context context) {
-        CHECKLISTITEMController = new CHECKLISTITEM(contexts);
+    public TIPOCHECKLISTController(Context context) {
+        TIPOCHECKLISTModel = new TIPOCHECKLIST(contexts);
     }
 
     //CRUD WB
-    public String FU_Insert_WB(CHECKLISTITEM CLS_CHECKLISTITEM) {
+    public String FU_Insert_WB(TIPOCHECKLIST CLS_TPCHECKLIST) {
         ClsUtil LCLS_UTIL = null;
         Object LOBJ_Retorno = null;
         try {
-            if (CLS_CHECKLISTITEM != null) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_CHECKLISTITEM , CHECKLISTITEM.INSERT_WB, 0);
+            if (CLS_TPCHECKLIST != null) {
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TPCHECKLIST, TIPOCHECKLIST.INSERT_WB, 0);
             } else {return new String("Não pode enviar classe Null");}
             return LOBJ_Retorno.toString();
 
@@ -37,18 +36,19 @@ public class CHECKLISTITEMController {
             return new String("Exception: " + ex.getMessage());
             //Log.e("TAG", Log.getStackTraceString(ex));
         } finally {
+            CLS_TPCHECKLIST = null;
             LCLS_UTIL = null;
             LOBJ_Retorno = null;
         }
     }
 
-    public String FU_Read_WB(CHECKLISTITEM CLS_CHECKLISTITEM , int INT_IDCHECKLISTITEM) {
+    public String FU_Read_WB(TIPOCHECKLIST CLS_TPCHECKLIST , int INT_IDTIPOCOMPNENTE) {
         ClsUtil LCLS_UTIL = null;
         Object LOBJ_Retorno = null;
 
         try {
-            if (CLS_CHECKLISTITEM != null || INT_IDCHECKLISTITEM > 0) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_CHECKLISTITEM , CHECKLISTITEM.READ_WB,INT_IDCHECKLISTITEM );
+            if (CLS_TPCHECKLIST != null || INT_IDTIPOCOMPNENTE > 0) {
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TPCHECKLIST, TIPOCHECKLIST.READ_WB,INT_IDTIPOCOMPNENTE );
             } else {return new String("Não pode enviar classe Null");}
             return LOBJ_Retorno.toString();
 
@@ -56,37 +56,38 @@ public class CHECKLISTITEMController {
             return new String("Exception: " + ex.getMessage());
             //Log.e("TAG", Log.getStackTraceString(ex));
         } finally {
+            CLS_TPCHECKLIST = null;
             LCLS_UTIL = null;
             LOBJ_Retorno = null;
         }
     }
 
-    public String FU_Update_WB(CHECKLISTITEM CLS_CHECKLISTITEM , int INT_CHECKLISTITEM) {
+    public String FU_Update_WB(TIPOCHECKLIST  CLS_TIPOCHECKLIST , int INT_IDTIPOCOMPNENTE) {
         ClsUtil LCLS_UTIL = null;
         Object LOBJ_Retorno = null;
 
         try {
-            if (CLS_CHECKLISTITEM != null || INT_CHECKLISTITEM > 0) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_CHECKLISTITEM , CHECKLISTITEM.UPDATE_WB,INT_CHECKLISTITEM );
+            if (CLS_TIPOCHECKLIST != null || INT_IDTIPOCOMPNENTE > 0) {
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCHECKLIST , TIPOCHECKLIST.UPDATE_WB,INT_IDTIPOCOMPNENTE );
             } else {return new String("Não pode enviar classe Null");}
             return LOBJ_Retorno.toString();
 
         } catch (Exception ex) {
             return new String("Exception: " + ex.getMessage());
             //Log.e("TAG", Log.getStackTraceString(ex));
-        } finally {
-            LCLS_UTIL = null;
-            LOBJ_Retorno = null;
-        }
+    } finally {
+        LCLS_UTIL = null;
+        LOBJ_Retorno = null;
+    }
     }
 
-    public String FU_Delete_WB(CHECKLISTITEM CLS_CHECKLISTITEM , int INT_IDCHECKLISTITEM) {
+    public String FU_Delete_WB(TIPOCHECKLIST CLS_TIPOCHECKLIST , int INT_IDTIPOCOMPNENTE) {
         ClsUtil LCLS_UTIL = null;
         Object LOBJ_Retorno = null;
 
         try {
-            if (CLS_CHECKLISTITEM != null || INT_IDCHECKLISTITEM > 0) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_CHECKLISTITEM , CHECKLISTITEM.DELETE_WB,INT_IDCHECKLISTITEM );
+            if (CLS_TIPOCHECKLIST != null || INT_IDTIPOCOMPNENTE > 0) {
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCHECKLIST , TIPOCHECKLIST.DELETE_WB,INT_IDTIPOCOMPNENTE );
             } else {return new String("Não pode enviar classe Null");}
             return LOBJ_Retorno.toString();
 
@@ -100,23 +101,19 @@ public class CHECKLISTITEMController {
     }
 
     //CRUD BD
-    public String FU_Insert_BD(CHECKLISTITEM CLS_CHECKLISTITEM) {
+    public String FU_Insert_BD(TIPOCHECKLIST CLS_TIPOCHECKLIST) {
         ContentValues LCVA_VALUES;
         long LINT_RETURN = 0;
         try {
 
-            db = CHECKLISTITEMController.getWritableDatabase();
-            CHECKLISTITEMController.onCreate(db);
+            db = TIPOCHECKLISTModel.getWritableDatabase();
+            TIPOCHECKLISTModel.onCreate(db);
             LCVA_VALUES = new ContentValues();
-            LCVA_VALUES.put("IDCHECKLIST", CLS_CHECKLISTITEM.getIDCHECKLIST().toString());
-            LCVA_VALUES.put("CDTIPOCOMPONENTE", CLS_CHECKLISTITEM.getCDTIPOCOMPONENTE().toString());
-            LCVA_VALUES.put("FGSITUACAO", CLS_CHECKLISTITEM.getFGSITUACAO().toString());
-            LCVA_VALUES.put("PCTAVALIACAO", CLS_CHECKLISTITEM.getPCTAVALIACAO().toString());
-            LCVA_VALUES.put("SGUSER", CLS_CHECKLISTITEM.getSGUSER().toString());
-            LCVA_VALUES.put("OBSERVACAO", CLS_CHECKLISTITEM.getOBSERVACAO().toString());
-            LCVA_VALUES.put("IMAGEMCOMPONENTE", CLS_CHECKLISTITEM.getIMAGEMCOMPONENTE().toString());
+            LCVA_VALUES.put("CDTIPOCHECKLIST", CLS_TIPOCHECKLIST.getCDTIPOCHECKLIST().toString());
+            LCVA_VALUES.put("DSTIPOCHECKLIST", CLS_TIPOCHECKLIST.getDSTIPOCHECKLIST().toString());
+            LCVA_VALUES.put("SGUSER", CLS_TIPOCHECKLIST.getSGUSER().toString());
 
-            LINT_RETURN = db.insert(CHECKLISTITEM.TABLE, null, LCVA_VALUES);
+            LINT_RETURN = db.insert(TIPOCHECKLIST.TABLE, null, LCVA_VALUES);
             db.close();
 
             if (LINT_RETURN == -1)
@@ -137,8 +134,8 @@ public class CHECKLISTITEMController {
 //        String[] campos = {String.valueOf(EMFSESSION.LOCAL_IDSESSION)};
         String[] campos = {"*"};
         try {
-            db = CHECKLISTITEMController.getReadableDatabase();
-            LCUR_CURSOR = db.query(CHECKLISTITEM.TABLE, campos, null, null, null, null, null, null);
+            db = TIPOCHECKLISTModel.getReadableDatabase();
+            LCUR_CURSOR = db.query(TIPOCHECKLIST.TABLE, campos, null, null, null, null, null, null);
 
             if (LCUR_CURSOR != null) {
                 LCUR_CURSOR.moveToFirst();
@@ -157,8 +154,8 @@ public class CHECKLISTITEMController {
         try {
             String[] campos = {"*"};
             String where = "IDSESSION" + "=" + id;
-            db = CHECKLISTITEMController.getReadableDatabase();
-            LCUR_CURSOR = db.query(CHECKLISTITEM.TABLE, campos, where, null, null, null, null, null);
+            db = TIPOCHECKLISTModel.getReadableDatabase();
+            LCUR_CURSOR = db.query(TIPOCHECKLIST.TABLE, campos, where, null, null, null, null, null);
 
             if (LCUR_CURSOR != null) {
                 LCUR_CURSOR.moveToFirst();
@@ -172,24 +169,20 @@ public class CHECKLISTITEMController {
         return LCUR_CURSOR;
     }
 
-    public void FU_Update_BD(int id, CHECKLISTITEM CLS_CHECKLISTITEM) {
+    public void FU_Update_BD(int id, TIPOCHECKLIST CLS_TIPOCHECKLIST) {
         ContentValues LCVA_VALUES;
         String where = "";
         try {
-            db = CHECKLISTITEMController.getWritableDatabase();
+            db = TIPOCHECKLISTModel.getWritableDatabase();
 
             where = "IDSESSION" + "=" + id;
 
             LCVA_VALUES = new ContentValues();
-            LCVA_VALUES.put("IDCHECKLIST", CLS_CHECKLISTITEM.getIDCHECKLIST().toString());
-            LCVA_VALUES.put("CDTIPOCOMPONENTE", CLS_CHECKLISTITEM.getCDTIPOCOMPONENTE().toString());
-            LCVA_VALUES.put("FGSITUACAO", CLS_CHECKLISTITEM.getFGSITUACAO().toString());
-            LCVA_VALUES.put("PCTAVALIACAO", CLS_CHECKLISTITEM.getPCTAVALIACAO().toString());
-            LCVA_VALUES.put("SGUSER", CLS_CHECKLISTITEM.getSGUSER().toString());
-            LCVA_VALUES.put("OBSERVACAO", CLS_CHECKLISTITEM.getOBSERVACAO().toString());
-            LCVA_VALUES.put("IMAGEMCOMPONENTE", CLS_CHECKLISTITEM.getIMAGEMCOMPONENTE().toString());
+            LCVA_VALUES.put("CDTIPOCHECKLIST", CLS_TIPOCHECKLIST.getCDTIPOCHECKLIST().toString());
+            LCVA_VALUES.put("DSTIPOCHECKLIST", CLS_TIPOCHECKLIST.getDSTIPOCHECKLIST().toString());
+            LCVA_VALUES.put("SGUSER", CLS_TIPOCHECKLIST.getSGUSER().toString());
 
-            db.update(CHECKLISTITEM.TABLE, LCVA_VALUES, where, null);
+            db.update(TIPOCHECKLIST.TABLE, LCVA_VALUES, where, null);
             db.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -201,8 +194,8 @@ public class CHECKLISTITEMController {
     public void FU_Delete_BD(int id) {
         try {
             String where = "IDSESSION" + "=" + id;
-            db = CHECKLISTITEMController.getReadableDatabase();
-            db.delete(CHECKLISTITEM.TABLE, where, null);
+            db = TIPOCHECKLISTModel.getReadableDatabase();
+            db.delete(TIPOCHECKLIST.TABLE, where, null);
             db.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,4 +203,5 @@ public class CHECKLISTITEMController {
 
         }
     }
+
 }

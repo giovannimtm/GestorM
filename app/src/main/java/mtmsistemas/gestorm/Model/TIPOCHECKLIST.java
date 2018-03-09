@@ -10,9 +10,40 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class TIPOCHECKLIST extends SQLiteOpenHelper {
     public static String TABLE = "TIPOCHECKLIST";
+
+    public static final String INSERT_WB = TABLE + "/insert";
+    public static final String READ_WB = TABLE + "/read";
+    public static final String UPDATE_WB = TABLE + "/update";
+    public static final String DELETE_WB = TABLE+"/delete";
+
     private Object CDTIPOCHECKLIST = null;
     private Object DSTIPOCHECKLIST = null;
     private Object SGUSER = null;
+
+
+    public Object getCDTIPOCHECKLIST() {
+        return CDTIPOCHECKLIST;
+    }
+
+    public void setCDTIPOCHECKLIST(Object CDTIPOCHECKLIST) {
+        this.CDTIPOCHECKLIST = CDTIPOCHECKLIST;
+    }
+
+    public Object getDSTIPOCHECKLIST() {
+        return DSTIPOCHECKLIST;
+    }
+
+    public void setDSTIPOCHECKLIST(Object DSTIPOCHECKLIST) {
+        this.DSTIPOCHECKLIST = DSTIPOCHECKLIST;
+    }
+
+    public Object getSGUSER() {
+        return SGUSER;
+    }
+
+    public void setSGUSER(Object SGUSER) {
+        this.SGUSER = SGUSER;
+    }
 
     public TIPOCHECKLIST(Context context) {
         super(context, DATABASE.NOME_BANCO, null, DATABASE.VERSAO);
