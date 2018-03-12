@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mtmsistemas.gestorm.View.Activity.ACT_CheckList">
+    tools:context="mtmsistemas.gestorm.View.Activity.ACT_ListaCheckList">
 
     <ListView
-        android:id="@+id/lLST_CheckList"
+        android:id="@+id/LST_CheckList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

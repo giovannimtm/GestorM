@@ -28,6 +28,7 @@ import mtmsistemas.gestorm.Controller.ClsCustomListAdapter;
 import mtmsistemas.gestorm.Controller.ClsUtil;
 import mtmsistemas.gestorm.Model.CHECKLISTITEM;
 import mtmsistemas.gestorm.R;
+import mtmsistemas.gestorm.View.Activity.ACT_CheckList;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -64,8 +65,7 @@ public class FGM_Itens extends Fragment {
 
         @Override
         public int getCount() {
-            return  0;
-            //return ((ACT_CheckList)getActivity()).clsItens.getItens().length;
+            return ((ACT_CheckList)getActivity()).clsItens.getItens().size();
         }
 
         @Override
@@ -83,8 +83,7 @@ public class FGM_Itens extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             convertView = getLayoutInflater(null).inflate(R.layout.itens_checkllist_custom_layout, null);
 
-//            final CHECKLISTITEM itemSelecionado = ((ACT_CheckList)getActivity()).clsItens.getItem(position);
-            final CHECKLISTITEM itemSelecionado = null;
+            final CHECKLISTITEM itemSelecionado = ((ACT_CheckList)getActivity()).clsItens.getItem(position);
 
             final ImageButton imageButton =(ImageButton)convertView.findViewById(R.id.IMGBTN_ItemFoto);
 
@@ -157,18 +156,18 @@ public class FGM_Itens extends Fragment {
                     TextView textView = (TextView)finalConvertView.findViewById(R.id.TV_Item);
 
                     if(botaoClicado.getTag()== null) {
-                        File foto = ClsUtil.FU_criaArquivoImagemNaPAsta(textView.getText().toString());
+                        File foto = clsUtil.FU_criaArquivoImagemNaPAsta(textView.getText().toString());
                         caminhoFoto = foto.getAbsolutePath();
 
                         // save image here
-                        Intent intent = ClsUtil.FU_salvaFotoPastaEspecifica(foto);
+                        Intent intent = clsUtil.FU_salvaFotoPastaEspecifica(foto);
                         startActivityForResult(intent, CAMERA_PIC_REQUEST);
                     }
                     else{
 //                        Dialog nagDialog = clsUtil.FU_imageDialog(getContext(), ((ACT_CheckList)getActivity()).getClsItensEntrada().getCaminhoFotoItem(posicaoAlterada));
 //                        nagDialog.show();
 
-                        Intent intent = ClsUtil.FU_visualizarFotosDaPasta(getContext(), textView.getText().toString());
+                        Intent intent = clsUtil.FU_visualizarFotosDaPasta(getContext(), textView.getText().toString());
                         startActivity(intent);
                     }
                 }
@@ -181,10 +180,10 @@ public class FGM_Itens extends Fragment {
                     botaoClicado = (ImageButton) finalConvertView.findViewById(R.id.IMGBTN_ItemFoto);
                     TextView textView = (TextView)finalConvertView.findViewById(R.id.TV_Item);
 
-                    File foto = ClsUtil.FU_criaArquivoImagemNaPAsta(textView.getText().toString());
+                    File foto = clsUtil.FU_criaArquivoImagemNaPAsta(textView.getText().toString());
                     caminhoFoto = foto.getAbsolutePath();
 
-                    Intent intent = ClsUtil.FU_salvaFotoPastaEspecifica(foto);
+                    Intent intent = clsUtil.FU_salvaFotoPastaEspecifica(foto);
                     startActivityForResult(intent, CAMERA_PIC_REQUEST);
                 }
             });
@@ -300,7 +299,7 @@ public class FGM_Itens extends Fragment {
                     getActivity().sendBroadcast(mediaScannerIntent);
 
                     if(botaoClicado != null) {
-                        //((ACT_CheckList)getActivity()).clsItens.getItem(posicaoAlterada).setIMAGEMCOMPONENTE(file_path);
+                        ((ACT_CheckList)getActivity()).clsItens.getItem(posicaoAlterada).setIMAGEMCOMPONENTE(file_path);
 
                         botaoClicado.setTag("Foto");
                         try {

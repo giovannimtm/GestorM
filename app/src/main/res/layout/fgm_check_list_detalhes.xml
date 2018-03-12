@@ -76,10 +76,31 @@
                 android:gravity="left"/>
 
             <TextView
-                android:id="@+id/TV_Equipamento"
+                android:id="@+id/TV_RefEquipamento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ET_IdEquipamento"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="Ref. Equipamento"/>
+
+            <EditText
+                android:id="@+id/ET_RefEquipamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/TV_RefEquipamento"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/edit_text_border"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/TV_Equipamento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ET_RefEquipamento"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="10dp"
                 android:text="Descrição"/>
@@ -265,26 +286,26 @@
                 android:background="@drawable/edit_text_border"
                 android:gravity="left"/>
 
-            <TextView
-                android:id="@+id/TV_SituacaoBem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/TV_DataSaida"
-                android:layout_toEndOf="@id/ET_DataSaida"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="10dp"
-                android:text="Situaçao do bem"/>
+            <!--<TextView-->
+                <!--android:id="@+id/TV_SituacaoBem"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignBottom="@+id/TV_DataSaida"-->
+                <!--android:layout_toEndOf="@id/ET_DataSaida"-->
+                <!--android:layout_marginStart="25dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:text="Situaçao do bem"/>-->
 
-            <Spinner
-                android:id="@+id/Sp_SituacaoBem"
-                android:background="@drawable/spinner_background"
-                android:layout_width="150dp"
-                android:layout_height="25dp"
-                android:layout_toEndOf="@id/ET_DataSaida"
-                android:layout_alignBottom="@+id/ET_DataSaida"
-                android:layout_marginStart="25dp"
-                android:spinnerMode="dialog"
-                android:gravity="left"/>
+            <!--<Spinner-->
+                <!--android:id="@+id/Sp_SituacaoBem"-->
+                <!--android:background="@drawable/spinner_background"-->
+                <!--android:layout_width="150dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:layout_toEndOf="@id/ET_DataSaida"-->
+                <!--android:layout_alignBottom="@+id/ET_DataSaida"-->
+                <!--android:layout_marginStart="25dp"-->
+                <!--android:spinnerMode="dialog"-->
+                <!--android:gravity="left"/>-->
 
             <TextView
                 android:id="@+id/TV_SituacaoCheckList"
