@@ -65,7 +65,7 @@ public class FGM_Itens extends Fragment {
 
         @Override
         public int getCount() {
-            return ((ACT_CheckList)getActivity()).clsItens.getItens().length;
+            return ((ACT_CheckList)getActivity()).clsItens.getItens().size();
         }
 
         @Override
