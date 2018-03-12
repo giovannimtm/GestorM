@@ -102,7 +102,6 @@ public class ACT_Configuracao extends AppCompatActivity {
             }
 
             LSTR_STATUS = resposta;
-
             return LSTR_STATUS;
         }
 
@@ -111,6 +110,9 @@ public class ACT_Configuracao extends AppCompatActivity {
             load.dismiss();
             if (LSTR_STATUS.equals("true"))
                 Toast.makeText(getApplicationContext(), "Conexão Satisfatória",
+                        Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(getApplicationContext(), "Não encontrado!",
                         Toast.LENGTH_LONG).show();
         }
     }

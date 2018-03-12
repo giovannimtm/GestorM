@@ -5,6 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.google.gson.Gson;
+
+import java.util.Arrays;
+import java.util.List;
+
 import mtmsistemas.gestorm.Model.TIPOCOMPONENTE;
 
 /**
@@ -29,8 +34,8 @@ public class TIPOCOMPONENTEController {
             LCLS_TPCOMPONENTE = new TIPOCOMPONENTE(null);
             if (CDTIPOCOMPONENTE != null) {
 
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA(LCLS_TPCOMPONENTE, "tipocomponente", "GET",1);
-                LCLS_TPCOMPONENTE =(TIPOCOMPONENTE) LOBJ_Retorno;
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA(LCLS_TPCOMPONENTE, "tipocomponente", "GET", 1);
+                LCLS_TPCOMPONENTE = (TIPOCOMPONENTE) LOBJ_Retorno;
 
             } else {
                 return null;
@@ -54,8 +59,10 @@ public class TIPOCOMPONENTEController {
         Object LOBJ_Retorno = null;
         try {
             if (CLS_TIPOCOMPONENTE != null) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE , TIPOCOMPONENTE.INSERT_WB, 0);
-            } else {return new String("Não pode enviar classe Null");}
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE, TIPOCOMPONENTE.INSERT_WB, 0);
+            } else {
+                return new String("Não pode enviar classe Null");
+            }
             return LOBJ_Retorno.toString();
 
         } catch (Exception ex) {
@@ -68,15 +75,46 @@ public class TIPOCOMPONENTEController {
         }
     }
 
-    public String FU_Read_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE , int INT_IDTIPOCOMPNENTE) {
+    public List<TIPOCOMPONENTE> FU_Read_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE, int INT_IDTIPOCOMPNENTE) {
+        Gson LGS_JSON = null;
+        TIPOCOMPONENTE[] LCLS_TIPOCOMPONENTE = null;
+        String LOBJ_Retorno = null;
+
+        try {
+
+            LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
+                    null,
+                    TIPOCOMPONENTE.READ_WB,INT_IDTIPOCOMPNENTE).toString();
+            LGS_JSON = new Gson();
+            LCLS_TIPOCOMPONENTE = LGS_JSON.fromJson(LOBJ_Retorno.toString()
+                    , TIPOCOMPONENTE[].class);
+
+            if (LCLS_TIPOCOMPONENTE != null) {
+
+            }
+        } catch (Exception ex) {
+            try {
+                throw new Exception(ex.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } finally {
+
+        }
+        return Arrays.asList(LCLS_TIPOCOMPONENTE);
+    }
+
+    public String FU_Update_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE, int INT_IDTIPOCOMPNENTE) {
         TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
         ClsUtil LCLS_UTIL = null;
         Object LOBJ_Retorno = null;
 
         try {
             if (CLS_TIPOCOMPONENTE != null || INT_IDTIPOCOMPNENTE > 0) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE , TIPOCOMPONENTE.READ_WB,INT_IDTIPOCOMPNENTE );
-            } else {return new String("Não pode enviar classe Null");}
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE, TIPOCOMPONENTE.UPDATE_WB, INT_IDTIPOCOMPNENTE);
+            } else {
+                return new String("Não pode enviar classe Null");
+            }
             return LOBJ_Retorno.toString();
 
         } catch (Exception ex) {
@@ -89,36 +127,17 @@ public class TIPOCOMPONENTEController {
         }
     }
 
-    public String FU_Update_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE , int INT_IDTIPOCOMPNENTE) {
+    public String FU_Delete_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE, int INT_IDTIPOCOMPNENTE) {
         TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
         ClsUtil LCLS_UTIL = null;
         Object LOBJ_Retorno = null;
 
         try {
             if (CLS_TIPOCOMPONENTE != null || INT_IDTIPOCOMPNENTE > 0) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE , TIPOCOMPONENTE.UPDATE_WB,INT_IDTIPOCOMPNENTE );
-            } else {return new String("Não pode enviar classe Null");}
-            return LOBJ_Retorno.toString();
-
-        } catch (Exception ex) {
-            return new String("Exception: " + ex.getMessage());
-            //Log.e("TAG", Log.getStackTraceString(ex));
-        } finally {
-            LCLS_TPCOMPONENTE = null;
-            LCLS_UTIL = null;
-            LOBJ_Retorno = null;
-        }
-    }
-
-    public String FU_Delete_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE , int INT_IDTIPOCOMPNENTE) {
-        TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
-        ClsUtil LCLS_UTIL = null;
-        Object LOBJ_Retorno = null;
-
-        try {
-            if (CLS_TIPOCOMPONENTE != null || INT_IDTIPOCOMPNENTE > 0) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE , TIPOCOMPONENTE.DELETE_WB,INT_IDTIPOCOMPNENTE );
-            } else {return new String("Não pode enviar classe Null");}
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE, TIPOCOMPONENTE.DELETE_WB, INT_IDTIPOCOMPNENTE);
+            } else {
+                return new String("Não pode enviar classe Null");
+            }
             return LOBJ_Retorno.toString();
 
         } catch (Exception ex) {

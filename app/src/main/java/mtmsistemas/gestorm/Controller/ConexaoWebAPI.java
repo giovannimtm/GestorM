@@ -178,7 +178,7 @@ public class ConexaoWebAPI {
     public static Object FU_WB_EXECUTA_CRUD(Object CLS_CLASSE, String STR_METODO, int IDOBJETO) {
         Gson LGS_JSON = null;
         Object LOBJ_RETORNO = null;
-        String LSTR_REQUETMETHOD = "";
+        String LSTR_REQUETMETHOD = "GET";
 
         try {
 
@@ -220,12 +220,18 @@ public class ConexaoWebAPI {
         }
     }
 
-    public static StringBuffer FU_WB_AOBJECT(Object CLS_CLASSE, String STR_METODO, String STR_REQUETMETHOD, int IDOBJETO) {
+    public static StringBuffer FU_WB_ARROBJECT(Object CLS_CLASSE, String STR_METODO, int IDOBJETO) {
         StringBuffer LOBJ_RETORNO = null;
         Gson LGS_JSON = null;
+        String LSTR_REQUETMETHOD = "GET";
 
         try {
-            LOBJ_RETORNO = FU_WB_CONECTA(CLS_CLASSE, STR_METODO, STR_REQUETMETHOD, IDOBJETO);
+
+            if (STR_METODO.toUpperCase().contains("INSERT") ||
+                    STR_METODO.toUpperCase().contains("UPDATE")) {
+                LSTR_REQUETMETHOD = "POST";
+            }
+            LOBJ_RETORNO = FU_WB_CONECTA(CLS_CLASSE, STR_METODO, LSTR_REQUETMETHOD, IDOBJETO);
 
             return LOBJ_RETORNO;
         } catch (Exception ex) {
@@ -242,14 +248,18 @@ public class ConexaoWebAPI {
         try {
 
             LCLS_PARAMETROSCONTROLLER = new PARAMETROSController(null);
-            Cursor cursor = LCLS_PARAMETROSCONTROLLER .FU_Read_BD();
+            Cursor cursor = LCLS_PARAMETROSCONTROLLER.FU_Read_BD();
 
-            if(cursor.getCount() > 0 ){
-                url = new URL( cursor.getString(cursor.getColumnIndex("ENDERECOWEBAPI")).trim() + "/");
-            }else if(PARAMETROS.PSTR_ENDERECOWEBAPI != "")
-            {url = new URL( PARAMETROS.PSTR_ENDERECOWEBAPI + "/");}
-            else
-            {return false;}
+            if (cursor.getCount() > 0) {
+                if (PARAMETROS.PSTR_ENDERECOWEBAPI.toUpperCase().trim().equals(cursor.getString(cursor.getColumnIndex("ENDERECOWEBAPI")).trim() + "/"))
+                    url = new URL(cursor.getString(cursor.getColumnIndex("ENDERECOWEBAPI")).trim() + "");
+                else url = new URL(PARAMETROS.PSTR_ENDERECOWEBAPI + "");
+
+            } else if (PARAMETROS.PSTR_ENDERECOWEBAPI != "") {
+                url = new URL(PARAMETROS.PSTR_ENDERECOWEBAPI + "");
+            } else {
+                return false;
+            }
 
             conn = (HttpURLConnection) url.openConnection();
             conn = (HttpURLConnection) url.openConnection();
@@ -260,13 +270,25 @@ public class ConexaoWebAPI {
             conn.connect();
             PARAMETROS.PBOL_Conectado = conn.getResponseCode() == 200;
             return conn.getResponseCode() == 200;
-        } catch (OutOfMemoryError oomer) {
+        } catch (
+                OutOfMemoryError oomer)
+
+        {
             Log.e("ERRO", "Não foi possível converter o arquivo de vídeo para a transmissão. OutOfMemoryError. ", oomer);
-        } catch (UnsupportedEncodingException e) {
+        } catch (
+                UnsupportedEncodingException e)
+
+        {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (
+                IOException e)
+
+        {
             e.printStackTrace();
-        } catch (Exception ex) {
+        } catch (
+                Exception ex)
+
+        {
             try {
                 throw new Exception(ex.getMessage());
             } catch (Exception e) {

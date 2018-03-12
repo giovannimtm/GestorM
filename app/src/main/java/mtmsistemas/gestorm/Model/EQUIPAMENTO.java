@@ -10,6 +10,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class EQUIPAMENTO extends SQLiteOpenHelper {
 
+    public static String TABLE = "EQUIPAMENTO";
+    public static final String INSERT_WB = TABLE + "/insert";
+    public static final String READ_WB = TABLE ;
+    public static final String UPDATE_WB = TABLE + "/update";
+    public static final String DELETE_WB = TABLE+"/delete";
+
     public String IDEQUIPAMENTO = null;
     public String REFEQUIPAMENTO = null;
     public String CDEMPRESARAST = null;
@@ -36,7 +42,7 @@ public class EQUIPAMENTO extends SQLiteOpenHelper {
     public String SERVERORIG = null;
     public String DHCTRLREPLIC = null;
     //    private String MENSAGEM;
-    public static String TABLE = "EQUIPAMENTO";
+
 
     public String getIDEQUIPAMENTO() {
         return IDEQUIPAMENTO;

@@ -14,7 +14,7 @@ public class TIPOCOMPONENTE extends SQLiteOpenHelper {
     public static final String INSERT_WB = TABLE + "/insert";
     public static final String READ_WB = TABLE + "/read";
     public static final String UPDATE_WB = TABLE + "/update";
-    public static final String DELETE_WB = TABLE+"/delete";
+    public static final String DELETE_WB = TABLE + "/delete";
 
     private Object CDTIPOCOMPONENTE = null;
     private Object DSTIPOCOMPONENTE = null;

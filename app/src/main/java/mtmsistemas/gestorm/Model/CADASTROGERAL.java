@@ -11,7 +11,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CADASTROGERAL extends SQLiteOpenHelper {
 
     public static String TABLE = "CADASTROGERAL";
-
+    public static final String INSERT_WB = TABLE + "/insert";
+    public static final String READ_WB = TABLE ;
+    public static final String UPDATE_WB = TABLE + "/update";
+    public static final String DELETE_WB = TABLE + "/delete";
     private Object CDCADASTRO = null;
     private Object CGCCPF = null;
     private Object FGACTIVE = null;
