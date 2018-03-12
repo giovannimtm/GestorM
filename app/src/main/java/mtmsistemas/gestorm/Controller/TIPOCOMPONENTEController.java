@@ -83,7 +83,7 @@ public class TIPOCOMPONENTEController {
         try {
 
             LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
-                    null,
+                    CLS_TIPOCOMPONENTE,
                     TIPOCOMPONENTE.READ_WB,INT_IDTIPOCOMPNENTE).toString();
             LGS_JSON = new Gson();
             LCLS_TIPOCOMPONENTE = LGS_JSON.fromJson(LOBJ_Retorno.toString()

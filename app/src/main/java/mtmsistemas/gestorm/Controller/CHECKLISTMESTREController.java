@@ -57,7 +57,7 @@ public class CHECKLISTMESTREController {
         try {
 
             LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
-                    null,
+                    CLS_CHECKLISTMESTRE,
                     CHECKLISTMESTRE.READ_WB,INT_IDCHECKLISTMESTRE).toString();
             LGS_JSON = new Gson();
             LCLS_CHECKLISTMESTRE = LGS_JSON.fromJson(LOBJ_Retorno.toString()

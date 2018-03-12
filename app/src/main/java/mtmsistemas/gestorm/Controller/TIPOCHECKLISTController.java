@@ -55,7 +55,7 @@ public class TIPOCHECKLISTController {
         try {
 
             LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
-                    null,
+                    CLS_TPCHECKLIST,
                     TIPOCHECKLIST.READ_WB,INT_IDTIPOCOMPNENTE).toString();
             LGS_JSON = new Gson();
             LCLS_TIPOCHECKLIST = LGS_JSON.fromJson(LOBJ_Retorno.toString()
