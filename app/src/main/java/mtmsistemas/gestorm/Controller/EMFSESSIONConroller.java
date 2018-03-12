@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import mtmsistemas.gestorm.Model.DATABASE;
 import mtmsistemas.gestorm.Model.EMFSESSION;
 
 /**
@@ -15,7 +14,6 @@ import mtmsistemas.gestorm.Model.EMFSESSION;
 public class EMFSESSIONConroller {
     private SQLiteDatabase db;
     private EMFSESSION EMFSESSIONModel;
-    DATABASE myhelper;
 
     public static Context contexts;
 

@@ -1,7 +1,10 @@
 package mtmsistemas.gestorm.Controller;
 
+import java.util.List;
+
 import mtmsistemas.gestorm.BuildConfig;
 import mtmsistemas.gestorm.Model.EMFSESSION;
+import mtmsistemas.gestorm.Model.EQUIPAMENTO;
 
 /**
  * Created by Giovanni on 29/01/2018.
@@ -42,6 +45,13 @@ public class ClsAutenticacao {
                 // return LCLS_SESSION.getMENSAGEM().toString();}
 
                 EMFSESSION.LOCAL_IDSESSION = LCLS_SESSION.getIDSESSION();
+
+                List<EQUIPAMENTO> List_Equipamento ;
+                EQUIPAMENTO LCLS_EQUIPAMENTO = new EQUIPAMENTO(null);
+                EQUIPAMENTOController LCLS_EQUIPAMENTOCONTROLLER = new EQUIPAMENTOController(null);
+
+
+                //LCLS_EQUIPAMENTOCONTROLLER.F
 
                 //EMFSESSIONConroller controle = new EMFSESSIONConroller(EMFSESSIONConroller.contexts);
                 //controle.Insert(LCLS_SESSION);

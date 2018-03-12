@@ -13,7 +13,7 @@ import mtmsistemas.gestorm.View.Fragment.FGM_Itens;
 
 public class ACT_CheckList extends AppCompatActivity {
 
-    public static CHECKLISTITEMController clsItens = new CHECKLISTITEMController();
+    public static CHECKLISTITEMController clsItens = new CHECKLISTITEMController(null);
     static ClsUtil clsUtil = new ClsUtil();
 
     @Override

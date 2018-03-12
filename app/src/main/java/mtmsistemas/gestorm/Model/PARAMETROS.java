@@ -18,9 +18,9 @@ public class PARAMETROS extends SQLiteOpenHelper {
     public static final String DELETE_WB = TABLE + "/delete";
 
     //public static String PSTR_ENDERECOWEBAPI = "http://192.168.10.124:8021/GiclPLibWebAPI/api";
-    public static String PSTR_ENDERECOWEBAPI = "http://192.168.0.103:8021/GiclPLibWebAPI/api";
-    public static String PSTR_NMUsuario = "master";
+    public static String PSTR_ENDERECOWEBAPI = "http://192.168.0.101:8021/GiclPLibWebAPI/api";
     public static Boolean PBOL_Conectado = false;
+
     //Necessario para salvar no banco;
     private Context context;
 

@@ -178,7 +178,7 @@ public class ConexaoWebAPI {
     public static Object FU_WB_EXECUTA_CRUD(Object CLS_CLASSE, String STR_METODO, int IDOBJETO) {
         Gson LGS_JSON = null;
         Object LOBJ_RETORNO = null;
-        String LSTR_REQUETMETHOD = "";
+        String LSTR_REQUETMETHOD = "GET";
 
         try {
 
@@ -242,7 +242,7 @@ public class ConexaoWebAPI {
         try {
 
             LCLS_PARAMETROSCONTROLLER = new PARAMETROSController(null);
-            Cursor cursor = LCLS_PARAMETROSCONTROLLER .FU_Read_BD();
+            Cursor cursor = LCLS_PARAMETROSCONTROLLER.FU_Read_BD();
 
             if(cursor.getCount() > 0 ){
                 url = new URL( cursor.getString(cursor.getColumnIndex("ENDERECOWEBAPI")).trim() + "/");
