@@ -5,6 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.google.gson.Gson;
+
+import java.util.Arrays;
+import java.util.List;
+
 import mtmsistemas.gestorm.Model.CHECKLISTMESTRE;
 
 /**
@@ -44,25 +49,33 @@ public class CHECKLISTMESTREController {
         }
     }
 
-    public String FU_Read_WB(CHECKLISTMESTRE CLS_CHECKLISTMESTRE , int INT_IDCHECKLISTMESTRE) {
-        CHECKLISTMESTRE LCLS_TPCOMPONENTE = null;
-        ClsUtil LCLS_UTIL = null;
-        Object LOBJ_Retorno = null;
+    public List<CHECKLISTMESTRE> FU_Read_WB(CHECKLISTMESTRE CLS_CHECKLISTMESTRE , int INT_IDCHECKLISTMESTRE) {
+        Gson LGS_JSON = null;
+        CHECKLISTMESTRE[] LCLS_CHECKLISTMESTRE = null;
+        String LOBJ_Retorno = null;
 
         try {
-            if (CLS_CHECKLISTMESTRE != null || INT_IDCHECKLISTMESTRE > 0) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_CHECKLISTMESTRE , CHECKLISTMESTRE.READ_WB,INT_IDCHECKLISTMESTRE );
-            } else {return new String("Não pode enviar classe Null");}
-            return LOBJ_Retorno.toString();
 
+            LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
+                    null,
+                    CHECKLISTMESTRE.READ_WB,INT_IDCHECKLISTMESTRE).toString();
+            LGS_JSON = new Gson();
+            LCLS_CHECKLISTMESTRE = LGS_JSON.fromJson(LOBJ_Retorno.toString()
+                    , CHECKLISTMESTRE[].class);
+
+            if (LCLS_CHECKLISTMESTRE != null) {
+
+            }
         } catch (Exception ex) {
-            return new String("Exception: " + ex.getMessage());
-            //Log.e("TAG", Log.getStackTraceString(ex));
+            try {
+                throw new Exception(ex.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } finally {
-            LCLS_TPCOMPONENTE = null;
-            LCLS_UTIL = null;
-            LOBJ_Retorno = null;
+
         }
+        return Arrays.asList(LCLS_CHECKLISTMESTRE);
     }
 
     public String FU_Update_WB(CHECKLISTMESTRE CLS_CHECKLISTMESTRE , int INT_IDCHECKLISTMESTRE) {

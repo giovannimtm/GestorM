@@ -14,7 +14,10 @@ public class EMFSESSION extends SQLiteOpenHelper {
     //DEIXAR ESSE NOME DE VARIAVEL PADRAO EM TODAS AS CLASSES
     //o conteudo vai mudar de acordo com o nome da claase que devera ser gravado no banco
     public static final String TABLE = "EMFSESSION";
-
+    public static final String INSERT_WB = TABLE + "/insert";
+    public static final String READ_WB = TABLE ;
+    public static final String UPDATE_WB = TABLE + "/update";
+    public static final String DELETE_WB = TABLE + "/delete";
     //Variaveis para nomes de colunas no SQLLITE
     public static long LOCAL_IDSESSION = 0;
     public static String LOCAL_NMUSUARIO = "";

@@ -5,7 +5,11 @@ package mtmsistemas.gestorm.Model;
  */
 
 public class EQUIPAMENTOCOMPONENTE {
-
+    public static String TABLE = "EQUIPAMENTOCOMPONENTE";
+    public static final String INSERT_WB = TABLE + "/insert";
+    public static final String READ_WB = TABLE ;
+    public static final String UPDATE_WB = TABLE + "/update";
+    public static final String DELETE_WB = TABLE + "/delete";
     private Object _IDEQUIPAMENTO = null;
     private Object _SEQUENCIA = null;
     private Object _IDCOMPONENTE = null;

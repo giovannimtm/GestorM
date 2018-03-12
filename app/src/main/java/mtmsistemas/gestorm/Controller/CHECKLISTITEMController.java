@@ -5,6 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.google.gson.Gson;
+
+import java.util.Arrays;
+import java.util.List;
+
 import mtmsistemas.gestorm.Model.CHECKLISTITEM;
 
 /**
@@ -42,23 +47,33 @@ public class CHECKLISTITEMController {
         }
     }
 
-    public String FU_Read_WB(CHECKLISTITEM CLS_CHECKLISTITEM , int INT_IDCHECKLISTITEM) {
-        ClsUtil LCLS_UTIL = null;
-        Object LOBJ_Retorno = null;
+    public List<CHECKLISTITEM> FU_Read_WB(CHECKLISTITEM CLS_CHECKLISTITEM , int INT_IDCHECKLISTITEM) {
+        Gson LGS_JSON = null;
+        CHECKLISTITEM[] LCLS_CHECKLISTITEM = null;
+        String LOBJ_Retorno = null;
 
         try {
-            if (CLS_CHECKLISTITEM != null || INT_IDCHECKLISTITEM > 0) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_CHECKLISTITEM , CHECKLISTITEM.READ_WB,INT_IDCHECKLISTITEM );
-            } else {return new String("Não pode enviar classe Null");}
-            return LOBJ_Retorno.toString();
 
+            LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
+                    null,
+                    CHECKLISTITEM.READ_WB,INT_IDCHECKLISTITEM).toString();
+            LGS_JSON = new Gson();
+            LCLS_CHECKLISTITEM = LGS_JSON.fromJson(LOBJ_Retorno.toString()
+                    , CHECKLISTITEM[].class);
+
+            if (LCLS_CHECKLISTITEM != null) {
+
+            }
         } catch (Exception ex) {
-            return new String("Exception: " + ex.getMessage());
-            //Log.e("TAG", Log.getStackTraceString(ex));
+            try {
+                throw new Exception(ex.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } finally {
-            LCLS_UTIL = null;
-            LOBJ_Retorno = null;
+
         }
+        return Arrays.asList(LCLS_CHECKLISTITEM);
     }
 
     public String FU_Update_WB(CHECKLISTITEM CLS_CHECKLISTITEM , int INT_CHECKLISTITEM) {

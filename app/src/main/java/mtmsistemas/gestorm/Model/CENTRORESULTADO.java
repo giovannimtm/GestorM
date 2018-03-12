@@ -11,7 +11,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CENTRORESULTADO extends SQLiteOpenHelper {
 
     public static String TABLE = "CENTRORESULTADO";
-
+    public static final String INSERT_WB = TABLE + "/insert";
+    public static final String READ_WB = TABLE ;
+    public static final String UPDATE_WB = TABLE + "/update";
+    public static final String DELETE_WB = TABLE + "/delete";
     private Object CDCENTRORESULTADO = null;
     private Object FGACTIVE = null;
     private Object CDCENTRORESULTADON1 = null;

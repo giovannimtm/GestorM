@@ -45,7 +45,7 @@ public class EQUIPAMENTOController {
         }
     }
 
-    public String FU_Read_WB(EQUIPAMENTO CLS_EQUIPAMENTO , int INT_ID_EQUIPAMENTO) {
+    public Object FU_Read_WB(EQUIPAMENTO CLS_EQUIPAMENTO , int INT_ID_EQUIPAMENTO) {
         ClsUtil LCLS_UTIL = null;
         Object LOBJ_Retorno = null;
 
@@ -53,7 +53,26 @@ public class EQUIPAMENTOController {
             if (CLS_EQUIPAMENTO != null || INT_ID_EQUIPAMENTO > 0) {
                 LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_EQUIPAMENTO , EQUIPAMENTO.READ_WB,INT_ID_EQUIPAMENTO );
             } else {return new String("Não pode enviar classe Null");}
-            return LOBJ_Retorno.toString();
+            return LOBJ_Retorno;
+
+        } catch (Exception ex) {
+            return new String("Exception: " + ex.getMessage());
+            //Log.e("TAG", Log.getStackTraceString(ex));
+        } finally {
+            LCLS_UTIL = null;
+            LOBJ_Retorno = null;
+        }
+    }
+
+    public Object FU_Read_WB_All(EQUIPAMENTO CLS_EQUIPAMENTO ,int INT_ID_EQUIPAMENTO) {
+        ClsUtil LCLS_UTIL = null;
+        Object LOBJ_Retorno = null;
+
+        try {
+            if (CLS_EQUIPAMENTO != null || INT_ID_EQUIPAMENTO > 0) {
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_EQUIPAMENTO , EQUIPAMENTO.READ_WB,INT_ID_EQUIPAMENTO );
+            } else {return new String("Não pode enviar classe Null");}
+            return LOBJ_Retorno;
 
         } catch (Exception ex) {
             return new String("Exception: " + ex.getMessage());
@@ -248,17 +267,16 @@ public class EQUIPAMENTOController {
         }
     }
 
-    public static List<EQUIPAMENTO> FU_LIST_EQUIPAMENTO() throws Exception {
+    public List<EQUIPAMENTO> FU_LIST_EQUIPAMENTO() throws Exception {
         Gson LGS_JSON = null;
         EQUIPAMENTO[] LCLS_EQUIPAMENTO = null;
         String LOBJ_Retorno = null;
 
         try {
 
-            LOBJ_Retorno = ConexaoWebAPI.FU_WB_AOBJECT(
+            LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
                     null,
-                    "equipamento",
-                    "GET",0).toString();
+                    EQUIPAMENTO.READ_WB,24).toString();
             LGS_JSON = new Gson();
             LCLS_EQUIPAMENTO = LGS_JSON.fromJson(LOBJ_Retorno.toString()
                     , EQUIPAMENTO[].class);

@@ -12,7 +12,7 @@ public class EQUIPAMENTO extends SQLiteOpenHelper {
 
     public static String TABLE = "EQUIPAMENTO";
     public static final String INSERT_WB = TABLE + "/insert";
-    public static final String READ_WB = TABLE + "/read";
+    public static final String READ_WB = TABLE ;
     public static final String UPDATE_WB = TABLE + "/update";
     public static final String DELETE_WB = TABLE+"/delete";
 
