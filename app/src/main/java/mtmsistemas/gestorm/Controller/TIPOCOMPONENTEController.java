@@ -27,20 +27,27 @@ public class TIPOCOMPONENTEController {
         TIPOCOMPONENTEModel = new TIPOCOMPONENTE(contexts);
     }
 
-    public TIPOCOMPONENTE FU_BuscaDescricao_WB(Object CDTIPOCOMPONENTE) {
+    public TIPOCOMPONENTE[] FU_BuscaDescricao_WB(Object CDTIPOCOMPONENTE) {
+        TIPOCOMPONENTE[] LCLS_TPCOMPONENTES = null;
         TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
         Object LOBJ_Retorno = null;
+        int LINT_CDTIPOCOMPONENTE;
+        Gson LGS_JSON = null;
         try {
-            LCLS_TPCOMPONENTE = new TIPOCOMPONENTE(null);
+            //LCLS_TPCOMPONENTE = new TIPOCOMPONENTE(null);
             if (CDTIPOCOMPONENTE != null) {
+                LINT_CDTIPOCOMPONENTE = (Integer) CDTIPOCOMPONENTE;
 
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA(LCLS_TPCOMPONENTE, "tipocomponente", "GET", 1);
-                LCLS_TPCOMPONENTE = (TIPOCOMPONENTE) LOBJ_Retorno;
-
+                        LGS_JSON = new Gson();
+                LOBJ_Retorno = LGS_JSON.fromJson(ConexaoWebAPI.FU_WB_ARROBJECT(
+                        LCLS_TPCOMPONENTE
+                        , TIPOCOMPONENTE.READ_WB
+                        , LINT_CDTIPOCOMPONENTE).toString(), TIPOCOMPONENTE[].class);
+                LCLS_TPCOMPONENTES = (TIPOCOMPONENTE[]) LOBJ_Retorno;
             } else {
                 return null;
             }
-            return LCLS_TPCOMPONENTE;
+            return LCLS_TPCOMPONENTES;
 
         } catch (Exception ex) {
             //return new String("Exception: " + ex.getMessage());
@@ -49,7 +56,7 @@ public class TIPOCOMPONENTEController {
             LCLS_TPCOMPONENTE = null;
             LOBJ_Retorno = null;
         }
-        return LCLS_TPCOMPONENTE;
+        return LCLS_TPCOMPONENTES;
     }
 
     //CRUD WB
@@ -84,7 +91,7 @@ public class TIPOCOMPONENTEController {
 
             LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
                     CLS_TIPOCOMPONENTE,
-                    TIPOCOMPONENTE.READ_WB,INT_IDTIPOCOMPNENTE).toString();
+                    TIPOCOMPONENTE.READ_WB, INT_IDTIPOCOMPNENTE).toString();
             LGS_JSON = new Gson();
             LCLS_TIPOCOMPONENTE = LGS_JSON.fromJson(LOBJ_Retorno.toString()
                     , TIPOCOMPONENTE[].class);

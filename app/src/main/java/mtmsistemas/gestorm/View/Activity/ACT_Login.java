@@ -17,15 +17,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-
 import mtmsistemas.gestorm.BuildConfig;
 import mtmsistemas.gestorm.Controller.ClsAutenticacao;
 import mtmsistemas.gestorm.Controller.ClsUtil;
-import mtmsistemas.gestorm.Controller.ConexaoWebAPI;
 import mtmsistemas.gestorm.Controller.PARAMETROSController;
 import mtmsistemas.gestorm.Model.EMFSESSION;
-import mtmsistemas.gestorm.Model.PARAMETROS;
 import mtmsistemas.gestorm.R;
 
 public class ACT_Login extends AppCompatActivity {
@@ -65,7 +61,7 @@ public class ACT_Login extends AppCompatActivity {
         SW_Salvar.setChecked(false);
 
         if (CU_Cursor.getCount() > 0) {
-            PARAMETROS.setPstrEnderecowebapi(CU_Cursor.getString(CU_Cursor.getColumnIndex("ENDERECOWEBAPI")).trim());
+            //PARAMETROS.setPstrEnderecowebapi(CU_Cursor.getString(CU_Cursor.getColumnIndex("ENDERECOWEBAPI")).trim());
             EMFSESSION.LOCAL_NMUSUARIO = CU_Cursor.getString(CU_Cursor.getColumnIndex("NMUSUARIO")).trim();
             ET_Usuario.setText(EMFSESSION.LOCAL_NMUSUARIO.toUpperCase() );
             if (!EMFSESSION.LOCAL_NMUSUARIO.equals(""))
@@ -184,11 +180,12 @@ public class ACT_Login extends AppCompatActivity {
             }
             runOnUiThread(changeText);
 
-            try {
-                ConexaoWebAPI.FU_WB_TestaConexao();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                //DESMARCADO PARA TESTE, DEPOIS REMARCAR NOVAMENTE
+//                //ConexaoWebAPI.FU_WB_TestaConexao();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
 
             LSTR_MENSAGEM = "Autenticando";

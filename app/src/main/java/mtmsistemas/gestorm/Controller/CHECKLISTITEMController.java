@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,10 +23,19 @@ public class CHECKLISTITEMController {
     private SQLiteDatabase db;
     private CHECKLISTITEM CHECKLISTITEMController;
 
+    List<CHECKLISTITEM> itens = new ArrayList<CHECKLISTITEM>();
+
+    public List<CHECKLISTITEM> getItens(){return itens;}
+
     public static Context contexts;
 
     public CHECKLISTITEMController(Context context) {
         CHECKLISTITEMController = new CHECKLISTITEM(contexts);
+    }
+
+
+    public CHECKLISTITEM getItem(int posicao){
+        return itens.get(posicao);
     }
 
     //CRUD WB

@@ -17,9 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import mtmsistemas.gestorm.Controller.EquipamentoRestClient;
 import mtmsistemas.gestorm.Model.EMFSESSION;
-import mtmsistemas.gestorm.Model.EQUIPAMENTO;
 import mtmsistemas.gestorm.View.Activity.ACT_Login;
 
 public class MainActivity extends AppCompatActivity
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity
         if (EMFSESSION.LOCAL_IDSESSION == 0) {
             Intent intent = new Intent(getApplicationContext(), ACT_Login.class);
             startActivity(intent);
-            //runOnUiThread(ExecutaLogin);
+
         } else {
             TV_NMUsuario.setText(EMFSESSION.LOCAL_NMUSUARIO);
         }
@@ -134,23 +132,39 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public class GetJson extends AsyncTask<Void, Void, EQUIPAMENTO> {
+    public class SU_VerificaIDSESSION extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
-            load = ProgressDialog.show(MainActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
+            //load = ProgressDialog.show(MainActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
         }
 
         @Override
-        protected EQUIPAMENTO doInBackground(Void... params) {
-            EquipamentoRestClient util = new EquipamentoRestClient();
+        protected String doInBackground(Void... params) {
+
+            int LINT_COUNT = 0;
+            for (LINT_COUNT = 0; LINT_COUNT < 2000; LINT_COUNT++) {
+                if (EMFSESSION.LOCAL_IDSESSION != 0) {
+                    break;
+                }
+                try {
+                    Thread.sleep(9000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (EMFSESSION.LOCAL_IDSESSION == 0)
+                System.exit(0);
+
+            //EquipamentoRestClient util = new EquipamentoRestClient();
 
             //return util.getInformacao("https://randomuser.me/api/0.7");
-            return util.getInformacao("http://192.168.10.124:8021/GiclPLibWebAPI/api/equipamento");
+            //return util.getInformacao("http://192.168.10.124:8021/GiclPLibWebAPI/api/equipamento");
+            return "";
         }
 
         @Override
-        protected void onPostExecute(EQUIPAMENTO pessoa) {
+        protected void onPostExecute(String pessoa) {
 //            ET_IDEQUIP.setText(pessoa.get_IDEQUIPAMENTO().substring(0,1).toUpperCase()+pessoa.getNome().substring(1));
 //            ET_DSEQUIP.setText(pessoa.get_DSEQUIPAMENTO().substring(0,1).toUpperCase()+pessoa.getSobrenome().substring(1));
 //
@@ -167,25 +181,18 @@ public class MainActivity extends AppCompatActivity
 //            nascimento.setText(pessoa.getNascimento());
 //            telefone.setText(pessoa.getTelefone());
 //            foto.setImageBitmap(pessoa.getFoto());
-            load.dismiss();
+            //load.dismiss();
         }
     }
 
-    //    private Runnable ExecutaLogin = new Runnable() {
-//        @Override
-//        public void run() {
-//            Intent intent = new Intent(getApplicationContext(), ACT_Login.class);
-//            startActivity(intent);
-//        }
-//    };
+
     @Override
     public void onResume() {
         super.onResume();
         // put your code here...
 
-//        if (EMFSESSION.LOCAL_IDSESSION == 0) {
-//            System.exit(0);
-//        }
+    SU_VerificaIDSESSION sd = new SU_VerificaIDSESSION();
+    //sd.execute();
     }
 
     @Override
