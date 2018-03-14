@@ -11,12 +11,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mtmsistemas.gestorm.Controller.CHECKLISTITEMController;
 import mtmsistemas.gestorm.Controller.CHECKLISTMESTREController;
 import mtmsistemas.gestorm.Controller.ClsAutenticacao;
 import mtmsistemas.gestorm.Controller.ClsUtil;
+import mtmsistemas.gestorm.Model.CHECKLISTITEM;
 import mtmsistemas.gestorm.Model.CHECKLISTMESTRE;
 import mtmsistemas.gestorm.R;
 import mtmsistemas.gestorm.View.Fragment.FGM_CheckList_Detalhes;
@@ -28,8 +30,9 @@ public class ACT_CheckList extends AppCompatActivity {
     String LSTR_MENSAGEM;
 
     public static List<CHECKLISTMESTRE> checkList;
+    public static List<CHECKLISTITEM> checkListItems = new ArrayList<CHECKLISTITEM>();
     public static CHECKLISTMESTREController controllerCheckList = new CHECKLISTMESTREController(null);
-    public static CHECKLISTITEMController clsItens = new CHECKLISTITEMController(null);
+    public static CHECKLISTITEMController controllerCheckListItem = new CHECKLISTITEMController(null);
     static ClsUtil clsUtil = new ClsUtil();
 
     FGM_CheckList_Detalhes fgmCheckListDetalhes = new FGM_CheckList_Detalhes();
@@ -43,8 +46,8 @@ public class ACT_CheckList extends AppCompatActivity {
 
         clsUtil.FU_permissoes(this.getApplicationContext(), this);
 
-        Autenticacao aut = new Autenticacao();
-        aut.execute();
+        Webservice webservice = new Webservice();
+        webservice.execute();
 
         setContentView(R.layout.act_check_list);
 
@@ -61,7 +64,7 @@ public class ACT_CheckList extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-    private class Autenticacao extends AsyncTask<Void, Void, String> {
+    private class Webservice extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -71,8 +74,10 @@ public class ACT_CheckList extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             ClsAutenticacao.FU_AutenticaUsuario(null);
-            CHECKLISTMESTRE teste = new CHECKLISTMESTRE(null);
-            checkList = controllerCheckList.FU_Read_WB(teste, 24);
+            CHECKLISTMESTRE checkListVazio = new CHECKLISTMESTRE(null);
+            CHECKLISTITEM checkListItemVazio = new CHECKLISTITEM(null);
+            checkList = controllerCheckList.FU_Read_WB(checkListVazio, 24);
+            checkListItems = controllerCheckListItem.FU_Read_WB(checkListItemVazio, 24);
             return "";
         }
 

@@ -18,14 +18,33 @@ import mtmsistemas.gestorm.Model.CHECKLISTITEM;
 
 public class CHECKLISTITEMController {
 
+//    List<CHECKLISTITEM> itens = new ArrayList<CHECKLISTITEM>();
+//
+//    public List<CHECKLISTITEM> getItens(){return itens;}
+//
+//    public CHECKLISTITEM getItem(int posicao){
+//        return itens.get(posicao);
+//    }
+
 
     private SQLiteDatabase db;
     private CHECKLISTITEM CHECKLISTITEMController;
+    private TIPOCOMPONENTEController TIPOCOMPONENTEController = new TIPOCOMPONENTEController(null);
 
     public static Context contexts;
 
     public CHECKLISTITEMController(Context context) {
         CHECKLISTITEMController = new CHECKLISTITEM(contexts);
+    }
+
+    public String FU_Busca_Descricao_Componente(Object CDTIPOCOMPONENTE){
+        String descricao = "";
+        try{
+            descricao = (String) TIPOCOMPONENTEController.FU_BuscaDescricao_WB(CDTIPOCOMPONENTE).getDSTIPOCOMPONENTE();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return descricao;
     }
 
     //CRUD WB
@@ -47,7 +66,7 @@ public class CHECKLISTITEMController {
         }
     }
 
-    public List<CHECKLISTITEM> FU_Read_WB(CHECKLISTITEM CLS_CHECKLISTITEM , int INT_IDCHECKLISTITEM) {
+    public List<CHECKLISTITEM> FU_Read_WB(CHECKLISTITEM CLS_CHECKLISTITEM , int INT_IDCHECKLIST) {
         Gson LGS_JSON = null;
         CHECKLISTITEM[] LCLS_CHECKLISTITEM = null;
         String LOBJ_Retorno = null;
@@ -56,13 +75,15 @@ public class CHECKLISTITEMController {
 
             LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
                     null,
-                    CHECKLISTITEM.READ_WB,INT_IDCHECKLISTITEM).toString();
+                    CHECKLISTITEM.READ_WB,INT_IDCHECKLIST).toString();
             LGS_JSON = new Gson();
             LCLS_CHECKLISTITEM = LGS_JSON.fromJson(LOBJ_Retorno.toString()
                     , CHECKLISTITEM[].class);
 
             if (LCLS_CHECKLISTITEM != null) {
-
+                for (CHECKLISTITEM item : LCLS_CHECKLISTITEM) {
+                    item.setDESCRICAOCOMPONENTE(FU_Busca_Descricao_Componente(item.getCDTIPOCOMPONENTE()));
+                }
             }
         } catch (Exception ex) {
             try {
