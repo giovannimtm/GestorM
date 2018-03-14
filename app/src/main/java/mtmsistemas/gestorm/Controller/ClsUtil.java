@@ -393,6 +393,17 @@ public class ClsUtil{
         return LSTR_RETURN;
 
     }
+
+    public String FU_RetornaStringArrayComencandoCom(String comeco, String[] arrayString){
+        String retorno = "";
+        for(String item: arrayString){
+            if(item.startsWith(comeco)) {
+                retorno = item;
+                break;
+            }
+        }
+        return retorno;
+    }
     //Para a função abaixo funcionar é preciso extender a activity para a classe
 //    public String FU_retornaCaminhoImagem(Resources objeto, Integer idImagem)
 //    {

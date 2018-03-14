@@ -39,7 +39,7 @@ public class FGM_Itens extends Fragment {
     static ClsUtil clsUtil = new ClsUtil();
     static int posicaoAlterada;
     static String caminhoFoto;
-    static Boolean escondeViews = true;
+    static boolean[] escondeViews;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +50,9 @@ public class FGM_Itens extends Fragment {
 
         ListView listView = (ListView) v.findViewById(R.id.LST_Itens);
 
-        escondeViews = true;
+        escondeViews = new boolean[((ACT_CheckList) getActivity()).checkListItems.size()];
+
+        Arrays.fill(escondeViews, true);
 
         CustomAdapter customAdapter = new CustomAdapter();
 
@@ -65,7 +67,7 @@ public class FGM_Itens extends Fragment {
 
         @Override
         public int getCount() {
-            return ((ACT_CheckList)getActivity()).clsItens.getItens().size();
+            return ((ACT_CheckList) getActivity()).checkListItems.size();
         }
 
         @Override
@@ -80,10 +82,10 @@ public class FGM_Itens extends Fragment {
 
         @SuppressLint("RestrictedApi")
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             convertView = getLayoutInflater(null).inflate(R.layout.itens_checkllist_custom_layout, null);
 
-            final CHECKLISTITEM itemSelecionado = ((ACT_CheckList)getActivity()).clsItens.getItem(position);
+            final CHECKLISTITEM itemSelecionado = ((ACT_CheckList)getActivity()).checkListItems.get(position);
 
             final ImageButton imageButton =(ImageButton)convertView.findViewById(R.id.IMGBTN_ItemFoto);
 
@@ -96,12 +98,12 @@ public class FGM_Itens extends Fragment {
             TextView tv_nomeItem = (TextView)convertView.findViewById(R.id.TV_Item);
             Spinner sp_SituacaoItem;
 
-            tv_nomeItem.setText("itemSelecionado.getDescricaoComponente");
+            tv_nomeItem.setText(itemSelecionado.getDESCRICAOCOMPONENTE());
             tv_nomeItem.setTag(position);
             tv_nomeItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    escondeViews = false;
+                    escondeViews[position] = false;
                     viewsExpansiveis.add(labelObservacoesItem);
                     viewsExpansiveis.add(observacoesItem);
                     viewsExpansiveis.add(labelAvaliacaoItem);
@@ -189,7 +191,7 @@ public class FGM_Itens extends Fragment {
             });
 
             sp_SituacaoItem = (Spinner)convertView.findViewById(R.id.Sp_SituacaoItem);
-            String[] arraySituacoesBem = {"Status Item", "Ok","Avariado", "Faltando"};
+            String[] arraySituacoesBem = {"Status Item", "Otimo","Bom", "Normal", "Regular", "Pessimo"};
             ClsCustomListAdapter adapterSituacaoItem = new ClsCustomListAdapter(getContext(),android.R.layout.simple_spinner_dropdown_item, arraySituacoesBem, 0);
 
             sp_SituacaoItem.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -206,7 +208,9 @@ public class FGM_Itens extends Fragment {
             sp_SituacaoItem.setAdapter(adapterSituacaoItem);
 
             if(itemSelecionado.getFGSITUACAO() != null) {
-                sp_SituacaoItem.setSelection(Arrays.asList(arraySituacoesBem).indexOf(itemSelecionado.getFGSITUACAO()));
+                sp_SituacaoItem.setSelection(Arrays.asList(arraySituacoesBem).indexOf(
+                        clsUtil.FU_RetornaStringArrayComencandoCom(itemSelecionado.getFGSITUACAO().toString(),arraySituacoesBem)
+                ));
             }
 
             observacoesItem.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -240,12 +244,15 @@ public class FGM_Itens extends Fragment {
                 }
             });
 
-            if(itemSelecionado.getPCTAVALIACAO() != null){
-                avaliacaoItem.setProgress((Integer) itemSelecionado.getPCTAVALIACAO());
+            try{
+                Double d = (Double)itemSelecionado.getPCTAVALIACAO();
+                avaliacaoItem.setProgress(Integer.valueOf(d.intValue()));
                 percentualAvaliacao.setText(avaliacaoItem.getProgress() + "%");
+            }catch (Exception e){
+                e.printStackTrace();
             }
 
-            if(escondeViews){
+            if(escondeViews[position]){
                 labelObservacoesItem.setVisibility(View.GONE);
                 observacoesItem.setVisibility(View.GONE);
                 labelAvaliacaoItem.setVisibility(View.GONE);
@@ -256,7 +263,7 @@ public class FGM_Itens extends Fragment {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    escondeViews = false;
+                    escondeViews[position] = false;
                     viewsExpansiveis.add(labelObservacoesItem);
                     viewsExpansiveis.add(observacoesItem);
                     viewsExpansiveis.add(labelAvaliacaoItem);
@@ -299,7 +306,7 @@ public class FGM_Itens extends Fragment {
                     getActivity().sendBroadcast(mediaScannerIntent);
 
                     if(botaoClicado != null) {
-                        ((ACT_CheckList)getActivity()).clsItens.getItem(posicaoAlterada).setIMAGEMCOMPONENTE(file_path);
+                        ((ACT_CheckList)getActivity()).checkListItems.get(posicaoAlterada).setIMAGEMCOMPONENTE(file_path);
 
                         botaoClicado.setTag("Foto");
                         try {
@@ -337,7 +344,7 @@ public class FGM_Itens extends Fragment {
         View view = getView();
         ListView listView = (ListView) view.findViewById(R.id.LST_Itens);
 
-        escondeViews = true;
+        Arrays.fill(escondeViews, true);
 
         CustomAdapter customAdapter = new CustomAdapter();
 

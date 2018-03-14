@@ -23,6 +23,7 @@ public class CHECKLISTITEM extends SQLiteOpenHelper {
     private Object SGUSER = null;
     private Context context;
     private String IMAGEMCOMPONENTE = null;
+    private String DESCRICAOCOMPONENTE = null;
 
 
     public CHECKLISTITEM(Context context) {
@@ -84,6 +85,14 @@ public class CHECKLISTITEM extends SQLiteOpenHelper {
 
     public void setIMAGEMCOMPONENTE(String IMAGEMCOMPONENTE) {
         this.IMAGEMCOMPONENTE = IMAGEMCOMPONENTE;
+    }
+
+    public String getDESCRICAOCOMPONENTE() {
+        return DESCRICAOCOMPONENTE;
+    }
+
+    public void setDESCRICAOCOMPONENTE(String DESCRICAOCOMPONENTE) {
+        this.DESCRICAOCOMPONENTE = DESCRICAOCOMPONENTE;
     }
 
     @Override
