@@ -34,7 +34,7 @@ public class TIPOCOMPONENTEController {
         int LINT_CDTIPOCOMPONENTE;
         Gson LGS_JSON = null;
         try {
-            //LCLS_TPCOMPONENTE = new TIPOCOMPONENTE(null);
+            LCLS_TPCOMPONENTE = new TIPOCOMPONENTE(null);
             if (CDTIPOCOMPONENTE != null) {
                 LINT_CDTIPOCOMPONENTE = (Integer) CDTIPOCOMPONENTE;
 
