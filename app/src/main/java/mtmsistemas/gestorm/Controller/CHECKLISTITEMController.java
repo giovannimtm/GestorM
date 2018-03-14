@@ -40,7 +40,7 @@ public class CHECKLISTITEMController {
     public String FU_Busca_Descricao_Componente(Object CDTIPOCOMPONENTE){
         String descricao = "";
         try{
-            descricao = (String) TIPOCOMPONENTEController.FU_BuscaDescricao_WB(CDTIPOCOMPONENTE).getDSTIPOCOMPONENTE();
+            descricao = (String) TIPOCOMPONENTEController.FU_BuscaDescricao_WB(CDTIPOCOMPONENTE)[0].getDSTIPOCOMPONENTE();
         }catch (Exception e){
             e.printStackTrace();
         }
