@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import mtmsistemas.gestorm.Controller.CHECKLISTITEMController;
@@ -33,6 +34,7 @@ public class ACT_CheckList extends AppCompatActivity {
     public static List<CHECKLISTITEM> checkListItems = new ArrayList<CHECKLISTITEM>();
     public static CHECKLISTMESTREController controllerCheckList = new CHECKLISTMESTREController(null);
     public static CHECKLISTITEMController controllerCheckListItem = new CHECKLISTITEMController(null);
+    public static boolean[] escondeViews;
     static ClsUtil clsUtil = new ClsUtil();
 
     FGM_CheckList_Detalhes fgmCheckListDetalhes = new FGM_CheckList_Detalhes();
@@ -46,8 +48,10 @@ public class ACT_CheckList extends AppCompatActivity {
 
         clsUtil.FU_permissoes(this.getApplicationContext(), this);
 
-        Webservice webservice = new Webservice();
-        webservice.execute();
+        if (checkList == null) {
+            Webservice webservice = new Webservice();
+            webservice.execute();
+        }
 
         setContentView(R.layout.act_check_list);
 
@@ -86,6 +90,8 @@ public class ACT_CheckList extends AppCompatActivity {
             load.dismiss();
             @SuppressLint("ResourceType") View detalhesCheckList = findViewById(R.layout.fgm_check_list_detalhes);
             fgmCheckListDetalhes.SU_PopulaCampos();
+            escondeViews = new boolean[checkListItems.size()];
+            Arrays.fill(escondeViews, true);
         }
     }
 }
