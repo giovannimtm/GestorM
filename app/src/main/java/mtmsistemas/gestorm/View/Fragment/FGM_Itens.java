@@ -197,7 +197,7 @@ public class FGM_Itens extends Fragment {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     posicaoAlterada = FU_retornaPosicao(finalConvertView);
-                    itemSelecionado.setFGSITUACAO(parent.getSelectedItem().toString());
+                    itemSelecionado.setFGSITUACAO(parent.getSelectedItem().toString().substring(0,1));
                 }
 
                 @Override
