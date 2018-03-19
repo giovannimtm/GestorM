@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -61,12 +61,12 @@ public class ACT_ListaEquipamento extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             convertView = getLayoutInflater().inflate(R.layout.customlayout, null);
 
-            ImageView imageView=(ImageView)convertView.findViewById(R.id.Equipamento_IMG);
+            ImageButton imageButton=(ImageButton)convertView.findViewById(R.id.IMGBTN_FotoGeral);
             TextView LTV_Nome = (TextView)convertView.findViewById(R.id.CheckList_Numero);
             TextView LTV_Descricao=(TextView)convertView.findViewById(R.id.CheckList_Descricao);
             TextView LTV_Contador=(TextView)convertView.findViewById(R.id.Equipamento_Contador);
 
-            imageView.setImageResource(IMAGEM[position]);
+            imageButton.setImageResource(IMAGEM[position]);
             LTV_Nome.setText(NOME[position].toString());
             LTV_Descricao.setText(DESCRICAO[position]);
             LTV_Contador.setText(CONTADOR[position]);

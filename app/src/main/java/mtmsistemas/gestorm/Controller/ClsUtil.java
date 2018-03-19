@@ -270,7 +270,7 @@ public class ClsUtil{
     }
 
     public static File FU_criaArquivoImagemNaPAsta(String nomePasta) {
-        String caminhoPasta = Environment.getExternalStorageDirectory() + "/DCIM/Gestor/CheckList/" + nomePasta;
+        String caminhoPasta = Environment.getExternalStorageDirectory() + "/DCIM/Gestor/" + nomePasta;
         File pasta = new File(caminhoPasta);
         if (!pasta.exists()) {
             pasta.mkdirs();
