@@ -31,6 +31,7 @@ import mtmsistemas.gestorm.R;
 import mtmsistemas.gestorm.View.Activity.ACT_CheckList;
 
 import static android.app.Activity.RESULT_OK;
+import static mtmsistemas.gestorm.View.Activity.ACT_CheckList.escondeViews;
 
 public class FGM_Itens extends Fragment {
 
@@ -39,7 +40,6 @@ public class FGM_Itens extends Fragment {
     static ClsUtil clsUtil = new ClsUtil();
     static int posicaoAlterada;
     static String caminhoFoto;
-    static boolean[] escondeViews;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,10 +49,6 @@ public class FGM_Itens extends Fragment {
         View v = inflater.inflate(R.layout.fgm_itens, container, false);
 
         ListView listView = (ListView) v.findViewById(R.id.LST_Itens);
-
-        escondeViews = new boolean[((ACT_CheckList) getActivity()).checkListItems.size()];
-
-        Arrays.fill(escondeViews, true);
 
         CustomAdapter customAdapter = new CustomAdapter();
 
@@ -103,7 +99,10 @@ public class FGM_Itens extends Fragment {
             tv_nomeItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    escondeViews[position] = false;
+                    if (labelObservacoesItem.isShown())
+                        escondeViews[position] = true;
+                    else
+                        escondeViews[position] = false;
                     viewsExpansiveis.add(labelObservacoesItem);
                     viewsExpansiveis.add(observacoesItem);
                     viewsExpansiveis.add(labelAvaliacaoItem);
@@ -198,7 +197,7 @@ public class FGM_Itens extends Fragment {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     posicaoAlterada = FU_retornaPosicao(finalConvertView);
-                    itemSelecionado.setFGSITUACAO(parent.getSelectedItem().toString());
+                    itemSelecionado.setFGSITUACAO(parent.getSelectedItem().toString().substring(0,1));
                 }
 
                 @Override
@@ -263,7 +262,10 @@ public class FGM_Itens extends Fragment {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    escondeViews[position] = false;
+                    if (labelObservacoesItem.isShown())
+                        escondeViews[position] = true;
+                    else
+                        escondeViews[position] = false;
                     viewsExpansiveis.add(labelObservacoesItem);
                     viewsExpansiveis.add(observacoesItem);
                     viewsExpansiveis.add(labelAvaliacaoItem);
@@ -344,7 +346,7 @@ public class FGM_Itens extends Fragment {
         View view = getView();
         ListView listView = (ListView) view.findViewById(R.id.LST_Itens);
 
-        Arrays.fill(escondeViews, true);
+//        Arrays.fill(escondeViews, true);
 
         CustomAdapter customAdapter = new CustomAdapter();
 
