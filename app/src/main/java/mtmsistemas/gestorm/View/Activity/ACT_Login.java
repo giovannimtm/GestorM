@@ -40,6 +40,8 @@ public class ACT_Login extends AppCompatActivity {
     EMFSESSION LCLS_EMFSESSION = null;
     ClsUtil LCLS_UTIL = null;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +84,6 @@ public class ACT_Login extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            LCLS_EMFSESSION.setEQUIPMENT(Build.MODEL);
         }
 
         BT_Login.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +103,7 @@ public class ACT_Login extends AppCompatActivity {
                 LCLS_EMFSESSION.setSGENVIRONMENT("GESTOR");
                 LCLS_EMFSESSION.setSGLANGUAGE("PT-BR");
                 LCLS_EMFSESSION.setDHSESSION("0");
-                LCLS_EMFSESSION.setEQUIPMENT("2");
+                LCLS_EMFSESSION.setEQUIPMENT(Build.MODEL);
 
                 EMFSESSION.LOCAL_NMUSUARIO = ET_Usuario.getText().toString();
                 FU_chamarWebservice();
@@ -139,6 +140,7 @@ public class ACT_Login extends AppCompatActivity {
         autentica.execute();
         return LSTR_STATUS;
     }
+
 
     public void onClick_Sair(View view) {
         System.exit(0);

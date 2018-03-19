@@ -42,7 +42,7 @@ public class TIPOCOMPONENTEController {
                 LOBJ_Retorno = LGS_JSON.fromJson(ConexaoWebAPI.FU_WB_ARROBJECT(
                         LCLS_TPCOMPONENTE
                         , TIPOCOMPONENTE.READ_WB
-                        , LINT_CDTIPOCOMPONENTE).toString(), TIPOCOMPONENTE[].class);
+                        , LINT_CDTIPOCOMPONENTE,"").toString(), TIPOCOMPONENTE[].class);
                 LCLS_TPCOMPONENTES = (TIPOCOMPONENTE[]) LOBJ_Retorno;
             } else {
                 return null;
@@ -91,7 +91,7 @@ public class TIPOCOMPONENTEController {
 
             LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
                     CLS_TIPOCOMPONENTE,
-                    TIPOCOMPONENTE.READ_WB, INT_IDTIPOCOMPNENTE).toString();
+                    TIPOCOMPONENTE.READ_WB, INT_IDTIPOCOMPNENTE,"").toString();
             LGS_JSON = new Gson();
             LCLS_TIPOCOMPONENTE = LGS_JSON.fromJson(LOBJ_Retorno.toString()
                     , TIPOCOMPONENTE[].class);

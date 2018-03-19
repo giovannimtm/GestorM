@@ -1,6 +1,7 @@
 package mtmsistemas.gestorm.Controller;
 
 import mtmsistemas.gestorm.BuildConfig;
+import mtmsistemas.gestorm.Model.CHECKLISTMESTRE;
 import mtmsistemas.gestorm.Model.EMFSESSION;
 
 /**
@@ -37,23 +38,12 @@ public class ClsAutenticacao {
                 }
                 LCLS_SESSION = null;
                 LCLS_SESSION = (EMFSESSION) LOBJ_Retorno;
-
-                //if(LCLS_SESSION.getMENSAGEM().length() > 6){
-                // return LCLS_SESSION.getMENSAGEM().toString();}
-
                 EMFSESSION.LOCAL_IDSESSION = LCLS_SESSION.getIDSESSION();
 
-                TIPOCOMPONENTEController L = new TIPOCOMPONENTEController(null);
-                L.FU_BuscaDescricao_WB(1);
-                //EMFSESSIONConroller controle = new EMFSESSIONConroller(EMFSESSIONConroller.contexts);
-                //controle.Insert(LCLS_SESSION);
-                //controle.ReturnData();//controle.ReturnDataById(11254);
-                //controle.Update(11254, LCLS_SESSION);
-                //controle.Delete(11254);
-                //TOCOMPONENTEController controller = new TIPOCOMPONENTEController(null);
-                //controller.FU_WB_BuscaDescricao(2);
+                CHECKLISTMESTREController checklistmestreController = new CHECKLISTMESTREController(null);
+                CHECKLISTMESTRE checklistmestre = new CHECKLISTMESTRE(null);
+                checklistmestreController.FU_Read_WB(checklistmestre,0,"");
 
-                //ConexaoWebAPI.FU_WB_EXECUTA(null, "TIPOCOMPONENTE/UPLOAD", "POST", 0);
                 LSTR_RETURN = "true";
             }
 

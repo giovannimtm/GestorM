@@ -18,9 +18,8 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import mtmsistemas.gestorm.Controller.ConexaoWebAPI;
-import mtmsistemas.gestorm.Controller.EMFSESSIONConroller;
-import mtmsistemas.gestorm.Controller.EquipamentoRestClient;
 import mtmsistemas.gestorm.Controller.PARAMETROSController;
+import mtmsistemas.gestorm.Model.WEBAPI;
 import mtmsistemas.gestorm.R;
 import mtmsistemas.gestorm.View.Fragment.FGM_Webservice;
 
@@ -38,14 +37,14 @@ public class ACT_Configuracao extends AppCompatActivity {
 
     EditText ET_WsService;
     String LSTR_MENSAGEM = "AUTENTICANDO NO SERVIDOR";
-
+    Boolean LBOL_Conexao = false;
+    PARAMETROSController LCLS_PARAMETROSController;
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_configuracao);        // Set the view from main_fragment.xml
-        EMFSESSIONConroller.contexts = getBaseContext();
 
 //     setContentView(R.layout.main_fragment);
 //
@@ -84,6 +83,14 @@ public class ACT_Configuracao extends AppCompatActivity {
         return LSTR_STATUS;
     }
 
+
+    public String FU_testeWebservice(String str_endereco) {
+        SU_testaCONEXAO verificaCONEXAO = new SU_testaCONEXAO();
+        //Chama Async Task
+        verificaCONEXAO.execute(str_endereco);
+        return LSTR_STATUS;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     private class ConectaWebApi extends AsyncTask<Void, Void, String> {
 
@@ -116,45 +123,37 @@ public class ACT_Configuracao extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
         }
     }
-
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-    private class Autenticacao extends AsyncTask<Void, Void, String> {
+    public class SU_testaCONEXAO extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
-            load = ProgressDialog.show(ACT_Configuracao.this, "Por favor Aguarde ...", LSTR_MENSAGEM);
+            load = ProgressDialog.show(ACT_Configuracao.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
         }
 
         @Override
-        protected String doInBackground(Void... params) {
-            LSTR_MENSAGEM = "Procurando equipamentos";
+        protected String doInBackground(String... params) {
             try {
-                EquipamentoRestClient.FU_LIST_EQUIPAMENTO();
-            } catch (Exception e) {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            LSTR_MENSAGEM = "processado";
-            return LSTR_STATUS;
+            LBOL_Conexao = WEBAPI.PBOL_Conectado;
+            if (LBOL_Conexao) {
+                WEBAPI.setPstrEnderecowebapi(params[0].toString().trim() + ":8021/GiclPLibWebAPI/api");
+                LCLS_PARAMETROSController = new PARAMETROSController(getApplicationContext());
+                LCLS_PARAMETROSController.FU_Delete_BD(0);
+                LCLS_PARAMETROSController.FU_Insert_BD(null);
+
+            }
+            return "";
         }
 
         @Override
-        protected void onPostExecute(String STR_STATUS) {
+        protected void onPostExecute(String Status) {
             load.dismiss();
-
-            if (LSTR_STATUS.equals("true"))
-                Toast.makeText(getApplicationContext(), "Autenticado", Toast.LENGTH_LONG).show();
-            else if (LSTR_STATUS.toUpperCase().contains("EXCEPTION"))
-                Toast.makeText(getApplication(), LSTR_STATUS, Toast.LENGTH_LONG).show();
-            else {
-                Toast.makeText(getApplication(), LSTR_STATUS, Toast.LENGTH_LONG).show();
-            }
         }
-
-//        @Override
-//        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//            fragmentA.onActivityResult(requestCode,resultCode,data);
-//            //É necessário fazer isso para que o fragmentA tenha seu método onActivityResult chamado
-//        }
     }
 
     @Override

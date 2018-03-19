@@ -49,7 +49,7 @@ public class CHECKLISTMESTREController {
         }
     }
 
-    public List<CHECKLISTMESTRE> FU_Read_WB(CHECKLISTMESTRE CLS_CHECKLISTMESTRE , int INT_IDCHECKLISTMESTRE) {
+    public List<CHECKLISTMESTRE> FU_Read_WB(CHECKLISTMESTRE CLS_CHECKLISTMESTRE , int INT_IDCHECKLISTMESTRE,String STR_STATUS) {
         Gson LGS_JSON = null;
         CHECKLISTMESTRE[] LCLS_CHECKLISTMESTRE = null;
         String LOBJ_Retorno = null;
@@ -58,7 +58,7 @@ public class CHECKLISTMESTREController {
 
             LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
                     CLS_CHECKLISTMESTRE,
-                    CHECKLISTMESTRE.READ_WB,INT_IDCHECKLISTMESTRE).toString();
+                    CHECKLISTMESTRE.READ_WB,INT_IDCHECKLISTMESTRE,STR_STATUS).toString();
             LGS_JSON = new Gson();
             LCLS_CHECKLISTMESTRE = LGS_JSON.fromJson(LOBJ_Retorno.toString()
                     , CHECKLISTMESTRE[].class);

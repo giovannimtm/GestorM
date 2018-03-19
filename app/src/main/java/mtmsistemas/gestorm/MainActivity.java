@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import mtmsistemas.gestorm.Model.EMFSESSION;
+import mtmsistemas.gestorm.Model.WEBAPI;
+import mtmsistemas.gestorm.View.Activity.ACT_Configuracao;
 import mtmsistemas.gestorm.View.Activity.ACT_Login;
 
 public class MainActivity extends AppCompatActivity
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else {
-            TV_NMUsuario.setText(EMFSESSION.LOCAL_NMUSUARIO);
+            TV_NMUsuario.setText(EMFSESSION.LOCAL_NMUSUARIO.toUpperCase());
         }
 
 
@@ -129,32 +131,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onClick_Parametro(View View) {
-
+        Intent intent = new Intent(getApplicationContext(), ACT_Configuracao.class);
+        startActivity(intent);
     }
 
     public class SU_VerificaIDSESSION extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
-            //load = ProgressDialog.show(MainActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
         }
 
         @Override
         protected String doInBackground(Void... params) {
+            runOnUiThread(changeText);
 
-            int LINT_COUNT = 0;
-            for (LINT_COUNT = 0; LINT_COUNT < 2000; LINT_COUNT++) {
-                if (EMFSESSION.LOCAL_IDSESSION != 0) {
-                    break;
-                }
-                try {
-                    Thread.sleep(9000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (EMFSESSION.LOCAL_IDSESSION == 0)
-                System.exit(0);
 
             //EquipamentoRestClient util = new EquipamentoRestClient();
 
@@ -185,14 +175,38 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private Runnable changeText = new Runnable() {
+        @Override
+        public void run() {
+
+            int LINT_COUNT = 0;
+            while (!WEBAPI.PBOL_Conectado) {
+                for (LINT_COUNT = 0; LINT_COUNT < 2000; LINT_COUNT++) {
+                    if (EMFSESSION.LOCAL_IDSESSION != 0) {
+                        TV_NMUsuario.setText(EMFSESSION.LOCAL_NMUSUARIO.toUpperCase());
+                        break;
+                    }
+                    try {
+                        Thread.sleep(9000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            if (EMFSESSION.LOCAL_IDSESSION == 0)
+                System.exit(0);
+            }
+        }
+    };
 
     @Override
     public void onResume() {
         super.onResume();
         // put your code here...
 
-    SU_VerificaIDSESSION sd = new SU_VerificaIDSESSION();
-    //sd.execute();
+        SU_VerificaIDSESSION sd = new SU_VerificaIDSESSION();
+        //sd.execute();
+
     }
 
     @Override

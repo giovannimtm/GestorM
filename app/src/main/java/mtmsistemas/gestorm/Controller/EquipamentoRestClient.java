@@ -241,7 +241,7 @@ public static Object FU_WebService(Object CLS_CLASSE, String STR_REQUETMETHOD){
 
             LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
                     null,
-                    EQUIPAMENTO.READ_WB,1).toString();
+                    EQUIPAMENTO.READ_WB,0,"").toString();
             LGS_JSON = new Gson();
             LCLS_EQUIPAMENTO = LGS_JSON.fromJson(LOBJ_Retorno.toString()
                                                 ,EQUIPAMENTO[].class);

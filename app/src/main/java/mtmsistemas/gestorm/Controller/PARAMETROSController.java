@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import mtmsistemas.gestorm.Model.EMFSESSION;
 import mtmsistemas.gestorm.Model.PARAMETROS;
+import mtmsistemas.gestorm.Model.WEBAPI;
 
 
 /**
@@ -23,7 +24,6 @@ public class PARAMETROSController {
 
     public PARAMETROSController(Context context) {
         PARAMETROSModel = new PARAMETROS(contexts);
-
     }
 
     //CRUD WB
@@ -114,21 +114,34 @@ public class PARAMETROSController {
     public String FU_Insert_BD(PARAMETROS CLS_PARAMETROS) {
         ContentValues LCVA_VALUES;
         long LINT_RETURN = 0;
+        Cursor LCUR_Cursor = null;
+        WEBAPIController LCLS_WEBAPIController = null;
+
         try {
 
-            db = PARAMETROSModel.getWritableDatabase();
-            PARAMETROSModel.onUpgrade(db,0,1);
-            LCVA_VALUES = new ContentValues();
-            LCVA_VALUES.put("ENDERECOWEBAPI", PARAMETROS.getPstrEnderecowebapi().toString());
-            LCVA_VALUES.put("NMUSUARIO", EMFSESSION.LOCAL_NMUSUARIO);
-            LINT_RETURN = db.insert(PARAMETROS.TABLE, null, LCVA_VALUES);
-            db.close();
 
-            if (LINT_RETURN == -1)
-                return "Erro ao inserir registro";
-            else
-                return "Registro Inserido com sucesso";
+            LCLS_WEBAPIController = new WEBAPIController(contexts);
+            if (LCLS_WEBAPIController.FU_Insert_BD().toUpperCase().contains("SUCESSO")) ;
+            {
+                LCUR_Cursor = LCLS_WEBAPIController.FU_Read_BD();
+                if (LCUR_Cursor.getCount() > 0) {
+                    LCUR_Cursor.moveToLast();
+                    WEBAPI.setPintIdwebapi((Integer.parseInt(LCUR_Cursor.getString(LCUR_Cursor.getColumnIndex("IDWEBAPI")).trim())));
+                }
 
+                db = PARAMETROSModel.getWritableDatabase();
+                //PARAMETROSModel.onUpgrade(db, 0, 1);
+                LCVA_VALUES = new ContentValues();
+                LCVA_VALUES.put("IDWEBAPI", WEBAPI.getPintIdwebapi());
+                LCVA_VALUES.put("NMUSUARIO", EMFSESSION.LOCAL_NMUSUARIO);
+                LINT_RETURN = db.insert(PARAMETROS.TABLE, null, LCVA_VALUES);
+                db.close();
+
+                if (LINT_RETURN == -1)
+                    return "Erro ao inserir registro";
+                else
+                    return "Registro Inserido com sucesso";
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -141,17 +154,41 @@ public class PARAMETROSController {
         Cursor LCUR_CURSOR = null;
 //        String[] campos = {String.valueOf(EMFSESSION.LOCAL_IDSESSION)};
         String[] campos = {"*"};
+        WEBAPIController LCLS_WEBAPIController = null;
+        Cursor LCUR_WebApi = null;
+
         try {
             db = PARAMETROSModel.getReadableDatabase();
+            //PARAMETROSModel.onUpgrade(db, 0, 1);
             LCUR_CURSOR = db.query(PARAMETROS.TABLE, campos, null, null, null, null, null, null);
 
             if (LCUR_CURSOR != null) {
-                LCUR_CURSOR.moveToFirst();
+                if (LCUR_CURSOR.getCount() > 0) {
+                    LCUR_CURSOR.moveToFirst();
+                    try {
+                        LCLS_WEBAPIController = new WEBAPIController(contexts);
+                        LCUR_WebApi = LCLS_WEBAPIController.FU_Read_ID_BD((Integer.parseInt(LCUR_CURSOR.getString(LCUR_CURSOR.getColumnIndex("IDWEBAPI")))));
+
+                        if (LCUR_WebApi != null) {
+                            LCUR_WebApi.moveToFirst();
+                            WEBAPI.setPintIdwebapi((Integer.parseInt(LCUR_WebApi.getString(LCUR_WebApi.getColumnIndex("IDWEBAPI")))));
+                            WEBAPI.setPstrEnderecowebapi(LCUR_WebApi.getString(LCUR_WebApi.getColumnIndex("ENDERECOWEBAPI")));
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             db.close();
-        } catch (Exception e) {
+        } catch (
+                Exception e)
+
+        {
             e.printStackTrace();
-        } finally {
+        } finally
+
+        {
 
         }
         return LCUR_CURSOR;
@@ -159,6 +196,8 @@ public class PARAMETROSController {
 
     public Cursor FU_Read_ID_BD(int id) {
         Cursor LCUR_CURSOR = null;
+        WEBAPIController LCLS_WEBAPIController = null;
+        Cursor LCUR_WebApi = null;
         try {
             String[] campos = {"*"};
             String where = "IDPARAMETRO" + "=" + id;
@@ -167,6 +206,21 @@ public class PARAMETROSController {
 
             if (LCUR_CURSOR != null) {
                 LCUR_CURSOR.moveToFirst();
+
+                try {
+
+                    LCLS_WEBAPIController = new WEBAPIController(contexts);
+                    LCUR_WebApi = LCLS_WEBAPIController.FU_Read_ID_BD((Integer.parseInt(LCUR_CURSOR.getString(LCUR_CURSOR.getColumnIndex("IDWEBAPI")))));
+
+                    if (LCUR_WebApi != null) {
+                        LCUR_WebApi.moveToFirst();
+                        WEBAPI.setPintIdwebapi((Integer.parseInt(LCUR_WebApi.getString(LCUR_WebApi.getColumnIndex("IDWEBAPI")))));
+                        WEBAPI.setPstrEnderecowebapi(LCUR_WebApi.getString(LCUR_WebApi.getColumnIndex("ENDERECOWEBAPI")));
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             db.close();
         } catch (Exception e) {
@@ -188,7 +242,7 @@ public class PARAMETROSController {
                 where = "IDPARAMETRO" + "=" + id;
 
             LCVA_VALUES = new ContentValues();
-            LCVA_VALUES.put("ENDERECOWEBAPI", PARAMETROS.getPstrEnderecowebapi().toString());
+            LCVA_VALUES.put("IDWEBAPI", WEBAPI.getPintIdwebapi());
             LCVA_VALUES.put("NMUSUARIO", EMFSESSION.LOCAL_NMUSUARIO.toUpperCase());
             LINT_RETURN = db.update(PARAMETROS.TABLE, LCVA_VALUES, where, null);
             db.close();

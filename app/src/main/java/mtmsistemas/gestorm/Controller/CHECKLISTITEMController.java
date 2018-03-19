@@ -75,7 +75,7 @@ public class CHECKLISTITEMController {
 
             LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
                     null,
-                    CHECKLISTITEM.READ_WB,INT_IDCHECKLIST).toString();
+                    CHECKLISTITEM.READ_WB,INT_IDCHECKLIST,"").toString();
             LGS_JSON = new Gson();
             LCLS_CHECKLISTITEM = LGS_JSON.fromJson(LOBJ_Retorno.toString()
                     , CHECKLISTITEM[].class);

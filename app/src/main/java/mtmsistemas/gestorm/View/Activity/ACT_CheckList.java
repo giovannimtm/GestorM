@@ -76,7 +76,7 @@ public class ACT_CheckList extends AppCompatActivity {
             ClsAutenticacao.FU_AutenticaUsuario(null);
             CHECKLISTMESTRE checkListVazio = new CHECKLISTMESTRE(null);
             CHECKLISTITEM checkListItemVazio = new CHECKLISTITEM(null);
-            checkList = controllerCheckList.FU_Read_WB(checkListVazio, 24);
+            checkList = controllerCheckList.FU_Read_WB(checkListVazio, 24,"A");
             checkListItems = controllerCheckListItem.FU_Read_WB(checkListItemVazio, 24);
             return "";
         }

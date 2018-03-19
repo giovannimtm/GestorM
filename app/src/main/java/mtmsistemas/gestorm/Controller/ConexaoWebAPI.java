@@ -29,7 +29,7 @@ import java.util.Iterator;
 import javax.net.ssl.HttpsURLConnection;
 
 import mtmsistemas.gestorm.Model.EMFSESSION;
-import mtmsistemas.gestorm.Model.PARAMETROS;
+import mtmsistemas.gestorm.Model.WEBAPI;
 
 /**
  * Created by Giovanni on 29/11/2017.
@@ -81,7 +81,11 @@ public class ConexaoWebAPI {
         return result.toString();
     }
 
-    private static StringBuffer FU_WB_CONECTA(Object CLS_CLASSE, String STR_METODO, String STR_REQUETMETHOD, int IDOBJETO) {
+    private static StringBuffer FU_WB_CONECTA(Object CLS_CLASSE,
+                                              String STR_METODO,
+                                              String STR_REQUETMETHOD,
+                                              int IDOBJETO,
+                                              String STR_Param) {
         URL LUR_URL = null;
         HttpURLConnection conn = null;
         OutputStream LOS_OUTPUTSTREAM = null;
@@ -93,16 +97,25 @@ public class ConexaoWebAPI {
 
         try {
             if (EMFSESSION.LOCAL_IDSESSION == 0 && STR_METODO.toUpperCase().contains("AUTENTICA")) {
-                LUR_URL = new URL(PARAMETROS.PSTR_ENDERECOWEBAPI
+                LUR_URL = new URL(WEBAPI.PSTR_ENDERECOWEBAPI
                         + "/" + STR_METODO); // here is your URL path
-            } else if (IDOBJETO > 0) {
-                LUR_URL = new URL(PARAMETROS.PSTR_ENDERECOWEBAPI
-                        + "/" + STR_METODO
-                        + "/" + EMFSESSION.LOCAL_IDSESSION
-                        + "/" + IDOBJETO
-                ); // here is your URL path
+            } else if (IDOBJETO > 0 || !STR_Param.equals("")) {
+                if (!STR_Param.equals("")) {
+                    LUR_URL = new URL(WEBAPI.PSTR_ENDERECOWEBAPI
+                            + "/" + STR_METODO
+                            + "/" + EMFSESSION.LOCAL_IDSESSION
+                            + "/" + IDOBJETO
+                            + "/" + STR_Param
+                    );
+                } else {
+                    LUR_URL = new URL(WEBAPI.PSTR_ENDERECOWEBAPI
+                            + "/" + STR_METODO
+                            + "/" + EMFSESSION.LOCAL_IDSESSION
+                            + "/" + IDOBJETO
+                    ); // here is your URL path
+                }
             } else {
-                LUR_URL = new URL(PARAMETROS.PSTR_ENDERECOWEBAPI
+                LUR_URL = new URL(WEBAPI.PSTR_ENDERECOWEBAPI
                         + "/" + STR_METODO
                         + "/" + EMFSESSION.LOCAL_IDSESSION
                         + "/"); // here is your URL path
@@ -151,19 +164,33 @@ public class ConexaoWebAPI {
             String message = conn.getResponseMessage();
 
             return LSTB_BUFFER;
-        } catch (OutOfMemoryError oomer) {
+        } catch (
+                OutOfMemoryError oomer)
+
+        {
             Log.e("ERRO", "Não foi possível converter o arquivo de vídeo para a transmissão. OutOfMemoryError. ", oomer);
-        } catch (UnsupportedEncodingException e) {
+        } catch (
+                UnsupportedEncodingException e)
+
+        {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (
+                IOException e)
+
+        {
             e.printStackTrace();
-        } catch (Exception ex) {
+        } catch (
+                Exception ex)
+
+        {
             try {
                 throw new Exception(ex.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } finally {
+        } finally
+
+        {
             LUR_URL = null;
             conn = null;
             LOS_OUTPUTSTREAM = null;
@@ -189,7 +216,7 @@ public class ConexaoWebAPI {
             LGS_JSON = new Gson();
             LOBJ_RETORNO = LGS_JSON.fromJson(FU_WB_CONECTA(CLS_CLASSE
                     , STR_METODO
-                    , LSTR_REQUETMETHOD, IDOBJETO).toString()
+                    , LSTR_REQUETMETHOD, IDOBJETO, "").toString()
                     , CLS_CLASSE.getClass());
 
             return LOBJ_RETORNO;
@@ -209,7 +236,7 @@ public class ConexaoWebAPI {
             LGS_JSON = new Gson();
             LOBJ_RETORNO = LGS_JSON.fromJson(FU_WB_CONECTA(CLS_CLASSE
                     , STR_METODO
-                    , STR_REQUETMETHOD, IDOBJETO).toString()
+                    , STR_REQUETMETHOD, IDOBJETO, "").toString()
                     , CLS_CLASSE.getClass());
 
             return LOBJ_RETORNO;
@@ -220,7 +247,7 @@ public class ConexaoWebAPI {
         }
     }
 
-    public static StringBuffer FU_WB_ARROBJECT(Object CLS_CLASSE, String STR_METODO, int IDOBJETO) {
+    public static StringBuffer FU_WB_ARROBJECT(Object CLS_CLASSE, String STR_METODO, int IDOBJETO, String STR_PARAM) {
         StringBuffer LOBJ_RETORNO = null;
         Gson LGS_JSON = null;
         String LSTR_REQUETMETHOD = "GET";
@@ -231,7 +258,7 @@ public class ConexaoWebAPI {
                     STR_METODO.toUpperCase().contains("UPDATE")) {
                 LSTR_REQUETMETHOD = "POST";
             }
-            LOBJ_RETORNO = FU_WB_CONECTA(CLS_CLASSE, STR_METODO, LSTR_REQUETMETHOD, IDOBJETO);
+            LOBJ_RETORNO = FU_WB_CONECTA(CLS_CLASSE, STR_METODO, LSTR_REQUETMETHOD, IDOBJETO, STR_PARAM);
 
             return LOBJ_RETORNO;
         } catch (Exception ex) {
@@ -251,24 +278,23 @@ public class ConexaoWebAPI {
             Cursor cursor = LCLS_PARAMETROSCONTROLLER.FU_Read_BD();
 
             if (cursor.getCount() > 0) {
-                if (PARAMETROS.PSTR_ENDERECOWEBAPI.toUpperCase().trim().equals(cursor.getString(cursor.getColumnIndex("ENDERECOWEBAPI")).trim() + "/"))
+                if (WEBAPI.PSTR_ENDERECOWEBAPI.toUpperCase().trim().equals(cursor.getString(cursor.getColumnIndex("ENDERECOWEBAPI")).trim() + "/"))
                     url = new URL(cursor.getString(cursor.getColumnIndex("ENDERECOWEBAPI")).trim() + "");
-                else url = new URL(PARAMETROS.PSTR_ENDERECOWEBAPI + "");
+                else url = new URL(WEBAPI.PSTR_ENDERECOWEBAPI + "");
 
-            } else if (PARAMETROS.PSTR_ENDERECOWEBAPI != "") {
-                url = new URL(PARAMETROS.PSTR_ENDERECOWEBAPI + "");
+            } else if (WEBAPI.PSTR_ENDERECOWEBAPI != "") {
+                url = new URL(WEBAPI.PSTR_ENDERECOWEBAPI + "");
             } else {
                 return false;
             }
 
-            conn = (HttpURLConnection) url.openConnection();
             conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(4000); //set time out
             conn.setReadTimeout(4000);   // set socket time out
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             conn.connect();
-            PARAMETROS.PBOL_Conectado = conn.getResponseCode() == 200;
+            WEBAPI.PBOL_Conectado = conn.getResponseCode() == 200;
             return conn.getResponseCode() == 200;
         } catch (
                 OutOfMemoryError oomer)

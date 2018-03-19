@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import mtmsistemas.gestorm.Controller.PARAMETROSController;
-import mtmsistemas.gestorm.Model.PARAMETROS;
+import mtmsistemas.gestorm.Model.WEBAPI;
 import mtmsistemas.gestorm.R;
 import mtmsistemas.gestorm.View.Activity.ACT_Configuracao;
 
@@ -26,7 +26,6 @@ public class FGM_Webservice extends Fragment {
     Button BTN_Conectar;
     Button BTN_Cancelar;
     PARAMETROSController LCLS_PARAMETROSController;
-    Boolean LBOL_Conexao = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -36,30 +35,19 @@ public class FGM_Webservice extends Fragment {
         ET_WService = (EditText) rootview.findViewById(R.id.ET_WSendereco);
         BTN_Conectar = (Button) rootview.findViewById(R.id.BTN_Conectar);
         BTN_Cancelar = (Button) rootview.findViewById(R.id.BTN_Cancelar);
-        ET_WService.setText("192.168.0.101");
+        ET_WService.setText("192.168.0.100");
         BTN_Conectar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 LCLS_PARAMETROSController = new PARAMETROSController(getActivity());
                 if (!ET_WService.getText().toString().toUpperCase().contains("HTTP://"))
                     ET_WService.setText("http://" + ET_WService.getText().toString().trim());
 
-                PARAMETROS.setPstrEnderecowebapi(ET_WService.getText().toString().trim()
+                WEBAPI.setPstrEnderecowebapi(ET_WService.getText().toString().trim()
                         + ":8021/GiclPLibWebAPI/api/gestoricl/status/8021");
 
 
                 ((ACT_Configuracao) getActivity()).FU_chamarWebservice();
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                LBOL_Conexao = PARAMETROS.PBOL_Conectado;
-                if (LBOL_Conexao) {
-                    PARAMETROS.setPstrEnderecowebapi(ET_WService.getText().toString() + ":8021/GiclPLibWebAPI/api");
-                    LCLS_PARAMETROSController.FU_Delete_BD(0);
-                    LCLS_PARAMETROSController.FU_Insert_BD(null);
-                }
+                ((ACT_Configuracao) getActivity()).FU_testeWebservice(ET_WService.getText().toString().trim());
             }
         });
 
