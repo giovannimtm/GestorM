@@ -36,7 +36,7 @@ public class TIPOCOMPONENTEController {
         try {
             LCLS_TPCOMPONENTE = new TIPOCOMPONENTE(null);
             if (CDTIPOCOMPONENTE != null) {
-                LINT_CDTIPOCOMPONENTE = (Integer) CDTIPOCOMPONENTE;
+                LINT_CDTIPOCOMPONENTE = Integer.parseInt(CDTIPOCOMPONENTE.toString().replace(".0", ""));
 
                         LGS_JSON = new Gson();
                 LOBJ_Retorno = LGS_JSON.fromJson(ConexaoWebAPI.FU_WB_ARROBJECT(
@@ -50,6 +50,7 @@ public class TIPOCOMPONENTEController {
             return LCLS_TPCOMPONENTES;
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             //return new String("Exception: " + ex.getMessage());
             //Log.e("TAG", Log.getStackTraceString(ex));
         } finally {

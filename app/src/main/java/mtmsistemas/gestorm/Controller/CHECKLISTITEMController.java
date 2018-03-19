@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import mtmsistemas.gestorm.Model.CHECKLISTITEM;
+import mtmsistemas.gestorm.Model.TIPOCOMPONENTE;
 
 /**
  * Created by Giovanni on 05/03/2018.
@@ -40,7 +41,8 @@ public class CHECKLISTITEMController {
     public String FU_Busca_Descricao_Componente(Object CDTIPOCOMPONENTE){
         String descricao = "";
         try{
-            descricao = (String) TIPOCOMPONENTEController.FU_BuscaDescricao_WB(CDTIPOCOMPONENTE)[0].getDSTIPOCOMPONENTE();
+            TIPOCOMPONENTE[] tipocomponentes = TIPOCOMPONENTEController.FU_BuscaDescricao_WB(CDTIPOCOMPONENTE);
+            descricao = (String) tipocomponentes[0].getDSTIPOCOMPONENTE();
         }catch (Exception e){
             e.printStackTrace();
         }
