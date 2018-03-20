@@ -102,7 +102,7 @@ public class FGM_CheckList_Detalhes extends Fragment {
 
     public void SU_PopulaCampos(){
         try {
-            CHECKLISTMESTRE checklist = ((ACT_CheckList)getActivity()).getCheckList(0);
+            CHECKLISTMESTRE checklist = ((ACT_CheckList)getActivity()).getCheckList();
 
             if (checklist.getIDCHECKLIST() != null) {
                 EditText ET_idCheckList = (EditText) v.findViewById(R.id.ET_IdCheckList);

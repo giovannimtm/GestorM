@@ -92,7 +92,7 @@ public class ACT_ListaCheckList extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             convertView = getLayoutInflater().inflate(R.layout.customlayout, null);
 
             final CHECKLISTMESTRE itemSelecionado = checkLists.get(position);
@@ -145,6 +145,15 @@ public class ACT_ListaCheckList extends AppCompatActivity {
                 }
             } else
                 imageButton.setTag(null);
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ACT_ListaCheckList.this, ACT_CheckList.class);
+                    ACT_CheckList.checkList = checkLists.get(position);
+                    startActivity(intent);
+                }
+            });
 
             return convertView;
         }
@@ -205,7 +214,7 @@ public class ACT_ListaCheckList extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(checkLists != null) {
+        if (checkLists != null) {
             CustomAdapter customAdapter = new CustomAdapter();
             listView.setAdapter(customAdapter);
         }
