@@ -28,6 +28,7 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
     private Object IDORDEMSERVICO = null;
     private Object CDCENTRORESULTADO = null;
     private String IMAGEMCOMPONENTE = null;
+    private String DESCRICAOTIPOCHECKLIST = null;
     private Context context;
 
 
@@ -130,6 +131,12 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
 
     public void setIMAGEMCOMPONENTE(String IMAGEMCOMPONENTE) {
         this.IMAGEMCOMPONENTE = IMAGEMCOMPONENTE;
+    }
+
+    public String getDESCRICAOTIPOCHECKLIST(){return DESCRICAOTIPOCHECKLIST;}
+
+    public void setDESCRICAOTIPOCHECKLIST(String DESCRICAOTIPOCHECKLIST){
+        this.DESCRICAOTIPOCHECKLIST = DESCRICAOTIPOCHECKLIST;
     }
 
     @Override

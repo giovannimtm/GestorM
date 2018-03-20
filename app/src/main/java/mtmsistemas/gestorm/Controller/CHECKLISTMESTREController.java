@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import mtmsistemas.gestorm.Model.CHECKLISTMESTRE;
+import mtmsistemas.gestorm.Model.TIPOCHECKLIST;
 
 /**
  * Created by Giovanni on 09/03/2018.
@@ -64,7 +65,9 @@ public class CHECKLISTMESTREController {
                     , CHECKLISTMESTRE[].class);
 
             if (LCLS_CHECKLISTMESTRE != null) {
-
+                for (CHECKLISTMESTRE item : LCLS_CHECKLISTMESTRE) {
+                    item.setDESCRICAOTIPOCHECKLIST(FU_Busca_Descricao_Tipo_CheckList(item.getCDTIPOCHECKLIST()));
+                }
             }
         } catch (Exception ex) {
             try {
@@ -238,6 +241,20 @@ public class CHECKLISTMESTREController {
         } finally {
 
         }
+    }
+
+    public String FU_Busca_Descricao_Tipo_CheckList(Object CDTIPOCHECKLIST){
+        String descricao = "";
+        try{
+            TIPOCHECKLIST tipochecklist = new TIPOCHECKLIST(null);
+            TIPOCHECKLISTController tipochecklistController = new TIPOCHECKLISTController(null);
+            List<TIPOCHECKLIST> tiposchecklist = tipochecklistController.FU_Read_WB(tipochecklist,
+                    Integer.parseInt((Double.toString((Double) CDTIPOCHECKLIST)).replace(".0", "")));
+            descricao = (String) tiposchecklist.get(0).getDSTIPOCHECKLIST();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return descricao;
     }
 
 }

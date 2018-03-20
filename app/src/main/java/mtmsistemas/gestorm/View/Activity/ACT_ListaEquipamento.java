@@ -62,8 +62,8 @@ public class ACT_ListaEquipamento extends AppCompatActivity {
             convertView = getLayoutInflater().inflate(R.layout.customlayout, null);
 
             ImageButton imageButton=(ImageButton)convertView.findViewById(R.id.IMGBTN_FotoGeral);
-            TextView LTV_Nome = (TextView)convertView.findViewById(R.id.CheckList_Numero);
-            TextView LTV_Descricao=(TextView)convertView.findViewById(R.id.CheckList_Descricao);
+            TextView LTV_Nome = (TextView)convertView.findViewById(R.id.Id);
+            TextView LTV_Descricao=(TextView)convertView.findViewById(R.id.Descricao);
             TextView LTV_Contador=(TextView)convertView.findViewById(R.id.Equipamento_Contador);
 
             imageButton.setImageResource(IMAGEM[position]);

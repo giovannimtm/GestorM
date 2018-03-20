@@ -26,7 +26,7 @@
 
     <TextView
         android:textSize="20sp"
-        android:id="@+id/CheckList_Numero"
+        android:id="@+id/Id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -36,18 +36,18 @@
 
     <TextView
         android:textSize="15sp"
-        android:id="@+id/CheckList_Descricao"
+        android:id="@+id/Descricao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:layout_below="@+id/CheckList_Numero"
-        android:layout_alignStart="@+id/CheckList_Numero" />
+        android:layout_below="@+id/Id"
+        android:layout_alignStart="@+id/Id" />
 
     <TextView
         android:id="@+id/Equipamento_Contador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/CheckList_Descricao"
+        android:layout_above="@+id/Descricao"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/Equipamento_IMG"
         android:layout_marginRight="10dp"
