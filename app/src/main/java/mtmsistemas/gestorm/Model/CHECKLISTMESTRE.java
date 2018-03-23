@@ -17,7 +17,7 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
     public static final String DELETE_WB = TABLE + "/delete";
 
     private Object IDCHECKLIST = null;
-    private Object IDEQUIPAMENTO = null;
+    private Integer IDEQUIPAMENTO = null;
     private Object CDTIPOCHECKLIST = null;
     private Object CDCADASTRORESP = null;
     private Object CONTAGEMUSO = null;
@@ -29,6 +29,7 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
     private Object CDCENTRORESULTADO = null;
     private String IMAGEMCOMPONENTE = null;
     private String DESCRICAOTIPOCHECKLIST = null;
+    private String DESCRICAOEQUIPAMENTO = null;
     private Context context;
 
 
@@ -45,11 +46,11 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
         this.IDCHECKLIST = IDCHECKLIST;
     }
 
-    public Object getIDEQUIPAMENTO() {
+    public Integer getIDEQUIPAMENTO() {
         return IDEQUIPAMENTO;
     }
 
-    public void setIDEQUIPAMENTO(Object IDEQUIPAMENTO) {
+    public void setIDEQUIPAMENTO(Integer IDEQUIPAMENTO) {
         this.IDEQUIPAMENTO = IDEQUIPAMENTO;
     }
 
@@ -137,6 +138,12 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
 
     public void setDESCRICAOTIPOCHECKLIST(String DESCRICAOTIPOCHECKLIST){
         this.DESCRICAOTIPOCHECKLIST = DESCRICAOTIPOCHECKLIST;
+    }
+
+    public String getDESCRICAOEQUIPAMENTO(){return DESCRICAOEQUIPAMENTO;}
+
+    public void setDESCRICAOEQUIPAMENTO(String DESCRICAOEQUIPAMENTO){
+        this.DESCRICAOEQUIPAMENTO = DESCRICAOEQUIPAMENTO;
     }
 
     @Override

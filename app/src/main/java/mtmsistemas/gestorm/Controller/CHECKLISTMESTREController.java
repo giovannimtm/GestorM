@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import mtmsistemas.gestorm.Model.CHECKLISTMESTRE;
+import mtmsistemas.gestorm.Model.EQUIPAMENTO;
 import mtmsistemas.gestorm.Model.TIPOCHECKLIST;
 
 /**
@@ -67,6 +68,7 @@ public class CHECKLISTMESTREController {
             if (LCLS_CHECKLISTMESTRE != null) {
                 for (CHECKLISTMESTRE item : LCLS_CHECKLISTMESTRE) {
                     item.setDESCRICAOTIPOCHECKLIST(FU_Busca_Descricao_Tipo_CheckList(item.getCDTIPOCHECKLIST()));
+                    item.setDESCRICAOEQUIPAMENTO(FU_Busca_Descricao_Equipamento(item.getIDEQUIPAMENTO()));
                 }
             }
         } catch (Exception ex) {
@@ -251,6 +253,22 @@ public class CHECKLISTMESTREController {
             List<TIPOCHECKLIST> tiposchecklist = tipochecklistController.FU_Read_WB(tipochecklist,
                     Integer.parseInt((Double.toString((Double) CDTIPOCHECKLIST)).replace(".0", "")));
             descricao = (String) tiposchecklist.get(0).getDSTIPOCHECKLIST();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return descricao;
+    }
+
+    public String FU_Busca_Descricao_Equipamento(Integer IDEQUIPAMENTO){
+        String descricao = "";
+        try{
+            EQUIPAMENTO equipamentoVazio = new EQUIPAMENTO(null);
+            EQUIPAMENTOController equipamentoController = new EQUIPAMENTOController(null);
+            List<EQUIPAMENTO> equipamento = equipamentoController.FU_Read_WB(equipamentoVazio,
+//                    Integer.parseInt((Double.toString((Double) IDEQUIPAMENTO)).replace(".0", ""))
+                    IDEQUIPAMENTO
+            );
+            descricao = (String) ( equipamento.get(0).getDSEQUIPAMENTO());
         }catch (Exception e){
             e.printStackTrace();
         }

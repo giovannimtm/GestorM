@@ -101,12 +101,15 @@ public class ACT_ListaCheckList extends AppCompatActivity {
             final ImageButton imageButton = (ImageButton) convertView.findViewById(R.id.IMGBTN_FotoGeral);
             TextView LTV_Nome = (TextView) convertView.findViewById(R.id.Id);
             TextView LTV_Descricao = (TextView) convertView.findViewById(R.id.Descricao);
-            TextView LTV_Contador = (TextView) convertView.findViewById(R.id.Equipamento_Contador);
+            TextView LTV_Equipamento = (TextView) convertView.findViewById(R.id.Equipamento);
+            TextView LTV_Local = (TextView) convertView.findViewById(R.id.Local);
 
             LTV_Nome.setText(Double.toString((Double) itemSelecionado.getIDCHECKLIST()).replace(".0", ""));
             LTV_Nome.setTag(position);
 
-            LTV_Descricao.setText((String) itemSelecionado.getDESCRICAOTIPOCHECKLIST());
+            LTV_Descricao.setText(itemSelecionado.getDESCRICAOTIPOCHECKLIST());
+            LTV_Equipamento.setText(itemSelecionado.getDESCRICAOEQUIPAMENTO());
+            LTV_Local.setText((String) itemSelecionado.getLOCALREALIZADO());
 
             final View finalConvertView = convertView;
             imageButton.setOnClickListener(new View.OnClickListener() {

@@ -64,7 +64,7 @@ public class ACT_ListaEquipamento extends AppCompatActivity {
             ImageButton imageButton=(ImageButton)convertView.findViewById(R.id.IMGBTN_FotoGeral);
             TextView LTV_Nome = (TextView)convertView.findViewById(R.id.Id);
             TextView LTV_Descricao=(TextView)convertView.findViewById(R.id.Descricao);
-            TextView LTV_Contador=(TextView)convertView.findViewById(R.id.Equipamento_Contador);
+            TextView LTV_Contador=(TextView)convertView.findViewById(R.id.Equipamento);
 
             imageButton.setImageResource(IMAGEM[position]);
             LTV_Nome.setText(NOME[position].toString());

@@ -45,23 +45,29 @@ public class EQUIPAMENTOController {
         }
     }
 
-    public Object FU_Read_WB(EQUIPAMENTO CLS_EQUIPAMENTO , int INT_ID_EQUIPAMENTO) {
-        ClsUtil LCLS_UTIL = null;
+    public List<EQUIPAMENTO> FU_Read_WB(EQUIPAMENTO CLS_EQUIPAMENTO , int INT_ID_EQUIPAMENTO) {
+        Gson LGS_JSON = null;
+        EQUIPAMENTO[] LCLS_EQUIPAMENTO = null;
         Object LOBJ_Retorno = null;
 
         try {
             if (CLS_EQUIPAMENTO != null || INT_ID_EQUIPAMENTO > 0) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_EQUIPAMENTO , EQUIPAMENTO.READ_WB,INT_ID_EQUIPAMENTO );
-            } else {return new String("Não pode enviar classe Null");}
-            return LOBJ_Retorno;
+                LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(CLS_EQUIPAMENTO , EQUIPAMENTO.READ_WB,INT_ID_EQUIPAMENTO,"");
+                LGS_JSON = new Gson();
+                LCLS_EQUIPAMENTO = LGS_JSON.fromJson(LOBJ_Retorno.toString()
+                        , EQUIPAMENTO[].class);
+            }
 
         } catch (Exception ex) {
-            return new String("Exception: " + ex.getMessage());
+            try {
+                throw new Exception(ex.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             //Log.e("TAG", Log.getStackTraceString(ex));
         } finally {
-            LCLS_UTIL = null;
-            LOBJ_Retorno = null;
         }
+        return Arrays.asList(LCLS_EQUIPAMENTO);
     }
 
     public Object FU_Read_WB_All(EQUIPAMENTO CLS_EQUIPAMENTO ,int INT_ID_EQUIPAMENTO) {

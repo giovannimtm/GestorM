@@ -44,13 +44,18 @@
         android:layout_alignStart="@+id/Id" />
 
     <TextView
-        android:id="@+id/Equipamento_Contador"
+        android:id="@+id/Equipamento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/Descricao"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/Equipamento_IMG"
-        android:layout_marginRight="10dp"
         android:text="TextView"
-        android:textAlignment="textEnd" />
+        android:layout_below="@+id/Descricao"
+        android:layout_alignStart="@+id/Descricao"/>
+
+    <TextView
+        android:id="@+id/Local"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_below="@+id/Equipamento"
+        android:layout_alignStart="@+id/Equipamento"/>
 </RelativeLayout>
