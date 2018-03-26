@@ -17,9 +17,9 @@ public class WEBAPI extends SQLiteOpenHelper {
     public static final String UPDATE_WB = TABLE + "/update";
     public static final String DELETE_WB = TABLE + "/delete";
 
-    //public static String PSTR_ENDERECOWEBAPI = "http://192.168.10.124:8021/GiclPLibWebAPI/api";
+    //public static String PSTR_ENDERECOWEBAPI = "http://192.168.10.124:8021/pickingbyvoice/api";
     private static int PINT_IDWEBAPI;
-    public static String PSTR_ENDERECOWEBAPI = "http://192.168.0.103:8021/GiclPLibWebAPI/api";
+    public static String PSTR_ENDERECOWEBAPI = "http://192.168.0.104:8021/pickingbyvoice/api";
     public static Boolean PBOL_Conectado = false;
 
     //Necessario para salvar no banco;

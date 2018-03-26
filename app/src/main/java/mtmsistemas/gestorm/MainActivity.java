@@ -1,6 +1,7 @@
 package mtmsistemas.gestorm;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,12 +11,16 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import mtmsistemas.gestorm.Model.EMFSESSION;
 import mtmsistemas.gestorm.Model.WEBAPI;
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity
     private ProgressDialog load;
     TextView TV_NMUsuario;
     public String STR_Usuario;
+    Timer timerObj = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,8 @@ public class MainActivity extends AppCompatActivity
         if (EMFSESSION.LOCAL_IDSESSION == 0) {
             Intent intent = new Intent(getApplicationContext(), ACT_Login.class);
             startActivity(intent);
+
+            //timerObj.schedule(timerTaskObj, 48000, 120000);
 
         } else {
             TV_NMUsuario.setText(EMFSESSION.LOCAL_NMUSUARIO.toUpperCase());
@@ -135,87 +143,35 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public class SU_VerificaIDSESSION extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            runOnUiThread(changeText);
-
-
-            //EquipamentoRestClient util = new EquipamentoRestClient();
-
-            //return util.getInformacao("https://randomuser.me/api/0.7");
-            //return util.getInformacao("http://192.168.10.124:8021/GiclPLibWebAPI/api/equipamento");
-            return "";
-        }
-
-        @Override
-        protected void onPostExecute(String pessoa) {
-//            ET_IDEQUIP.setText(pessoa.get_IDEQUIPAMENTO().substring(0,1).toUpperCase()+pessoa.getNome().substring(1));
-//            ET_DSEQUIP.setText(pessoa.get_DSEQUIPAMENTO().substring(0,1).toUpperCase()+pessoa.getSobrenome().substring(1));
-//
-//            ET_IDEQUIP.setText(pessoa.get_IDEQUIPAMENTO().toString());
-//            ET_DSEQUIP.setText(pessoa.get_DSEQUIPAMENTO().toString());
-
-//            email.setT
-// ext(pessoa.getEmail());
-//            endereco.setText(pessoa.getEndereco());
-//            cidade.setText(pessoa.getCidade().substring(0,1).toUpperCase()+pessoa.getCidade().substring(1));
-//            estado.setText(pessoa.getEstado());
-//            username.setText(pessoa.getUsername());
-//            senha.setText(pessoa.getSenha());
-//            nascimento.setText(pessoa.getNascimento());
-//            telefone.setText(pessoa.getTelefone());
-//            foto.setImageBitmap(pessoa.getFoto());
-            //load.dismiss();
-        }
-    }
-
-    private Runnable changeText = new Runnable() {
-        @Override
-        public void run() {
-
-            int LINT_COUNT = 0;
-            while (!WEBAPI.PBOL_Conectado) {
-                for (LINT_COUNT = 0; LINT_COUNT < 2000; LINT_COUNT++) {
-                    if (EMFSESSION.LOCAL_IDSESSION != 0) {
-                        TV_NMUsuario.setText(EMFSESSION.LOCAL_NMUSUARIO.toUpperCase());
-                        break;
-                    }
-                    try {
-                        Thread.sleep(9000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            if (EMFSESSION.LOCAL_IDSESSION == 0)
-                System.exit(0);
-            }
-        }
-    };
-
     @Override
     public void onResume() {
         super.onResume();
         // put your code here...
 
-        SU_VerificaIDSESSION sd = new SU_VerificaIDSESSION();
-        //sd.execute();
-
+        //timerObj.schedule(timerTaskObj, 120000, 120000);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         // put your code here...
-//
-//        if (EMFSESSION.LOCAL_IDSESSION == 0) {
-//            System.exit(0);
+        //timerObj.schedule(timerTaskObj, 120000, 120000);
 //        }
     }
+
+    public void existeapp() {
+        super.onDestroy();
+    }
+    TimerTask timerTaskObj = new TimerTask() {
+        public void run() {
+            if (EMFSESSION.LOCAL_IDSESSION != 0) {
+                TV_NMUsuario.setText(EMFSESSION.LOCAL_NMUSUARIO.toUpperCase());
+                timerObj.cancel();
+                timerObj.purge();
+            } else {
+                existeapp();
+            }
+        }
+    };
+
 }

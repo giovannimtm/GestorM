@@ -19,6 +19,15 @@ public class TIPOCHECKLIST extends SQLiteOpenHelper {
     private Object CDTIPOCHECKLIST = null;
     private Object DSTIPOCHECKLIST = null;
     private Object SGUSER = null;
+    private Object IDSINCRINIZA = null;
+
+    public Object getIDSINCRINIZA() {
+        return IDSINCRINIZA;
+    }
+
+    public void setIDSINCRINIZA(Object IDSINCRINIZA) {
+        this.IDSINCRINIZA = IDSINCRINIZA;
+    }
 
 
     public Object getCDTIPOCHECKLIST() {
@@ -51,16 +60,32 @@ public class TIPOCHECKLIST extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE" + TABLE + "("
-                + "CDTIPOCHECKLIST" + " integer primary key autoincrement,"
-                + "DSTIPOCHECKLIST" + " text,"
-                + "SGUSER" + " text"
-                + ")";
+        try {
+            String CREATE_TABLE = " CREATE TABLE " + TABLE + " ( "
+                    + "ID" + " integer primary key autoincrement, "
+                    + "CDTIPOCHECKLIST" + " text, "
+                    + "DSTIPOCHECKLIST" + " text, "
+                    + "CDGRUPOCOMPONENTE" + " text, "
+                    + "SGUSER" + " text, "
+                    + "IDSINCRINIZA" + " text "
+                    + " ) ";
+
+            db.execSQL(CREATE_TABLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
-        onCreate(db);
+
+        try {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+            onCreate(db);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+        }
     }
 }

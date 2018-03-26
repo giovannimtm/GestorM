@@ -1,148 +1,207 @@
 package mtmsistemas.gestorm.Model;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
 /**
  * Created by vinicius on 25/10/2017.
  */
 
-public class EQUIPAMENTOCOMPONENTE {
+public class EQUIPAMENTOCOMPONENTE extends SQLiteOpenHelper {
     public static String TABLE = "EQUIPAMENTOCOMPONENTE";
     public static final String INSERT_WB = TABLE + "/insert";
-    public static final String READ_WB = TABLE ;
+    public static final String READ_WB = TABLE;
     public static final String UPDATE_WB = TABLE + "/update";
     public static final String DELETE_WB = TABLE + "/delete";
-    private Object _IDEQUIPAMENTO = null;
-    private Object _SEQUENCIA = null;
-    private Object _IDCOMPONENTE = null;
-    private Object _CDTIPOCOMPONENTE = null;
-    private Object _QUANTIDADE = null;
-    private Object _DHCOLOCACAO = null;
-    private Object _CONTAGEMUSO = null;
-    private Object _DHRETIRADA = null;
-    private Object _OBSERVACAO = null;
-    private Object _CDMATERIALSERVICO = null;
-    private Object _CDCADASTROMATERIAL = null;
-    private Object _SGUSER = null;
-    private Object _OBJECTVERSION = null;
-    private Object _SERVERORIG = null;
-    private Object _DHCTRLREPLIC = null;
 
-    public Object get_IDEQUIPAMENTO() {
-        return _IDEQUIPAMENTO;
+
+    private Object IDEQUIPAMENTO = null;
+    private Object SEQUENCIA = null;
+    private Object IDCOMPONENTE = null;
+    private Object CDTIPOCOMPONENTE = null;
+    private Object QUANTIDADE = null;
+    private Object DHCOLOCACAO = null;
+    private Object CONTAGEMUSO = null;
+    private Object DHRETIRADA = null;
+    private Object OBSERVACAO = null;
+    private Object CDMATERIALSERVICO = null;
+    private Object CDCADASTROMATERIAL = null;
+    private Object SGUSER = null;
+    private Object OBJECTVERSION = null;
+    private Object SERVERORIG = null;
+    private Object DHCTRLREPLIC = null;
+    private Object IDSINCRINIZA = null;
+
+    public EQUIPAMENTOCOMPONENTE(Context context) {
+        super(context, DATABASE.NOME_BANCO, null, DATABASE.VERSAO);
     }
 
-    public void set_IDEQUIPAMENTO(Object _IDEQUIPAMENTO) {
-        this._IDEQUIPAMENTO = _IDEQUIPAMENTO;
+    public Object getIDSINCRINIZA() {
+        return IDSINCRINIZA;
     }
 
-    public Object get_SEQUENCIA() {
-        return _SEQUENCIA;
+    public void setIDSINCRINIZA(Object IDSINCRINIZA) {
+        this.IDSINCRINIZA = IDSINCRINIZA;
     }
 
-    public void set_SEQUENCIA(Object _SEQUENCIA) {
-        this._SEQUENCIA = _SEQUENCIA;
+    public Object getIDEQUIPAMENTO() {
+        return IDEQUIPAMENTO;
     }
 
-    public Object get_IDCOMPONENTE() {
-        return _IDCOMPONENTE;
+    public void setIDEQUIPAMENTO(Object IDEQUIPAMENTO) {
+        this.IDEQUIPAMENTO = IDEQUIPAMENTO;
     }
 
-    public void set_IDCOMPONENTE(Object _IDCOMPONENTE) {
-        this._IDCOMPONENTE = _IDCOMPONENTE;
+    public Object getSEQUENCIA() {
+        return SEQUENCIA;
     }
 
-    public Object get_CDTIPOCOMPONENTE() {
-        return _CDTIPOCOMPONENTE;
+    public void setSEQUENCIA(Object SEQUENCIA) {
+        this.SEQUENCIA = SEQUENCIA;
     }
 
-    public void set_CDTIPOCOMPONENTE(Object _CDTIPOCOMPONENTE) {
-        this._CDTIPOCOMPONENTE = _CDTIPOCOMPONENTE;
+    public Object getIDCOMPONENTE() {
+        return IDCOMPONENTE;
     }
 
-    public Object get_QUANTIDADE() {
-        return _QUANTIDADE;
+    public void setIDCOMPONENTE(Object IDCOMPONENTE) {
+        this.IDCOMPONENTE = IDCOMPONENTE;
     }
 
-    public void set_QUANTIDADE(Object _QUANTIDADE) {
-        this._QUANTIDADE = _QUANTIDADE;
+    public Object getCDTIPOCOMPONENTE() {
+        return CDTIPOCOMPONENTE;
     }
 
-    public Object get_DHCOLOCACAO() {
-        return _DHCOLOCACAO;
+    public void setCDTIPOCOMPONENTE(Object CDTIPOCOMPONENTE) {
+        this.CDTIPOCOMPONENTE = CDTIPOCOMPONENTE;
     }
 
-    public void set_DHCOLOCACAO(Object _DHCOLOCACAO) {
-        this._DHCOLOCACAO = _DHCOLOCACAO;
+    public Object getQUANTIDADE() {
+        return QUANTIDADE;
     }
 
-    public Object get_CONTAGEMUSO() {
-        return _CONTAGEMUSO;
+    public void setQUANTIDADE(Object QUANTIDADE) {
+        this.QUANTIDADE = QUANTIDADE;
     }
 
-    public void set_CONTAGEMUSO(Object _CONTAGEMUSO) {
-        this._CONTAGEMUSO = _CONTAGEMUSO;
+    public Object getDHCOLOCACAO() {
+        return DHCOLOCACAO;
     }
 
-    public Object get_DHRETIRADA() {
-        return _DHRETIRADA;
+    public void setDHCOLOCACAO(Object DHCOLOCACAO) {
+        this.DHCOLOCACAO = DHCOLOCACAO;
     }
 
-    public void set_DHRETIRADA(Object _DHRETIRADA) {
-        this._DHRETIRADA = _DHRETIRADA;
+    public Object getCONTAGEMUSO() {
+        return CONTAGEMUSO;
     }
 
-    public Object get_OBSERVACAO() {
-        return _OBSERVACAO;
+    public void setCONTAGEMUSO(Object CONTAGEMUSO) {
+        this.CONTAGEMUSO = CONTAGEMUSO;
     }
 
-    public void set_OBSERVACAO(Object _OBSERVACAO) {
-        this._OBSERVACAO = _OBSERVACAO;
+    public Object getDHRETIRADA() {
+        return DHRETIRADA;
     }
 
-    public Object get_CDMATERIALSERVICO() {
-        return _CDMATERIALSERVICO;
+    public void setDHRETIRADA(Object DHRETIRADA) {
+        this.DHRETIRADA = DHRETIRADA;
     }
 
-    public void set_CDMATERIALSERVICO(Object _CDMATERIALSERVICO) {
-        this._CDMATERIALSERVICO = _CDMATERIALSERVICO;
+    public Object getOBSERVACAO() {
+        return OBSERVACAO;
     }
 
-    public Object get_CDCADASTROMATERIAL() {
-        return _CDCADASTROMATERIAL;
+    public void setOBSERVACAO(Object OBSERVACAO) {
+        this.OBSERVACAO = OBSERVACAO;
     }
 
-    public void set_CDCADASTROMATERIAL(Object _CDCADASTROMATERIAL) {
-        this._CDCADASTROMATERIAL = _CDCADASTROMATERIAL;
+    public Object getCDMATERIALSERVICO() {
+        return CDMATERIALSERVICO;
     }
 
-    public Object get_SGUSER() {
-        return _SGUSER;
+    public void setCDMATERIALSERVICO(Object CDMATERIALSERVICO) {
+        this.CDMATERIALSERVICO = CDMATERIALSERVICO;
     }
 
-    public void set_SGUSER(Object _SGUSER) {
-        this._SGUSER = _SGUSER;
+    public Object getCDCADASTROMATERIAL() {
+        return CDCADASTROMATERIAL;
     }
 
-    public Object get_OBJECTVERSION() {
-        return _OBJECTVERSION;
+    public void setCDCADASTROMATERIAL(Object CDCADASTROMATERIAL) {
+        this.CDCADASTROMATERIAL = CDCADASTROMATERIAL;
     }
 
-    public void set_OBJECTVERSION(Object _OBJECTVERSION) {
-        this._OBJECTVERSION = _OBJECTVERSION;
+    public Object getSGUSER() {
+        return SGUSER;
     }
 
-    public Object get_SERVERORIG() {
-        return _SERVERORIG;
+    public void setSGUSER(Object SGUSER) {
+        this.SGUSER = SGUSER;
     }
 
-    public void set_SERVERORIG(Object _SERVERORIG) {
-        this._SERVERORIG = _SERVERORIG;
+    public Object getOBJECTVERSION() {
+        return OBJECTVERSION;
     }
 
-    public Object get_DHCTRLREPLIC() {
-        return _DHCTRLREPLIC;
+    public void setOBJECTVERSION(Object OBJECTVERSION) {
+        this.OBJECTVERSION = OBJECTVERSION;
     }
 
-    public void set_DHCTRLREPLIC(Object _DHCTRLREPLIC) {
-        this._DHCTRLREPLIC = _DHCTRLREPLIC;
+    public Object getSERVERORIG() {
+        return SERVERORIG;
+    }
+
+    public void setSERVERORIG(Object SERVERORIG) {
+        this.SERVERORIG = SERVERORIG;
+    }
+
+    public Object getDHCTRLREPLIC() {
+        return DHCTRLREPLIC;
+    }
+
+    public void setDHCTRLREPLIC(Object DHCTRLREPLIC) {
+        this.DHCTRLREPLIC = DHCTRLREPLIC;
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        try {
+            String CREATE_TABLE = " CREATE TABLE " + TABLE + " ( "
+                    + "ID" + " integer primary key autoincrement, "
+                    + "IDEQUIPAMENTO" + " text, "
+                    + "SEQUENCIA" + " text, "
+                    + "IDCOMPONENTE" + " text, "
+                    + "CDTIPOCOMPONENTE" + " text, "
+                    + "QUANTIDADE" + " text, "
+                    + "DHCOLOCACAO" + " text, "
+                    + "CONTAGEMUSO" + " text, "
+                    + "DHRETIRADA" + " text, "
+                    + "OBSERVACAO" + " text, "
+                    + "CDMATERIALSERVICO" + " text, "
+                    + "CDCADASTROMATERIAL" + " text, "
+                    + "SGUSER" + " text, "
+                    + "DHCTRLREPLIC" + " text, "
+                    + "IDSINCRINIZA" + " text "
+                    + " ) ";
+
+            db.execSQL(CREATE_TABLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+        }
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        try {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+            onCreate(db);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+        }
     }
 }

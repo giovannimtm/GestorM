@@ -17,9 +17,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import mtmsistemas.gestorm.BuildConfig;
+import mtmsistemas.gestorm.Controller.CHECKLISTMESTREController;
 import mtmsistemas.gestorm.Controller.ClsAutenticacao;
 import mtmsistemas.gestorm.Controller.ClsUtil;
+import mtmsistemas.gestorm.Controller.ConexaoWebAPI;
 import mtmsistemas.gestorm.Controller.PARAMETROSController;
 import mtmsistemas.gestorm.Model.EMFSESSION;
 import mtmsistemas.gestorm.R;
@@ -31,7 +35,7 @@ public class ACT_Login extends AppCompatActivity {
     EditText ET_Senha;
     TextView TV_Webservice;
     Switch SW_Salvar;
-    Cursor CU_Cursor;
+    Cursor LCU_Cursor;
     String LSTR_MENSAGEM;
     ProgressBar progressBar;
     private ProgressDialog load;
@@ -39,8 +43,6 @@ public class ACT_Login extends AppCompatActivity {
     PARAMETROSController LCLS_PARAMETROSController;
     EMFSESSION LCLS_EMFSESSION = null;
     ClsUtil LCLS_UTIL = null;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +55,20 @@ public class ACT_Login extends AppCompatActivity {
         TV_Webservice = (TextView) findViewById(R.id.TV_WebService);
         SW_Salvar = (Switch) findViewById(R.id.SW_Salvar);
 
+
         LCLS_EMFSESSION = new EMFSESSION(null);
         LCLS_UTIL = new ClsUtil();
         PARAMETROSController.contexts = getBaseContext();
         LCLS_PARAMETROSController = new PARAMETROSController(getBaseContext());
 
         //Buscar parametros já registrados
-        CU_Cursor = LCLS_PARAMETROSController.FU_Read_BD();
+        LCU_Cursor = LCLS_PARAMETROSController.FU_Read_BD();
         SW_Salvar.setChecked(false);
 
-        if (CU_Cursor.getCount() > 0) {
-            //PARAMETROS.setPstrEnderecowebapi(CU_Cursor.getString(CU_Cursor.getColumnIndex("ENDERECOWEBAPI")).trim());
-            EMFSESSION.LOCAL_NMUSUARIO = CU_Cursor.getString(CU_Cursor.getColumnIndex("NMUSUARIO")).trim();
-            ET_Usuario.setText(EMFSESSION.LOCAL_NMUSUARIO.toUpperCase() );
+        if (LCU_Cursor.getCount() > 0) {
+            //PARAMETROS.setPstrEnderecowebapi(LCU_Cursor.getString(LCU_Cursor.getColumnIndex("ENDERECOWEBAPI")).trim());
+            EMFSESSION.LOCAL_NMUSUARIO = LCU_Cursor.getString(LCU_Cursor.getColumnIndex("NMUSUARIO")).trim();
+            ET_Usuario.setText(EMFSESSION.LOCAL_NMUSUARIO.toUpperCase());
             if (!EMFSESSION.LOCAL_NMUSUARIO.equals(""))
                 SW_Salvar.setChecked(true);
         } else {
@@ -77,6 +80,9 @@ public class ACT_Login extends AppCompatActivity {
         if (BuildConfig.DEBUG) {
             //ET_Usuario.setText("MASTER");
             ET_Senha.setText("MTM");
+
+            LCLS_EMFSESSION.setSGUSER("MASTER");
+            LCLS_EMFSESSION.setPASSWORD("MTM");
             LCLS_EMFSESSION.setSGENVIRONMENT("GESTOR");
             LCLS_EMFSESSION.setSGLANGUAGE("PT-BR");
             try {
@@ -84,6 +90,13 @@ public class ACT_Login extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            LCLS_EMFSESSION.setEQUIPMENT(Build.MODEL);
+//            DATABASE f = new DATABASE(getBaseContext());
+//            DATABASE.FU_Monta_Create_Objeto(LCLS_EMFSESSION);
+
+            CHECKLISTMESTREController.contexts = getBaseContext();
+           // FU_chamarWebservice();
+
         }
 
         BT_Login.setOnClickListener(new View.OnClickListener() {
@@ -182,14 +195,18 @@ public class ACT_Login extends AppCompatActivity {
             }
             runOnUiThread(changeText);
 
-//            try {
-//                //DESMARCADO PARA TESTE, DEPOIS REMARCAR NOVAMENTE
-//                //ConexaoWebAPI.FU_WB_TestaConexao();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                //DESMARCADO PARA TESTE, DEPOIS REMARCAR NOVAMENTE
+                LSTR_MENSAGEM = ConexaoWebAPI.FU_WB_TestaConexao();
+                if (LSTR_MENSAGEM != "true") {
+                    runOnUiThread(changeText);
+                    LSTR_STATUS = LSTR_MENSAGEM;
+                    return LSTR_STATUS;
+                }
 
-
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             LSTR_MENSAGEM = "Autenticando";
             runOnUiThread(changeText);
             LSTR_STATUS = ClsAutenticacao.FU_AutenticaUsuario(LCLS_EMFSESSION);
@@ -202,13 +219,11 @@ public class ACT_Login extends AppCompatActivity {
 
             if (LSTR_STATUS.equals("true")) {
                 Toast.makeText(getApplicationContext(), "Autenticado", Toast.LENGTH_LONG).show();
-                //
-                // ((MainActivity) getApplicationContext()).FU_Atualiza_nome();
                 finish();
             } else if (LSTR_STATUS.toUpperCase().contains("EXCEPTION"))
-                Toast.makeText(getApplication(), LSTR_STATUS, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), LSTR_STATUS, Toast.LENGTH_LONG).show();
             else {
-                Toast.makeText(getApplication(), LSTR_STATUS, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), LSTR_STATUS, Toast.LENGTH_LONG).show();
             }
         }
 

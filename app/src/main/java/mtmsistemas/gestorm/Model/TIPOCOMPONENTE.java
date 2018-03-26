@@ -12,7 +12,7 @@ public class TIPOCOMPONENTE extends SQLiteOpenHelper {
 
     public static final String TABLE = "TIPOCOMPONENTE";
     public static final String INSERT_WB = TABLE + "/insert";
-    public static final String READ_WB = TABLE ;
+    public static final String READ_WB = TABLE;
     public static final String UPDATE_WB = TABLE + "/update";
     public static final String DELETE_WB = TABLE + "/delete";
 
@@ -24,6 +24,15 @@ public class TIPOCOMPONENTE extends SQLiteOpenHelper {
     private Object CDGRUPOCOMPONENTE = null;
     public String IMAGEMCOMPONENTE = null;
     private Context context;
+    private Object IDSINCRINIZA = null;
+
+    public Object getIDSINCRINIZA() {
+        return IDSINCRINIZA;
+    }
+
+    public void setIDSINCRINIZA(Object IDSINCRINIZA) {
+        this.IDSINCRINIZA = IDSINCRINIZA;
+    }
 
 
     public TIPOCOMPONENTE(Context context) {
@@ -91,11 +100,35 @@ public class TIPOCOMPONENTE extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        try {
+            String CREATE_TABLE = " CREATE TABLE " + TABLE + " ( "
+                    + "ID" + " integer primary key autoincrement, "
+                    + "CDTIPOCOMPONENTE" + " text, "
+                    + "DSTIPOCOMPONENTE" + " text, "
+                    + "FGACTIVE" + " text, "
+                    + "FGEXIGEID" + " text, "
+                    + "FGEXIGEMATERIAL" + " text, "
+                    + "CDGRUPOCOMPONENTE" + " text, "
+                    + "IMAGEMCOMPONENTE" + " text, "
+                    + "IDSINCRINIZA" + " text "
+                    + " ) ";
 
+            db.execSQL(CREATE_TABLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        try {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+            onCreate(db);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+        }
     }
 }

@@ -359,6 +359,9 @@ public class ClsUtil{
             LCON_ConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             LCON_ConnectivityManager.getActiveNetworkInfo();
             LINF_NetInfo = LCON_ConnectivityManager.getActiveNetworkInfo();
+            if(LINF_NetInfo == null){
+                return "";
+            }
             LINT_NETTYPE = LINF_NetInfo.getSubtype();
 
             switch (LINT_NETTYPE) {

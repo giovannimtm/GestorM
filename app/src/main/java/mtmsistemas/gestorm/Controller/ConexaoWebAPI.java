@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Modifier;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -166,7 +167,6 @@ public class ConexaoWebAPI {
             return LSTB_BUFFER;
         } catch (
                 OutOfMemoryError oomer)
-
         {
             Log.e("ERRO", "Não foi possível converter o arquivo de vídeo para a transmissão. OutOfMemoryError. ", oomer);
         } catch (
@@ -268,7 +268,7 @@ public class ConexaoWebAPI {
         return LOBJ_RETORNO;
     }
 
-    public static Boolean FU_WB_TestaConexao() throws IOException {
+    public static String FU_WB_TestaConexao() throws IOException {
         URL url = null;
         HttpURLConnection conn = null;
         PARAMETROSController LCLS_PARAMETROSCONTROLLER = null;
@@ -277,15 +277,14 @@ public class ConexaoWebAPI {
             LCLS_PARAMETROSCONTROLLER = new PARAMETROSController(null);
             Cursor cursor = LCLS_PARAMETROSCONTROLLER.FU_Read_BD();
 
-            if (cursor.getCount() > 0) {
-                if (WEBAPI.PSTR_ENDERECOWEBAPI.toUpperCase().trim().equals(cursor.getString(cursor.getColumnIndex("ENDERECOWEBAPI")).trim() + "/"))
-                    url = new URL(cursor.getString(cursor.getColumnIndex("ENDERECOWEBAPI")).trim() + "");
-                else url = new URL(WEBAPI.PSTR_ENDERECOWEBAPI + "");
+            if (WEBAPI.PSTR_ENDERECOWEBAPI != "") {
+                if (WEBAPI.PSTR_ENDERECOWEBAPI.toUpperCase().trim().contains(":8021/GICLPLIBWEBAPI/API"))
+                    url = new URL(WEBAPI.PSTR_ENDERECOWEBAPI + "/gestoricl/status/8021");
+                else
+                    url = new URL(WEBAPI.PSTR_ENDERECOWEBAPI + ":8021/GiclPLibWebAPI/api/gestoricl/status/8021");
 
-            } else if (WEBAPI.PSTR_ENDERECOWEBAPI != "") {
-                url = new URL(WEBAPI.PSTR_ENDERECOWEBAPI + "");
             } else {
-                return false;
+                return "false";
             }
 
             conn = (HttpURLConnection) url.openConnection();
@@ -295,33 +294,14 @@ public class ConexaoWebAPI {
             conn.setDoInput(true);
             conn.connect();
             WEBAPI.PBOL_Conectado = conn.getResponseCode() == 200;
-            return conn.getResponseCode() == 200;
-        } catch (
-                OutOfMemoryError oomer)
 
-        {
-            Log.e("ERRO", "Não foi possível converter o arquivo de vídeo para a transmissão. OutOfMemoryError. ", oomer);
-        } catch (
-                UnsupportedEncodingException e)
-
-        {
-            e.printStackTrace();
-        } catch (
-                IOException e)
-
-        {
-            e.printStackTrace();
-        } catch (
-                Exception ex)
-
-        {
-            try {
-                throw new Exception(ex.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            if (conn.getResponseCode() == 200)
+                return "true";
+            else
+            return "false";
+        } catch (ConnectException e) {
+            return "EXCEPTION: Servidor não encontrado apos 400ms ";
         }
-        return conn.getResponseCode() == 200;
     }
 
     public static void FU_WB_Arquivo() {

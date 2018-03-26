@@ -21,12 +21,12 @@ public class EMFSESSION extends SQLiteOpenHelper {
     //Variaveis para nomes de colunas no SQLLITE
     public static long LOCAL_IDSESSION = 0;
     public static String LOCAL_NMUSUARIO = "";
-    public static final String _SGUSER = "";
-    public static final String _PASSWORD = "";
-    public static final String _SGENVIRONMENT = "";
-    public static final String _SGLANGUAGE = "";
-    public static final String _EQUIPMENT = "";
-    public static final String _DHSESSION = "";
+//    public static final String SGUSER = "";
+//    public static final String PASSWORD = "";
+//    public static final String SGENVIRONMENT = "";
+//    public static final String SGLANGUAGE = "";
+//    public static final String EQUIPMENT = "";
+//    public static final String DHSESSION = "";
 
     //Necessario para salvar no banco;
     private Context context;
@@ -39,7 +39,7 @@ public class EMFSESSION extends SQLiteOpenHelper {
     private String SGLANGUAGE;
     private String EQUIPMENT;
     private String DHSESSION;
-    private String MENSAGEM ;
+    private String MENSAGEM;
 
     public long getIDSESSION() {
         return IDSESSION;
@@ -115,15 +115,15 @@ public class EMFSESSION extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            String CREATE_TABLE = " CREATE TABLE " + TABLE + " ( "
-                    + EMFSESSION.LOCAL_IDSESSION + " integer primary key autoincrement, "
-                    + EMFSESSION._SGUSER + " text, "
-                    + EMFSESSION._PASSWORD + " text, "
-                    + EMFSESSION._SGENVIRONMENT + " text , "
-                    + EMFSESSION._SGLANGUAGE + " text , "
-                    + EMFSESSION._EQUIPMENT + " text "
-                    + " ) ";
-            db.execSQL(CREATE_TABLE);
+//            String CREATE_TABLE = " CREATE TABLE " + TABLE + " ( "
+//                    + EMFSESSION.LOCAL_IDSESSION + " integer primary key autoincrement, "
+//                    + EMFSESSION.SGUSER + " text, "
+//                    + EMFSESSION.PASSWORD + " text, "
+//                    + EMFSESSION.SGENVIRONMENT + " text , "
+//                    + EMFSESSION.SGLANGUAGE + " text , "
+//                    + EMFSESSION.EQUIPMENT + " text "
+//                    + " ) ";
+//            db.execSQL(CREATE_TABLE);
         } catch (Exception e) {
             e.printStackTrace();
             //NotificationCompat.MessagingStyle.Message.message(context,""+e);

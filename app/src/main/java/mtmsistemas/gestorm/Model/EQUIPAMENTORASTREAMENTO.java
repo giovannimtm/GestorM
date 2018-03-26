@@ -24,6 +24,15 @@ public class EQUIPAMENTORASTREAMENTO {
     private Object _OBJECTVERSION = null;
     private Object _SERVERORIG = null;
     private Object _DHCTRLREPLIC = null;
+    private Object IDSINCRINIZA = null;
+
+    public Object getIDSINCRINIZA() {
+        return IDSINCRINIZA;
+    }
+
+    public void setIDSINCRINIZA(Object IDSINCRINIZA) {
+        this.IDSINCRINIZA = IDSINCRINIZA;
+    }
 
     public Object get_IDEQUIPAMENTO() {
         return _IDEQUIPAMENTO;

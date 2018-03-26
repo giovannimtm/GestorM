@@ -21,10 +21,11 @@ public class TIPOCOMPONENTEController {
     private SQLiteDatabase db;
     private TIPOCOMPONENTE TIPOCOMPONENTEModel;
 
-    public static Context contexts;
+    public Context PCON_context;
 
-    public TIPOCOMPONENTEController(Context context) {
-        TIPOCOMPONENTEModel = new TIPOCOMPONENTE(contexts);
+    public TIPOCOMPONENTEController(Context LCON_Context) {
+        PCON_context = LCON_Context;
+        TIPOCOMPONENTEModel = new TIPOCOMPONENTE(PCON_context);
     }
 
     public TIPOCOMPONENTE[] FU_BuscaDescricao_WB(Object CDTIPOCOMPONENTE) {
@@ -38,11 +39,11 @@ public class TIPOCOMPONENTEController {
             if (CDTIPOCOMPONENTE != null) {
                 LINT_CDTIPOCOMPONENTE = Integer.parseInt(CDTIPOCOMPONENTE.toString().replace(".0", ""));
 
-                        LGS_JSON = new Gson();
+                LGS_JSON = new Gson();
                 LOBJ_Retorno = LGS_JSON.fromJson(ConexaoWebAPI.FU_WB_ARROBJECT(
                         LCLS_TPCOMPONENTE
                         , TIPOCOMPONENTE.READ_WB
-                        , LINT_CDTIPOCOMPONENTE,"").toString(), TIPOCOMPONENTE[].class);
+                        , LINT_CDTIPOCOMPONENTE, "").toString(), TIPOCOMPONENTE[].class);
                 LCLS_TPCOMPONENTES = (TIPOCOMPONENTE[]) LOBJ_Retorno;
             } else {
                 return null;
@@ -92,7 +93,7 @@ public class TIPOCOMPONENTEController {
 
             LOBJ_Retorno = ConexaoWebAPI.FU_WB_ARROBJECT(
                     CLS_TIPOCOMPONENTE,
-                    TIPOCOMPONENTE.READ_WB, INT_IDTIPOCOMPNENTE,"").toString();
+                    TIPOCOMPONENTE.READ_WB, INT_IDTIPOCOMPNENTE, "").toString();
             LGS_JSON = new Gson();
             LCLS_TIPOCOMPONENTE = LGS_JSON.fromJson(LOBJ_Retorno.toString()
                     , TIPOCOMPONENTE[].class);
@@ -113,13 +114,22 @@ public class TIPOCOMPONENTEController {
     }
 
     public String FU_Update_WB(TIPOCOMPONENTE CLS_TIPOCOMPONENTE, int INT_IDTIPOCOMPNENTE) {
-        TIPOCOMPONENTE LCLS_TPCOMPONENTE = null;
         ClsUtil LCLS_UTIL = null;
         Object LOBJ_Retorno = null;
 
         try {
+
             if (CLS_TIPOCOMPONENTE != null || INT_IDTIPOCOMPNENTE > 0) {
-                LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE, TIPOCOMPONENTE.UPDATE_WB, INT_IDTIPOCOMPNENTE);
+                if (ConexaoWebAPI.FU_WB_TestaConexao() == "true")
+                    LOBJ_Retorno = ConexaoWebAPI.FU_WB_EXECUTA_CRUD(CLS_TIPOCOMPONENTE, TIPOCOMPONENTE.UPDATE_WB, INT_IDTIPOCOMPNENTE);
+               else
+                {
+                    if(FU_Update_BD(INT_IDTIPOCOMPNENTE,CLS_TIPOCOMPONENTE) == 1){
+                        return new String("Salvo banco interno , não foi possível conectar-se a webapi");
+                    }else
+                    {return new String("Erro salvar banco interno, não foi possível conectar-se a webapi");}
+
+                }
             } else {
                 return new String("Não pode enviar classe Null");
             }
@@ -129,7 +139,6 @@ public class TIPOCOMPONENTEController {
             return new String("Exception: " + ex.getMessage());
             //Log.e("TAG", Log.getStackTraceString(ex));
         } finally {
-            LCLS_TPCOMPONENTE = null;
             LCLS_UTIL = null;
             LOBJ_Retorno = null;
         }
@@ -232,13 +241,14 @@ public class TIPOCOMPONENTEController {
         return LCUR_CURSOR;
     }
 
-    public void FU_Update_BD(int id, TIPOCOMPONENTE CLS_TIPOCOMPONENTE) {
+    public int FU_Update_BD(int INT_IDTIPOCOMPNENTE, TIPOCOMPONENTE CLS_TIPOCOMPONENTE) {
         ContentValues LCVA_VALUES;
         String where = "";
+        int LINT_RETURN = 0;
         try {
             db = TIPOCOMPONENTEModel.getWritableDatabase();
 
-            where = "IDSESSION" + "=" + id;
+            where = "IDSESSION" + "=" + INT_IDTIPOCOMPNENTE;
 
             LCVA_VALUES = new ContentValues();
             LCVA_VALUES.put("CDTIPOCOMPONENTE", CLS_TIPOCOMPONENTE.getCDTIPOCOMPONENTE().toString());
@@ -248,13 +258,16 @@ public class TIPOCOMPONENTEController {
             LCVA_VALUES.put("FGEXIGEMATERIAL", CLS_TIPOCOMPONENTE.getFGEXIGEMATERIAL().toString());
             LCVA_VALUES.put("CDGRUPOCOMPONENTE", CLS_TIPOCOMPONENTE.getCDGRUPOCOMPONENTE().toString());
 
-            db.update(TIPOCOMPONENTE.TABLE, LCVA_VALUES, where, null);
+            LINT_RETURN = db.update(TIPOCOMPONENTE.TABLE, LCVA_VALUES, where, null);
             db.close();
+
+            return LINT_RETURN;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+             LCVA_VALUES = null;
         }
+        return LINT_RETURN;
     }
 
     public void FU_Delete_BD(int id) {

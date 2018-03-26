@@ -42,8 +42,7 @@ public class FGM_Webservice extends Fragment {
                 if (!ET_WService.getText().toString().toUpperCase().contains("HTTP://"))
                     ET_WService.setText("http://" + ET_WService.getText().toString().trim());
 
-                WEBAPI.setPstrEnderecowebapi(ET_WService.getText().toString().trim()
-                        + ":8021/GiclPLibWebAPI/api/gestoricl/status/8021");
+                WEBAPI.setPstrEnderecowebapi(ET_WService.getText().toString().trim());
 
 
                 ((ACT_Configuracao) getActivity()).FU_chamarWebservice();

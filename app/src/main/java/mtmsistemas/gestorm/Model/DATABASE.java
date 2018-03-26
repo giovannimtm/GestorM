@@ -98,7 +98,8 @@ public class DATABASE extends SQLiteOpenHelper {
             LSTB_SQL = new StringBuilder();
             LSTB_SQL.append("CREATE TABLE " + LSTR_NMVARIAVEL + " (");
 
-            LSTB_SQL.append(" ID" + LSTR_NMVARIAVEL + " integer primary key autoincrement, ");
+//            LSTB_SQL.append(" ID " + LSTR_NMVARIAVEL + " integer primary key autoincrement, ");
+            LSTB_SQL.append(" ID " + " integer primary key autoincrement, ");
 
             for (Field campo : campos) {
                 try {

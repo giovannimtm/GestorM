@@ -172,7 +172,7 @@ public class PARAMETROSController {
                         if (LCUR_WebApi != null) {
                             LCUR_WebApi.moveToFirst();
                             WEBAPI.setPintIdwebapi((Integer.parseInt(LCUR_WebApi.getString(LCUR_WebApi.getColumnIndex("IDWEBAPI")))));
-                            WEBAPI.setPstrEnderecowebapi(LCUR_WebApi.getString(LCUR_WebApi.getColumnIndex("ENDERECOWEBAPI")));
+                            //WEBAPI.setPstrEnderecowebapi(LCUR_WebApi.getString(LCUR_WebApi.getColumnIndex("ENDERECOWEBAPI")));
                         }
 
                     } catch (Exception e) {

@@ -42,7 +42,15 @@ public class EQUIPAMENTO extends SQLiteOpenHelper {
     public String SERVERORIG = null;
     public String DHCTRLREPLIC = null;
     //    private String MENSAGEM;
+    private Object IDSINCRINIZA = null;
 
+    public Object getIDSINCRINIZA() {
+        return IDSINCRINIZA;
+    }
+
+    public void setIDSINCRINIZA(Object IDSINCRINIZA) {
+        this.IDSINCRINIZA = IDSINCRINIZA;
+    }
 
     public String getIDEQUIPAMENTO() {
         return IDEQUIPAMENTO;
@@ -319,39 +327,49 @@ public class EQUIPAMENTO extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE" + TABLE + "("
-                + IDEQUIPAMENTO + " integer primary key autoincrement,"
-                + REFEQUIPAMENTO + " text,"
-                + CDEMPRESARAST + " text,"
-                + NRMCT + " text,"
-                + DSEQUIPAMENTO + " text,"
-                + CDCENTRORESULTADO + " text,"
-                + CDRESPONSAVEL + " text,"
-                + CDPROPRIETARIO + " text,"
-                + CDCIDADE + " text,"
-                + CDGRUPOEQUIPAMENTO + " text,"
-                + CDTIPOEQUIPAMENTO + " text,"
-                + CDMODELOEQUIPAMENTO + " text,"
-                + CDGRUPOCOMB + " text,"
-                + FGTIPOMEDIDOR + " text,"
-                + CDCOR + " text,"
-                + NRPATRIMONIO + " text,"
-                + OBSERVACAO + " text,"
-                + ANOFABRICA + " text,"
-                + ANOMODELO + " text,"
-                + DTAQUISICAO + " text,"
-                + FGACTIVE + " text,"
-                + SGUSER + " text,"
-                + OBJECTVERSION + " text,"
-                + SERVERORIG + " text,"
-                + DHCTRLREPLIC + " text,"
-                + ")";
+        try {
+            String CREATE_TABLE = " CREATE TABLE " + TABLE + " ( "
+                    + "ID" + " integer primary key autoincrement, "
+                    + "IDEQUIPAMENTO" + " text, "
+                    + "REFEQUIPAMENTO" + " text, "
+                    + "CDEMPRESARAST" + " text, "
+                    + "NRMCT" + " text, "
+                    + "DSEQUIPAMENTO" + " text, "
+                    + "CDRESPONSAVEL" + " text, "
+                    + "CDPROPRIETARIO" + " text, "
+                    + "CDCIDADE" + " text, "
+                    + "CDGRUPOEQUIPAMENTO" + " text, "
+                    + "CDTIPOEQUIPAMENTO" + " text, "
+                    + "CDMODELOEQUIPAMENTO" + " text, "
+                    + "CDGRUPOCOMB" + " text, "
+                    + "FGTIPOMEDIDOR" + " text, "
+                    + "CDCOR" + " text, "
+                    + "NRPATRIMONIO" + " text, "
+                    + "OBSERVACAO" + " text, "
+                    + "ANOFABRICA" + " text, "
+                    + "ANOMODELO" + " text, "
+                    + "DTAQUISICAO" + " text, "
+                    + "FGACTIVE" + " text, "
+                    + "SGUSER" + " text, "
+                    + "IDSINCRINIZA" + " text "
+                    + " ) ";
 
+            db.execSQL(CREATE_TABLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
-        onCreate(db);
+
+        try {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+            onCreate(db);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //NotificationCompat.MessagingStyle.Message.message(context,""+e);
+        }
     }
 }

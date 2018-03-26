@@ -23,6 +23,15 @@ public class CENTRORESULTADO extends SQLiteOpenHelper {
     private Object CDCENTRORESULTADON4 = null;
     private Object FGHABILITALANCTO = null;
     private Object DSCENTRORESULTADO = null;
+    private Object IDSINCRINIZA = null;
+
+    public Object getIDSINCRINIZA() {
+        return IDSINCRINIZA;
+    }
+
+    public void setIDSINCRINIZA(Object IDSINCRINIZA) {
+        this.IDSINCRINIZA = IDSINCRINIZA;
+    }
 
     public CENTRORESULTADO(Context context) {
         super(context, DATABASE.NOME_BANCO, null, DATABASE.VERSAO);
@@ -37,8 +46,11 @@ public class CENTRORESULTADO extends SQLiteOpenHelper {
                 + "CDCENTRORESULTADON3" + " text,"
                 + "CDCENTRORESULTADON4" + " text,"
                 + "FGHABILITALANCTO" + " text,"
+                + "IDSINCRINIZA" + " text,"
                 + "DSCENTRORESULTADO" + " text"
                 + ")";
+        db.execSQL(sql);
+
     }
 
     @Override

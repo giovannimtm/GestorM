@@ -24,7 +24,15 @@ public class CHECKLISTITEM extends SQLiteOpenHelper {
     private Context context;
     private String IMAGEMCOMPONENTE = null;
     private String DESCRICAOCOMPONENTE = null;
+    private Object IDSINCRINIZA = null;
 
+    public Object getIDSINCRINIZA() {
+        return IDSINCRINIZA;
+    }
+
+    public void setIDSINCRINIZA(Object IDSINCRINIZA) {
+        this.IDSINCRINIZA = IDSINCRINIZA;
+    }
 
     public CHECKLISTITEM(Context context) {
         super(context, DATABASE.NOME_BANCO, null, DATABASE.VERSAO);
@@ -107,6 +115,7 @@ public class CHECKLISTITEM extends SQLiteOpenHelper {
                     + "OBSERVACAO" + " text,"
                     + "SGUSER" + " text,"
                     + "OBSERVACAO" + " text,"
+                    + "IDSINCRINIZA" + " text,"
                     + "IMAGEMCOMPONENTE" + " text"
                     + ")";
             db.execSQL(CREATE_TABLE);

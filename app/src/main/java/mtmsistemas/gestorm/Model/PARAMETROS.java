@@ -12,11 +12,10 @@ public class PARAMETROS extends SQLiteOpenHelper {
 
     public static final String TABLE = "PARAMETROS";
 
-    public static final String INSERT_WB = TABLE + "/insert";
-    public static final String READ_WB = TABLE  ;
-    public static final String UPDATE_WB = TABLE + "/update";
-    public static final String DELETE_WB = TABLE + "/delete";
-
+    public static final String INSERT_WB =  "/insert";
+    public static final String READ_WB = "";
+    public static final String UPDATE_WB = "/update";
+    public static final String DELETE_WB = "/delete";
 
     //Necessario para salvar no banco;
     private Context context;

@@ -16,8 +16,8 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
     public static final String UPDATE_WB = TABLE + "/update";
     public static final String DELETE_WB = TABLE + "/delete";
 
-    private Object IDCHECKLIST = null;
-    private Integer IDEQUIPAMENTO = null;
+    private Integer IDCHECKLIST = null;
+    private Object IDEQUIPAMENTO = null;
     private Object CDTIPOCHECKLIST = null;
     private Object CDCADASTRORESP = null;
     private Object CONTAGEMUSO = null;
@@ -28,6 +28,7 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
     private Object IDORDEMSERVICO = null;
     private Object CDCENTRORESULTADO = null;
     private String IMAGEMCOMPONENTE = null;
+    private Object IDSINCRINIZA = null;
     private String DESCRICAOTIPOCHECKLIST = null;
     private String DESCRICAOEQUIPAMENTO = null;
     private Context context;
@@ -38,11 +39,19 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
         this.context = context;
     }
 
-    public Object getIDCHECKLIST() {
+    public Object getIDSINCRINIZA() {
+        return IDSINCRINIZA;
+    }
+
+    public void setIDSINCRINIZA(Object IDSINCRINIZA) {
+        this.IDSINCRINIZA = IDSINCRINIZA;
+    }
+
+    public Integer getIDCHECKLIST() {
         return IDCHECKLIST;
     }
 
-    public void setIDCHECKLIST(Object IDCHECKLIST) {
+    public void setIDCHECKLIST(Integer IDCHECKLIST) {
         this.IDCHECKLIST = IDCHECKLIST;
     }
 
@@ -149,8 +158,9 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try{
-        String CREATE_TABLE = "CREATE TABLE" + TABLE + "("
-                + "IDCHECKLIST" + " integer primary key autoincrement,"
+        String CREATE_TABLE = "CREATE TABLE " + TABLE + "("
+                + "ID" + " integer primary key autoincrement,"
+                + "IDCHECKLIST" + " text,"
                 + "IDEQUIPAMENTO" + " text,"
                 + "CDTIPOCHECKLIST" + " text,"
                 + "CDCADASTRORESP" + " text,"
@@ -161,6 +171,7 @@ public class CHECKLISTMESTRE extends SQLiteOpenHelper {
                 + "OBSERVACAO" + " text,"
                 + "IDORDEMSERVICO" + " text,"
                 + "CDCENTRORESULTADO" + " text,"
+                + "IDSINCRINIZA" + " text,"
                 + "IMAGEMCOMPONENTE" + " text"
                 + ")";
         db.execSQL(CREATE_TABLE);
