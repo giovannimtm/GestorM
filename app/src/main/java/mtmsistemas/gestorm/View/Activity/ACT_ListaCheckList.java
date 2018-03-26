@@ -11,6 +11,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -42,8 +43,14 @@ public class ACT_ListaCheckList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Webservice webservice = new Webservice();
-        webservice.execute();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        try {
+            Webservice webservice = new Webservice();
+            webservice.execute();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
 
         setContentView(R.layout.act_lista_check_list);
 
